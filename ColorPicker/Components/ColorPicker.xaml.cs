@@ -231,9 +231,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     private void UpdateZoomView(POINT p, int zoom)
     {
         var invertedZoom = Math.Clamp(100 - zoom, 1, 100);
-        //Profiler.Start(200);
+        //StopwatchService.Start(200);
         ZoomView.Source = ScreenCaptureService.GetRegion(p.X, p.Y, invertedZoom, invertedZoom);
-        //Profiler.Stop();
+        //StopwatchService.Stop();
     }
 
     private void UpdateColors(POINT p)

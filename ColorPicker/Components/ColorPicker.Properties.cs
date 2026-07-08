@@ -20,6 +20,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     // Props
     public bool IsEnabledProxy => State.IsEnabled;
 
+    public string GlobalHotkeyHint => string.IsNullOrWhiteSpace(State.GlobalHotkey)
+        ? "Custom hotkey"
+        : $"Custom hotkey ({State.GlobalHotkey})";
+
     private ColorTypes _colorType;
     public ColorTypes CurrentColorType // HEX, RGB...
     {
@@ -54,6 +58,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     public int ZoomPercent =>
         (_zoomLevel - (int)Config.MinZoomLevel) * 100 / ((int)Config.MaxZoomLevel - (int)Config.MinZoomLevel); // Ugly af
+
+    public void RefreshHotkeyHint() => OnPropertyChanged(nameof(GlobalHotkeyHint));
 
 
     public Border? Slider_1 { get; set; }

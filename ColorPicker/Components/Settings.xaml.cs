@@ -17,6 +17,7 @@ public partial class Settings : UserControl
     }
 
     public void RefreshHotkeyInput() => KeybindInput.Text = State.GlobalHotkey;
+    public void RefreshHotkeyHint() => State.MainWindow.ColorPicker.RefreshHotkeyHint();
     public void Reset() => ClearFocus();
 
     private void Grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -86,6 +87,8 @@ public partial class Settings : UserControl
 
     private void RegisterHotkey(string hotkey)
     {
+        var previousHotkey = State.GlobalHotkey;
+
         if (!GlobalHotkeyManager.Register(State.MainWindow, hotkey))
         {
             MessageService.ShowMessageBox("Failed to register hotkey. It might already be in use by another application.");
@@ -95,6 +98,9 @@ public partial class Settings : UserControl
         
         State.GlobalHotkey = hotkey;
         RefreshHotkeyInput();
+
+        if (!string.Equals(previousHotkey, State.GlobalHotkey, StringComparison.Ordinal))
+            RefreshHotkeyHint();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -103,9 +109,13 @@ public partial class Settings : UserControl
         // Clear hotkey
         if (key == Key.Back || key == Key.Delete)
         {
+            var previousHotkey = State.GlobalHotkey;
             State.GlobalHotkey = "";
             GlobalHotkeyManager.UnRegister(State.MainWindow);
             RefreshHotkeyInput();
+
+            if (!string.Equals(previousHotkey, State.GlobalHotkey, StringComparison.Ordinal))
+                RefreshHotkeyHint();
             return true;
         }
         // Cancel input
@@ -113,6 +123,7 @@ public partial class Settings : UserControl
         {
             ClearFocus(true);
             RefreshHotkeyInput();
+            RefreshHotkeyHint();
             return true;
         }
 

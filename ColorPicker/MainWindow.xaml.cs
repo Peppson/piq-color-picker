@@ -9,8 +9,8 @@ namespace ColorPicker;
 public partial class MainWindow : Window
 {   
     private readonly DispatcherTimer _dragTimer = new();
-    
     internal Components.Settings? _settingsWindow;
+
     public Components.Settings SettingsWindow
     {
         get
@@ -20,6 +20,7 @@ public partial class MainWindow : Window
                 _settingsWindow = new Components.Settings();
                 Settings.Content = _settingsWindow;
             }
+            
             return _settingsWindow;
         }
     }
@@ -90,13 +91,14 @@ public partial class MainWindow : Window
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             return;
         }
+        
         this.Top = State.WindowTop;
         this.Left = State.WindowLeft;
     }
 
     private void IsFirstBootWindow() 
     {
-        if (!Config.BootWithWelcomeWindow && !State.IsFirstBoot) return;
+        if (!Config.BootWelcomeWindow && !State.IsFirstBoot) return;
 
         State.IsEnabled = false;
         var welcomeWindow = new Windows.WelcomeWindow

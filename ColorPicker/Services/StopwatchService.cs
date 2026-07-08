@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace ColorPicker.Services;
 
-public static class Profiler
+public static class StopwatchService
 {
     private static Stopwatch? _stopwatch;
     private static double _sum = 0;

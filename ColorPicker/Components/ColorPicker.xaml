@@ -54,12 +54,8 @@
                     Cursor="Hand"
                     ToolTipService.InitialShowDelay="0">
                     <Border.ToolTip>
-                        <TextBlock>
-                            Zoom view<LineBreak />
-                            ● Zoom with scroll wheel<LineBreak /><LineBreak />
-                            Post capture<LineBreak />
-                            ● Drag view with left-click<LineBreak />
-                            ● Drag view with arrow keys</TextBlock>
+                        <TextBlock> Zoom view<LineBreak /> ● Drag with mouse left-click<LineBreak />
+                            ● Move with arrow keys<LineBreak /> ● Adjust zoom level</TextBlock>
                     </Border.ToolTip>
                     <fa:ImageAwesome
                         x:Name="InfoButtonIcon"
@@ -96,9 +92,7 @@
                     TickFrequency="2"
                     Value="{Binding ZoomLevel, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
                     <Slider.ToolTip>
-                        <TextBlock>
-                            Adjust zoom<LineBreak />
-                            ● Mouse scroll wheel</TextBlock>
+                        <TextBlock> Adjust zoom<LineBreak /> ● Mouse scroll wheel</TextBlock>
                     </Slider.ToolTip>
                 </Slider>
 
@@ -160,9 +154,7 @@
                         Cursor="Hand"
                         MouseLeftButtonUp="DropdownButton_Click">
                         <Border.ToolTip>
-                            <TextBlock>
-                                Format options<LineBreak />
-                                ● Right-click to open at mouse</TextBlock>
+                            <TextBlock> Color formats<LineBreak /> ● Mouse right-click</TextBlock>
                         </Border.ToolTip>
                         <fa:ImageAwesome
                             x:Name="DropdownButtonIcon"
@@ -172,7 +164,8 @@
                             Icon="ListUl" />
 
                         <Border.ContextMenu>
-                            <ContextMenu x:Name="ColorTypeMenu" Style="{StaticResource ContextMenuStyle}">
+                            <ContextMenu x:Name="ColorTypeMenu"
+                                Style="{StaticResource ContextMenuStyle}">
                                 <MenuItem
                                     Click="DropdownMenuItem_Click"
                                     Cursor="Hand"
@@ -231,9 +224,7 @@
                         Cursor="Hand"
                         MouseLeftButtonUp="CopyButton_Click">
                         <Border.ToolTip>
-                            <TextBlock>
-                                Copy color to clipboard<LineBreak />
-                                ● Ctrl+C to copy</TextBlock>
+                            <TextBlock> Copy color to clipboard<LineBreak /> ● Ctrl+C</TextBlock>
                         </Border.ToolTip>
                         <fa:ImageAwesome
                             x:Name="CopyButtonIcon"
@@ -293,10 +284,9 @@
                     Cursor="Hand"
                     MouseLeftButtonUp="ToggleEnabled_Click">
                     <Grid.ToolTip>
-                        <TextBlock>
-                            Start/Stop capture<LineBreak />
-                            ● Spacebar<LineBreak />
-                            ● Custom hotkey</TextBlock>
+                        <TextBlock> Start/stop color capture<LineBreak /> ● Mouse left-click<LineBreak />
+                            ● Spacebar<LineBreak /> ● <Run
+                                Text="{Binding GlobalHotkeyHint, Mode=OneWay}" /></TextBlock>
                     </Grid.ToolTip>
 
                     <Border Width="18" Height="18">

@@ -10,7 +10,9 @@
     FontFamily="Consolas"
     mc:Ignorable="d">
 
-    <Grid Background="{StaticResource SettingsWindowBackground}" PreviewMouseDown="Grid_PreviewMouseDown">
+    <Grid Background="{StaticResource SettingsWindowBackground}"
+        PreviewMouseDown="Grid_PreviewMouseDown">
+
         <Grid Background="{StaticResource SettingsBackground}" SnapsToDevicePixels="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -28,7 +30,7 @@
                     Height="15"
                     VerticalContentAlignment="Center"
                     BorderBrush="{StaticResource Border}"
-                    Content="Enable color capture on startup"
+                    Content="Enable color capture at startup"
                     Foreground="{StaticResource PrimaryText}"
                     IsChecked="{Binding BootWithCaptureEnabled, Mode=TwoWay}" />
 
@@ -41,7 +43,7 @@
                 Margin="12,10,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Include ColorGrab in color capture"
+                Content="Include Color Grab in color capture"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding CaptureOnSelf, Mode=TwoWay}" />
 
@@ -84,7 +86,7 @@
                     HorizontalAlignment="Left"
                     VerticalContentAlignment="Center"
                     BorderBrush="{StaticResource Border}"
-                    Content="Global hotkey"
+                    Content="Enable global hotkey"
                     Foreground="{StaticResource PrimaryText}"
                     IsChecked="{Binding GlobalHotkeyEnabled, Mode=TwoWay}" />
 
@@ -100,19 +102,19 @@
                         <Style TargetType="fa:ImageAwesome">
                             <Setter Property="Foreground" Value="{StaticResource PrimaryText}" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsChecked, ElementName=KeybindInputCheckBox}" Value="False">
-                                    <Setter Property="Foreground" Value="{StaticResource DisableBackground}" />
+                                <DataTrigger
+                                    Binding="{Binding IsChecked, ElementName=KeybindInputCheckBox}"
+                                    Value="False">
+                                    <Setter Property="Foreground"
+                                        Value="{StaticResource DisableBackground}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </fa:ImageAwesome.Style>
 
                     <fa:ImageAwesome.ToolTip>
-                        <ToolTip>
-                            <TextBlock>
-                                Hotkey must include at least one modifier:<LineBreak />
-                                Ctrl, Alt, or Shift.</TextBlock>
-                        </ToolTip>
+                        <TextBlock> Global hotkey can be used even when Color Grab is not the active
+                            window. <LineBreak /> The hotkey must include Ctrl, Alt, or Shift. </TextBlock>
                     </fa:ImageAwesome.ToolTip>
                 </fa:ImageAwesome>
 
@@ -176,7 +178,8 @@
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="0">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>

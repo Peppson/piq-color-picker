@@ -35,7 +35,8 @@ public static class State
         LoadFromMemory();
 
         #if !RELEASE
-            if (Config.IsEnabledOverride != null) IsEnabled = Config.IsEnabledOverride.Value;
+            if (Config.IsEnabledOverride != null) 
+                IsEnabled = Config.IsEnabledOverride.Value;
             StartupLogDebug();
         #endif
     }

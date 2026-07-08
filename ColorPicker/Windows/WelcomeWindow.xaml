@@ -23,7 +23,8 @@
     mc:Ignorable="d">
 
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="32" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+        <WindowChrome CaptionHeight="32"
+            ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
     </WindowChrome.WindowChrome>
 
     <Border Style="{StaticResource WindowBorderStyle}">
@@ -76,9 +77,6 @@
                 </Button>
             </Grid>
 
-
-
-
             <!--  Window  -->
             <Grid Grid.Row="1" Background="{StaticResource SettingsBackground}">
                 <Grid.RowDefinitions>
@@ -109,9 +107,6 @@
                     Margin="30,22,30,0"
                     Background="{StaticResource Border}" />
 
-
-
-
                 <Button
                     Grid.Row="2"
                     Grid.Column="1"
@@ -135,8 +130,10 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
@@ -154,12 +151,6 @@
                         </Style>
                     </Button.Style>
                 </Button>
-
-
-
-
-
-
             </Grid>
         </Grid>
     </Border>
