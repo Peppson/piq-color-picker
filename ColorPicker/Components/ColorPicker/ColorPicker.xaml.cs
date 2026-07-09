@@ -178,6 +178,13 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         State.IsEnabled = !State.IsEnabled;
         SetIsEnabledIcon(State.IsEnabled);
         OnPropertyChanged(nameof(IsEnabledProxy));
+
+        // Auto copy to clipboard when capture is paused if enabled in settings
+        if (!State.IsEnabled && State.AutoCopyToClipboard)
+        {
+            _ = ColorService.CopyColorToClipboard();
+            ColorService.UpdateMessageColor(_invertedBrush);
+        }
     }
 
     public void SetIsEnabled(bool enabled)
@@ -187,9 +194,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         OnPropertyChanged(nameof(IsEnabledProxy));
     }
 
-    private void SetIsEnabledIcon(bool running)
+    private void SetIsEnabledIcon(bool enabled)
     {
-        IsEnabledIcon.Icon = running ? FontAwesomeIcon.Pause : FontAwesomeIcon.Play;
+        IsEnabledIcon.Icon = enabled ? FontAwesomeIcon.Pause : FontAwesomeIcon.Play;
     }
 
     private void ZoomView_MouseDown(object sender, MouseButtonEventArgs e)
