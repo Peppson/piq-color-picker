@@ -23,18 +23,17 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Margin="12,18,12,0">
-                <CheckBox
-                    x:Name="CaptureOnBoot"
-                    Height="15"
-                    VerticalContentAlignment="Center"
-                    BorderBrush="{StaticResource Border}"
-                    Content="Enable color capture at startup"
-                    Foreground="{StaticResource PrimaryText}"
-                    IsChecked="{Binding BootWithCaptureEnabled, Mode=TwoWay}" />
-
-            </Grid>
+            
+            <CheckBox
+                x:Name="autoCopyToClipboard"
+                Height="15"
+                Grid.Row="0"
+                Margin="12,10,0,0"
+                VerticalContentAlignment="Center"
+                BorderBrush="{StaticResource Border}"
+                Content="Copy color to clipboard when capture is paused"
+                Foreground="{StaticResource PrimaryText}"
+                IsChecked="{Binding autoCopyToClipboard, Mode=TwoWay}" />
 
             <CheckBox
                 x:Name="CaptureOnSelf"
@@ -43,7 +42,7 @@
                 Margin="12,10,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Include Color Grab in color capture"
+                Content="Include Color Grab in capture"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding CaptureOnSelf, Mode=TwoWay}" />
 
