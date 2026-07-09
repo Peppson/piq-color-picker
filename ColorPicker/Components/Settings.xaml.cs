@@ -8,8 +8,6 @@ namespace ColorPicker.Components;
 
 public partial class Settings : UserControl
 {
-    private const string NoModifierText = "Missing modifier";
-
     public Settings()
     {
         InitializeComponent();
@@ -40,7 +38,7 @@ public partial class Settings : UserControl
     }
 
     private void KeybindInput_LostFocus(object sender, RoutedEventArgs e)
-    {   
+    {
         KeybindInput.BorderBrush = System.Windows.Media.Brushes.Black;
 
         if (!string.IsNullOrWhiteSpace(State.GlobalHotkey))
@@ -62,7 +60,7 @@ public partial class Settings : UserControl
         // Require at least one modifier
         if (modifierKey == ModifierKeys.None)
         {
-            KeybindInput.Text = NoModifierText;
+            KeybindInput.Text = "Missing modifier";
             return;
         }
 
@@ -76,11 +74,11 @@ public partial class Settings : UserControl
         // Same hotkey
         var hotkey = GlobalHotkeyManager.BuildHotkeyString(modifierKey, key);
         if (hotkey == State.GlobalHotkey)
-        { 
+        {
             RefreshHotkeyInput();
             return;
         }
-        
+
         // Set new hotkey
         RegisterHotkey(hotkey);
     }
@@ -95,7 +93,7 @@ public partial class Settings : UserControl
             RefreshHotkeyInput();
             return;
         }
-        
+
         State.GlobalHotkey = hotkey;
         RefreshHotkeyInput();
 
@@ -105,7 +103,7 @@ public partial class Settings : UserControl
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private bool HandleSpecialKeys(Key key)
-    {   
+    {
         // Clear hotkey
         if (key == Key.Back || key == Key.Delete)
         {

@@ -7,7 +7,7 @@ using ColorPicker.Settings;
 namespace ColorPicker;
 
 public partial class MainWindow : Window
-{   
+{
     private readonly DispatcherTimer _dragTimer = new();
     internal Components.Settings? _settingsWindow;
 
@@ -20,7 +20,7 @@ public partial class MainWindow : Window
                 _settingsWindow = new Components.Settings();
                 Settings.Content = _settingsWindow;
             }
-            
+
             return _settingsWindow;
         }
     }
@@ -51,16 +51,16 @@ public partial class MainWindow : Window
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
-    {   
+    {
         SetupWindowDragTimer();
-        
-        #pragma warning disable CS0162
+
+#pragma warning disable CS0162
         if (Config.IsWelcomeWindowEnabled)
         {
             IsFirstBootWindow();
         }
-        #pragma warning restore CS0162
-        
+#pragma warning restore CS0162
+
         State.IsFirstBoot = false;
         State.UpdateMainWindowPos();
     }
@@ -91,12 +91,12 @@ public partial class MainWindow : Window
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             return;
         }
-        
+
         this.Top = State.WindowTop;
         this.Left = State.WindowLeft;
     }
 
-    private void IsFirstBootWindow() 
+    private void IsFirstBootWindow()
     {
         if (!Config.BootWelcomeWindow && !State.IsFirstBoot) return;
 

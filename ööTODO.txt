@@ -1,6 +1,7 @@
 zoom view inverse direction
 mouse click to start/stop capture
 zoom view capture whole screen 
+if not custom hotkeyu enable return that in text in //todo
 
 settings:
     change settings order 

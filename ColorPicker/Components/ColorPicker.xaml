@@ -285,8 +285,9 @@
                     MouseLeftButtonUp="ToggleEnabled_Click">
                     <Grid.ToolTip>
                         <TextBlock> Start/stop color capture<LineBreak /> ● Mouse left-click<LineBreak />
-                            ● Spacebar<LineBreak /> ● <Run
-                                Text="{Binding GlobalHotkeyHint, Mode=OneWay}" /></TextBlock>
+                            ● <Run
+                                Text="{Binding GlobalHotkeyHint, Mode=OneWay}" /><LineBreak /> ●
+                            Spacebar</TextBlock>
                     </Grid.ToolTip>
 
                     <Border Width="18" Height="18">

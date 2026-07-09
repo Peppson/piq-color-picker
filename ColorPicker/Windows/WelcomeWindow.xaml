@@ -8,7 +8,7 @@
     xmlns:fa="http://schemas.fontawesome.io/icons/"
     xmlns:local="clr-namespace:ColorPicker.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="ColorGrab"
+    Title="Color Grab"
     Width="640"
     Height="480"
     AllowsTransparency="True"
