@@ -71,7 +71,7 @@
             <!--  Hotkey  -->
             <Grid
                 Grid.Row="4"
-                Height="15"
+                Height="16"
                 Margin="12,10,12,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -91,8 +91,8 @@
 
                 <fa:ImageAwesome
                     Grid.Column="1"
-                    Width="14"
-                    Height="14"
+                    Width="15"
+                    Height="15"
                     Margin="0,0,6,0"
                     Cursor="Hand"
                     Icon="QuestionCircle"
@@ -140,10 +140,28 @@
                     PreviewKeyDown="KeybindInput_PreviewKeyDown" />
             </Grid>
 
+            <!--  Github link  -->
+            <fa:ImageAwesome
+                Grid.Row="6"
+                Width="13"
+                Height="13"
+                Margin="14,0,6,0"
+                Cursor="Hand"
+                Foreground="{StaticResource PrimaryText}"
+                Icon="InfoCircle"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                ToolTipService.InitialShowDelay="100">
+                <fa:ImageAwesome.ToolTip>
+                    <TextBlock> Global hotkey can be used even when Color Grab is not the active
+                        window. <LineBreak /> The hotkey must include Ctrl, Alt, or Shift. </TextBlock>
+                </fa:ImageAwesome.ToolTip>
+            </fa:ImageAwesome>
+
             <!--  Version  -->
             <TextBlock
                 Grid.Row="6"
-                Margin="14,0,0,0"
+                Margin="33,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
@@ -156,7 +174,8 @@
                 Margin="0,0,12,14"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                Background="Red">
 
                 <Button
                     Width="140"
