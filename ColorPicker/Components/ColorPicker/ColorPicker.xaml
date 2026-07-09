@@ -123,6 +123,7 @@
             <Grid
                 x:Name="ColorView"
                 Grid.Column="2"
+                MouseLeftButtonUp="ToggleEnabled_Click"
                 VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />

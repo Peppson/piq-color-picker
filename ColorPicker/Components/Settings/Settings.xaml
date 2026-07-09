@@ -110,7 +110,6 @@
                             </Style.Triggers>
                         </Style>
                     </fa:ImageAwesome.Style>
-
                     <fa:ImageAwesome.ToolTip>
                         <TextBlock> Global hotkey can be used even when Color Grab is not the active
                             window. <LineBreak /> The hotkey must include Ctrl, Alt, or Shift. </TextBlock>

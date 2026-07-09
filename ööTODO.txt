@@ -1,10 +1,5 @@
-mouse click to start/stop capture
 zoom view capture whole screen 
 max fps capture?
-
-settings:
-    change settings order 
-    ontop in settings aswell
 
 double check color conversions
 

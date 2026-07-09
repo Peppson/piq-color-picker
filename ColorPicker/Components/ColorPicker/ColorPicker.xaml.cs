@@ -107,8 +107,29 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ToggleEnabled_Click(object sender, MouseButtonEventArgs e)
     {
+        // ColorView has a broad click area, ignore clicks that originated from child buttons
+        if (ReferenceEquals(sender, ColorView) && e.OriginalSource is DependencyObject source)
+        {
+            if (FindAncestor<Border>(source, DropdownButton) || FindAncestor<Border>(source, CopyButton))
+                return;
+        }
+
         ToggleIsEnabled();
         e.Handled = true;
+    }
+
+    private static bool FindAncestor<T>(DependencyObject source, T target) where T : DependencyObject
+    {
+        DependencyObject? current = source;
+        while (current != null)
+        {
+            if (ReferenceEquals(current, target))
+                return true;
+
+            current = VisualTreeHelper.GetParent(current);
+        }
+
+        return false;
     }
 
     private void ColorPicker_Keyboard_Click(object sender, KeyEventArgs e)
