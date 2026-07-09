@@ -280,6 +280,19 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ColorService.UpdateThemeColors(_invertedBrush);
     }
 
+    public void MoveZoomTargetOutsideApp()
+    {
+        if (State.CaptureOnSelf || !State.MainWindowPos.Contains(_lastMousePos.X, _lastMousePos.Y))
+            return;
+
+        var window = State.MainWindowPos;
+
+        _lastMousePos.X = window.Left - 1;
+        _lastMousePos.Y = window.Bottom;
+
+        UpdateColors(_lastMousePos);
+    }
+
     public string GetColorType()
     {
         return CurrentColorType.ToString();

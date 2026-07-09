@@ -46,6 +46,12 @@ public class SettingsViewModel : INotifyPropertyChanged
                 State.CaptureOnSelf = value;
                 OnPropertyChanged(nameof(CaptureOnSelf));
             }
+
+            // if turned off while on top of app
+            if (!value)
+            {
+                State.MainWindow.ColorPicker.MoveZoomTargetOutsideApp();
+            }
         }
     }
 
