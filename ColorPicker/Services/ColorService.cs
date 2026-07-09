@@ -134,9 +134,9 @@ public static class ColorService
         _picker.CrosshairVertical.Stroke = brush;
 
         // Slider
-        if (_picker.Slider_1 != null) _picker.Slider_1.Background = brush;
-        if (_picker.Slider_2 != null) _picker.Slider_2.Background = brush;
-        if (_picker.Slider_3 != null) _picker.Slider_3.Background = brush;
+        _picker.Slider_1?.Background = brush;
+        _picker.Slider_2?.Background = brush;
+        _picker.Slider_3?.Background = brush;
 
         // Slider text %
         _picker.ZoomLevelText.Foreground = brush;

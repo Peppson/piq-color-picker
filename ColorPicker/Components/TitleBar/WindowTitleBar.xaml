@@ -60,6 +60,7 @@
             Height="32"
             Click="SettingsButton_Click"
             Focusable="False"
+            Cursor="Hand"
             RenderOptions.EdgeMode="Aliased"
             Style="{StaticResource TitleBarButtonStyle}">
             <Button.ToolTip>
@@ -79,6 +80,7 @@
             Grid.Column="4"
             Width="46"
             Height="32"
+            Cursor="Hand"
             Click="OnTopButton_Click"
             Focusable="False"
             RenderOptions.EdgeMode="Aliased"
@@ -99,6 +101,7 @@
             Grid.Column="5"
             Click="OnMinimizeButton_Click"
             Focusable="False"
+            Cursor="Hand"
             RenderOptions.EdgeMode="Aliased"
             Style="{StaticResource TitleBarButtonStyle}">
             <Path
@@ -117,6 +120,7 @@
             Grid.Column="6"
             Click="OnCloseButton_Click"
             Focusable="False"
+            Cursor="Hand"
             Style="{StaticResource TitleBarCloseButtonStyle}">
             <Path
                 Width="46"

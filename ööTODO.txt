@@ -1,12 +1,10 @@
 zoom view inverse direction
 mouse click to start/stop capture
 zoom view capture whole screen 
-if not custom hotkeyu enable return that in text in //todo
 
 settings:
     change settings order 
-    rm start with olor capture
-    auto copy last color 
+    auto copy last color <<<<
     ontop in settings aswell
 
 double check color conversions

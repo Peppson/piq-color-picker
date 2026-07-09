@@ -10,7 +10,7 @@ public static class ScreenCaptureService
 {
     private const int SRCCOPY = 0x00CC0020;
     private static WriteableBitmap? _reusableBitmap;
-    
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static BitmapSource GetRegion(int x, int y, int width, int height)
