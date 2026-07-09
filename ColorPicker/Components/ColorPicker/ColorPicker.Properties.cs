@@ -19,9 +19,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     }
 
     public static bool IsEnabledProxy => State.IsEnabled;
-    public static string GlobalHotkeyHint => string.IsNullOrWhiteSpace(State.GlobalHotkey)
-        ? "Custom hotkey"
-        : $"Custom hotkey ({State.GlobalHotkey})";
+    public static string GlobalHotkeyHint =>
+        State.GlobalHotkeyEnabled && !string.IsNullOrWhiteSpace(State.GlobalHotkey)
+            ? $"Custom hotkey ({State.GlobalHotkey})"
+            : "Custom hotkey";
 
     private ColorTypes _colorType;
     public ColorTypes CurrentColorType // HEX, RGB...
