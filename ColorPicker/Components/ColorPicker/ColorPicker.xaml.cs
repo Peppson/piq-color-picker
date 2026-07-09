@@ -33,7 +33,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(minInterval))
             return;
-
         _lastUpdate = DateTime.UtcNow;
 
         if (!Win32Api.GetCursorPos(out POINT p))
@@ -42,9 +41,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (!State.CaptureOnSelf && State.MainWindowPos.Contains(p.X, p.Y))
             return;
 
-        if (_lastMousePos.X == p.X && _lastMousePos.Y == p.Y) // todo hmmm
+        if (_lastMousePos.X == p.X && _lastMousePos.Y == p.Y)
             return;
-
         _lastMousePos = p;
 
         UpdateColors(p);
@@ -144,14 +142,23 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         // Only allow arrowkeys after capture
         if (State.IsEnabled) return;
 
+        int nextX = _lastMousePos.X;
+        int nextY = _lastMousePos.Y;
+
         if (e.Key == Key.Left)
-            _lastMousePos.X--;
+            nextX--;
         else if (e.Key == Key.Right)
-            _lastMousePos.X++;
+            nextX++;
         else if (e.Key == Key.Up)
-            _lastMousePos.Y--;
+            nextY--;
         else if (e.Key == Key.Down)
-            _lastMousePos.Y++;
+            nextY++;
+
+        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(nextX, nextY))
+            return;
+
+        _lastMousePos.X = nextX;
+        _lastMousePos.Y = nextY;
     }
 
     private void ZoomView_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -204,16 +211,22 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ZoomView_MouseMove(object sender, MouseEventArgs e)
     {
-        if (_isDragging && Win32Api.GetCursorPos(out POINT currentMouse))
-        {
-            int dx = currentMouse.X - _dragStartMouse.X;
-            int dy = currentMouse.Y - _dragStartMouse.Y;
-            _lastMousePos.X = _dragStartPos.X + dx;
-            _lastMousePos.Y = _dragStartPos.Y + dy;
+        if (!_isDragging || !Win32Api.GetCursorPos(out POINT currentMouse))
+            return;
 
-            UpdateZoomView(_lastMousePos, ZoomLevel);
-            UpdateColors(_lastMousePos);
-        }
+        int dx = currentMouse.X - _dragStartMouse.X;
+        int dy = currentMouse.Y - _dragStartMouse.Y;
+        int targetX = _dragStartPos.X - dx;
+        int targetY = _dragStartPos.Y - dy;
+
+        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(targetX, targetY))
+            return;
+
+        _lastMousePos.X = targetX;
+        _lastMousePos.Y = targetY;
+
+        UpdateZoomView(_lastMousePos, ZoomLevel);
+        UpdateColors(_lastMousePos);
     }
 
     private void ZoomView_MouseUp(object sender, MouseButtonEventArgs e)

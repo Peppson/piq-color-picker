@@ -1,10 +1,11 @@
 zoom view inverse direction
 mouse click to start/stop capture
 zoom view capture whole screen 
+max fps capture?
 
 settings:
     change settings order 
-    auto copy last color <<<<
+    auto copy last color <<<< 
     ontop in settings aswell
 
 double check color conversions

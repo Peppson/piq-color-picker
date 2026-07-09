@@ -31,7 +31,7 @@
                 Margin="12,10,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Copy color to clipboard when capture is paused"
+                Content="Auto copy to clipboard when capture is paused"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding AutoCopyToClipboard, Mode=TwoWay}" />
 
