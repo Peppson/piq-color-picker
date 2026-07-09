@@ -21,7 +21,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ColorService.Init(this);
 
         Loaded += OnLoaded;
-        Unloaded += OnUnloaded;        
+        Unloaded += OnUnloaded;
     }
 
     private void OnNewFrame(object sender, EventArgs e)
@@ -53,9 +53,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     {
         // Spagetthi
         CurrentColorType = State.CurrentColorType;
-        
+
         ZoomLevel = State.SetZoomLevelOnStartup
-            ? State.ZoomLevel 
+            ? State.ZoomLevel
             : Config.InitialZoomLevel;
 
         EnableInput();
@@ -113,7 +113,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     }
 
     private void ColorPicker_Keyboard_Click(object sender, KeyEventArgs e)
-    {   
+    {
         // CTRL + C
         if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
         {
@@ -139,7 +139,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     }
 
     private void HandleArrowKeyMovement(object sender, KeyEventArgs e)
-    {   
+    {
         // Only allow arrowkeys after capture
         if (State.IsEnabled) return;
 
@@ -185,10 +185,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     }
 
     private void ZoomView_MouseDown(object sender, MouseButtonEventArgs e)
-    {   
+    {
         // Only allow dragging after capture
         if (State.IsEnabled) return;
-        
+
         if (e.LeftButton == MouseButtonState.Pressed)
         {
             _isDragging = true;

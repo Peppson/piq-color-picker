@@ -56,7 +56,7 @@ public static class ColorService
                 brush.Color.G == g &&
                 brush.Color.B == b;
     }
-    
+
     public static async Task CopyColorToClipboard()
     {
         if (string.IsNullOrEmpty(CurrentColorCode)) return;

@@ -12,15 +12,14 @@ namespace ColorPicker.Components;
 public partial class ColorPicker : UserControl, INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
+
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    // Props
-    public bool IsEnabledProxy => State.IsEnabled;
-
-    public string GlobalHotkeyHint => string.IsNullOrWhiteSpace(State.GlobalHotkey) // todo
+    public static bool IsEnabledProxy => State.IsEnabled;
+    public static string GlobalHotkeyHint => string.IsNullOrWhiteSpace(State.GlobalHotkey)
         ? "Custom hotkey"
         : $"Custom hotkey ({State.GlobalHotkey})";
 
@@ -58,9 +57,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     public int ZoomPercent =>
         (_zoomLevel - (int)Config.MinZoomLevel) * 100 / ((int)Config.MaxZoomLevel - (int)Config.MinZoomLevel); // Ugly af
-
     public void RefreshHotkeyHint() => OnPropertyChanged(nameof(GlobalHotkeyHint));
-
 
     public Border? Slider_1 { get; set; }
     public RepeatButton? Slider_2 { get; set; }

@@ -67,7 +67,7 @@ public partial class MainWindow : Window
 
     private void OnWindowStateChanged(object? sender, EventArgs e)
     {
-        State.IsMinimized = (WindowState == WindowState.Minimized);
+        State.IsMinimized = WindowState == WindowState.Minimized;
     }
 
     private void OnWindowSizeOrLocationChanged(object? sender, EventArgs e)

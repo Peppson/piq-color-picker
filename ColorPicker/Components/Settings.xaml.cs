@@ -15,7 +15,7 @@ public partial class Settings : UserControl
     }
 
     public void RefreshHotkeyInput() => KeybindInput.Text = State.GlobalHotkey;
-    public void RefreshHotkeyHint() => State.MainWindow.ColorPicker.RefreshHotkeyHint();
+    public static void RefreshHotkeyHint() => State.MainWindow.ColorPicker.RefreshHotkeyHint();
     public void Reset() => ClearFocus();
 
     private void Grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)

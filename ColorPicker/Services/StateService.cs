@@ -20,7 +20,7 @@ public static class State
 
     // Runtime
     public static bool IsEnabled { get; set; }
-    public static int ZoomLevel  { get; set; }
+    public static int ZoomLevel { get; set; }
     public static bool IsMinimized { get; set; } = false;
     public static bool IsSettingsOpen { get; set; } = false;
     public static bool IsDraggingOrResizing { get; set; } = false;
@@ -34,11 +34,11 @@ public static class State
         MainWindow = window;
         LoadFromMemory();
 
-        #if !RELEASE
-            if (Config.IsEnabledOverride != null) 
-                IsEnabled = Config.IsEnabledOverride.Value;
-            StartupLogDebug();
-        #endif
+#if !RELEASE
+        if (Config.IsEnabledOverride != null)
+            IsEnabled = Config.IsEnabledOverride.Value;
+        StartupLogDebug();
+#endif
     }
 
     public static void LoadFromMemory()
@@ -48,18 +48,18 @@ public static class State
         GlobalHotkeyEnabled = Properties.Settings.Default.GlobalHotkeyEnabled;
         WindowTop = Properties.Settings.Default.WindowTop;
         WindowLeft = Properties.Settings.Default.WindowLeft;
-        BootWithCaptureEnabled = Properties.Settings.Default.BootWithCaptureEnabled;
+        BootWithCaptureEnabled = true; // Properties.Settings.Default.BootWithCaptureEnabled
         CaptureOnSelf = Properties.Settings.Default.CaptureColorOnSelf;
         SetWindowPosOnStartup = Properties.Settings.Default.SetWindowPosOnStartup;
         SetZoomLevelOnStartup = Properties.Settings.Default.SetZoomLevelOnStartup;
-        ZoomLevel = Properties.Settings.Default.ZoomLevel; 
+        ZoomLevel = Properties.Settings.Default.ZoomLevel;
         CurrentColorType = ColorService.StringToColorType(Properties.Settings.Default.ColorType);
 
         IsEnabled = BootWithCaptureEnabled;
     }
 
     public static void Save()
-    {   
+    {
         if (_isResetting) return; // Don't save if reseting
 
         Properties.Settings.Default.IsFirstBoot = IsFirstBoot;
@@ -78,13 +78,13 @@ public static class State
     }
 
     public static void UpdateMainWindowPos()
-    {   
+    {
         if (!MainWindow.IsLoaded) return;
-        
+
         // DPI aware position
         var topLeft = MainWindow.PointToScreen(new Point(0, 0));
         var bottomRight = MainWindow.PointToScreen(new Point(MainWindow.ActualWidth, MainWindow.ActualHeight));
-        
+
         MainWindowPos = new System.Drawing.Rectangle(
             (int)topLeft.X,
             (int)topLeft.Y,
@@ -94,7 +94,7 @@ public static class State
     }
 
     public static void ResetDebug()
-    {   
+    {
         _isResetting = true;
         Properties.Settings.Default.Reset();
         Properties.Settings.Default.Save();

@@ -11,22 +11,21 @@ public partial class WindowTitleBar : UserControl
     {
         InitializeComponent();
 
-        #if !RELEASE
-        #pragma warning disable CS0162
-            if (Config.ShowDebugbutton)
-                DebugButton.Visibility = Visibility.Visible;
-                
-            if (Config.BootSettingsWindow)
-                Loaded += SettingsButton_Click;
-        #pragma warning restore CS0162
-        #endif
+#if !RELEASE
+#pragma warning disable CS0162
+        if (Config.ShowDebugbutton)
+            DebugButton.Visibility = Visibility.Visible;
+
+        if (Config.BootSettingsWindow)
+            Loaded += SettingsButton_Click;
+#pragma warning restore CS0162
+#endif
     }
 
     private void OnTopButton_Click(object sender, RoutedEventArgs e)
     {
         State.MainWindow.Topmost = !State.MainWindow.Topmost;
-        OnTopButtonIcon.Foreground =
-            ColorService.GetIconColor(State.MainWindow.Topmost);
+        OnTopButtonIcon.Foreground = ColorService.GetIconColor(State.MainWindow.Topmost);
     }
 
     public void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -55,8 +54,6 @@ public partial class WindowTitleBar : UserControl
     private void OnCloseButton_Click(object sender, RoutedEventArgs e) =>
         State.MainWindow.Close();
 
-    private void DebugButton_Click(object sender, RoutedEventArgs e)
-    {
+    private void DebugButton_Click(object sender, RoutedEventArgs e) =>
         State.ResetDebug();
-    }
 }
