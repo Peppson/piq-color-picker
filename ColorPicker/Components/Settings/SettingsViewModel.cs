@@ -6,7 +6,7 @@ namespace ColorPicker.Components;
 public class SettingsViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-    
+
     private void OnPropertyChanged(string propName) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
@@ -49,15 +49,15 @@ public class SettingsViewModel : INotifyPropertyChanged
         }
     }
 
-    public bool BootWithCaptureEnabled
+    public bool AutoCopyToClipboard
     {
-        get => State.BootWithCaptureEnabled;
+        get => State.AutoCopyToClipboard;
         set
-        { 
-            if (State.BootWithCaptureEnabled != value)
+        {
+            if (State.AutoCopyToClipboard != value)
             {
-                State.BootWithCaptureEnabled = value;
-                OnPropertyChanged(nameof(BootWithCaptureEnabled));
+                State.AutoCopyToClipboard = value;
+                OnPropertyChanged(nameof(AutoCopyToClipboard));
             }
         }
     }
@@ -66,7 +66,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     {
         get => State.GlobalHotkeyEnabled;
         set
-        { 
+        {
             if (State.GlobalHotkeyEnabled != value)
             {
                 State.GlobalHotkeyEnabled = value;

@@ -34,6 +34,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(minInterval))
             return;
+
         _lastUpdate = DateTime.UtcNow;
 
         if (!Win32Api.GetCursorPos(out POINT p))
@@ -42,8 +43,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (!State.CaptureOnSelf && State.MainWindowPos.Contains(p.X, p.Y))
             return;
 
-        if (_lastMousePos.X == p.X && _lastMousePos.Y == p.Y)
+        if (_lastMousePos.X == p.X && _lastMousePos.Y == p.Y) // todo hmmm
             return;
+
         _lastMousePos = p;
 
         UpdateColors(p);

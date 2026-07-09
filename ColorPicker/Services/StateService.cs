@@ -12,7 +12,7 @@ public static class State
     public static bool GlobalHotkeyEnabled { get; set; }
     public static bool SetWindowPosOnStartup { get; set; }
     public static bool SetZoomLevelOnStartup { get; set; }
-    public static bool BootWithCaptureEnabled { get; set; }
+    public static bool AutoCopyToClipboard { get; set; }
     public static bool CaptureOnSelf { get; set; }
     public static ColorTypes CurrentColorType { get; set; }
     public static double WindowTop { get; set; }
@@ -37,6 +37,7 @@ public static class State
 #if !RELEASE
         if (Config.IsEnabledOverride != null)
             IsEnabled = Config.IsEnabledOverride.Value;
+
         StartupLogDebug();
 #endif
     }
@@ -48,14 +49,14 @@ public static class State
         GlobalHotkeyEnabled = Properties.Settings.Default.GlobalHotkeyEnabled;
         WindowTop = Properties.Settings.Default.WindowTop;
         WindowLeft = Properties.Settings.Default.WindowLeft;
-        BootWithCaptureEnabled = true; // Properties.Settings.Default.BootWithCaptureEnabled
+        AutoCopyToClipboard = Properties.Settings.Default.AutoCopyToClipboard;
         CaptureOnSelf = Properties.Settings.Default.CaptureColorOnSelf;
         SetWindowPosOnStartup = Properties.Settings.Default.SetWindowPosOnStartup;
         SetZoomLevelOnStartup = Properties.Settings.Default.SetZoomLevelOnStartup;
         ZoomLevel = Properties.Settings.Default.ZoomLevel;
         CurrentColorType = ColorService.StringToColorType(Properties.Settings.Default.ColorType);
 
-        IsEnabled = BootWithCaptureEnabled;
+        IsEnabled = true;
     }
 
     public static void Save()
@@ -67,7 +68,7 @@ public static class State
         Properties.Settings.Default.GlobalHotkeyEnabled = GlobalHotkeyEnabled;
         Properties.Settings.Default.WindowTop = MainWindow.Top;
         Properties.Settings.Default.WindowLeft = MainWindow.Left;
-        Properties.Settings.Default.BootWithCaptureEnabled = BootWithCaptureEnabled;
+        Properties.Settings.Default.AutoCopyToClipboard = AutoCopyToClipboard;
         Properties.Settings.Default.CaptureColorOnSelf = CaptureOnSelf;
         Properties.Settings.Default.SetWindowPosOnStartup = SetWindowPosOnStartup;
         Properties.Settings.Default.SetZoomLevelOnStartup = SetZoomLevelOnStartup;
@@ -111,7 +112,7 @@ public static class State
         Console.WriteLine($"\n--- {Config.VersionNumber} ---");
         Console.WriteLine($"- IsFirstBoot: {IsFirstBoot}");
         Console.WriteLine($"- IsEnabled: {IsEnabled} (override = {Config.IsEnabledOverride.HasValue})");
-        Console.WriteLine($"- BootWithCaptureEnabled: {BootWithCaptureEnabled}");
+        Console.WriteLine($"- AutoCopyToClipboard: {AutoCopyToClipboard}");
         Console.WriteLine($"- SetWindowPosOnStartup: {SetWindowPosOnStartup}");
         Console.WriteLine($"- SetZoomLevelOnStartup: {SetZoomLevelOnStartup}");
         Console.WriteLine($"- ZoomLevel: {ZoomLevel}");

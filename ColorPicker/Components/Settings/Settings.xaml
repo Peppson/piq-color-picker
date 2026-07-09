@@ -25,7 +25,7 @@
             </Grid.RowDefinitions>
             
             <CheckBox
-                x:Name="autoCopyToClipboard"
+                x:Name="AutoCopyToClipboard"
                 Height="15"
                 Grid.Row="0"
                 Margin="12,10,0,0"
@@ -33,7 +33,7 @@
                 BorderBrush="{StaticResource Border}"
                 Content="Copy color to clipboard when capture is paused"
                 Foreground="{StaticResource PrimaryText}"
-                IsChecked="{Binding autoCopyToClipboard, Mode=TwoWay}" />
+                IsChecked="{Binding AutoCopyToClipboard, Mode=TwoWay}" />
 
             <CheckBox
                 x:Name="CaptureOnSelf"

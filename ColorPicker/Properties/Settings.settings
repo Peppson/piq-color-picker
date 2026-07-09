@@ -1,5 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ColorPicker.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings"
+  CurrentProfile="(Default)" GeneratedClassNamespace="ColorPicker.Properties"
+  GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="WindowTop" Type="System.Double" Scope="User">
@@ -11,8 +13,8 @@
     <Setting Name="ColorType" Type="System.String" Scope="User">
       <Value Profile="(Default)">HEX</Value>
     </Setting>
-    <Setting Name="BootWithCaptureEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+    <Setting Name="AutoCopyToClipboard" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="CaptureColorOnSelf" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
