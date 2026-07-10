@@ -51,7 +51,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
                 State.ZoomLevel = value;
                 OnPropertyChanged(nameof(ZoomLevel));
                 OnPropertyChanged(nameof(ZoomPercent));
-                UpdateZoomView(_lastMousePos, _zoomLevel);
+                UpdateZoomView();
             }
         }
     }
@@ -59,12 +59,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     public int ZoomPercent =>
         (_zoomLevel - (int)Config.MinZoomLevel) * 100 / ((int)Config.MaxZoomLevel - (int)Config.MinZoomLevel); // Ugly af
     public void RefreshHotkeyHint() => OnPropertyChanged(nameof(GlobalHotkeyHint));
-
     public Border? Slider_1 { get; set; }
     public RepeatButton? Slider_2 { get; set; }
     public RepeatButton? Slider_3 { get; set; }
 
-    // Fields
     private bool _isDragging = false;
     private POINT _dragStartMouse;
     private POINT _dragStartPos;
@@ -72,4 +70,5 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     private DateTime _lastUpdate = DateTime.UtcNow;
     private SolidColorBrush _currentBrush = new(Colors.White);
     private SolidColorBrush _invertedBrush = new(Colors.Black);
+    private System.Windows.Media.Imaging.BitmapSource? _fullscreenZoomViewSource = null;
 }

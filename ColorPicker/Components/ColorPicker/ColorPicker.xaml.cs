@@ -83,7 +83,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ToggleEnabled_Click(object sender, MouseButtonEventArgs e)
     {
-        // ColorView has a broad click area, ignore clicks that originated from child buttons
+        // ColorView has broad click area, ignore clicks that originated from child buttons
         if (ReferenceEquals(sender, ColorView) && e.OriginalSource is DependencyObject source)
         {
             if (FindAncestor<Border>(source, DropdownButton) || FindAncestor<Border>(source, CopyButton))
@@ -92,6 +92,25 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         ToggleIsEnabled();
         e.Handled = true;
+    }
+
+    public void ToggleIsEnabled()
+    {
+        State.IsEnabled = !State.IsEnabled;
+        SetIsEnabledIcon(State.IsEnabled);
+        OnPropertyChanged(nameof(IsEnabledProxy));
+
+        if (State.IsEnabled) return;
+
+        // Save whole screen where the crosshair in zoomview is located at 
+        _fullscreenZoomViewSource = ScreenCaptureService.GetCapturedImageFullScreen(_lastMousePos.X, _lastMousePos.Y);
+
+        // Auto copy to clipboard when capture is paused if enabled in settings
+        if (State.AutoCopyToClipboard)
+        {
+            _ = ColorService.CopyColorToClipboard();
+            ColorService.UpdateMessageColor(_invertedBrush);
+        }
     }
 
     private void ColorPicker_Keyboard_Click(object sender, KeyEventArgs e)
@@ -113,9 +132,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return;
         }
 
-        // Arrow keys
         HandleArrowKeyMovement(sender, e);
-
         UpdateUI(_lastMousePos);
         e.Handled = true;
     }
@@ -156,32 +173,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         e.Handled = true;
     }
 
-    public void ToggleIsEnabled()
-    {
-        State.IsEnabled = !State.IsEnabled;
-        SetIsEnabledIcon(State.IsEnabled);
-        OnPropertyChanged(nameof(IsEnabledProxy));
-
-        // Auto copy to clipboard when capture is paused if enabled in settings
-        if (!State.IsEnabled && State.AutoCopyToClipboard)
-        {
-            _ = ColorService.CopyColorToClipboard();
-            ColorService.UpdateMessageColor(_invertedBrush);
-        }
-    }
-
-    public void SetIsEnabled(bool enabled)
-    {
-        State.IsEnabled = enabled;
-        SetIsEnabledIcon(State.IsEnabled);
-        OnPropertyChanged(nameof(IsEnabledProxy));
-    }
-
-    private void SetIsEnabledIcon(bool enabled)
-    {
-        IsEnabledIcon.Icon = enabled ? FontAwesomeIcon.Pause : FontAwesomeIcon.Play;
-    }
-
     private void ZoomView_MouseDown(object sender, MouseButtonEventArgs e)
     {
         // Only allow dragging after capture
@@ -215,7 +206,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         _lastMousePos.X = targetX;
         _lastMousePos.Y = targetY;
 
+        // todo
+        StopwatchService.Start(20, "Move Zoom Target");
         UpdateUI(_lastMousePos);
+        StopwatchService.Stop();
     }
 
     private void ZoomView_MouseUp(object sender, MouseButtonEventArgs e)
@@ -231,6 +225,26 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         }
     }
 
+    public void MoveZoomTargetOutsideApp()
+    {
+        if (State.CaptureOnSelf || !State.MainWindowPos.Contains(_lastMousePos.X, _lastMousePos.Y))
+            return;
+
+        var window = State.MainWindowPos;
+        _lastMousePos.X = window.Left - 1;
+        _lastMousePos.Y = window.Bottom;
+
+        UpdateUI(_lastMousePos);
+    }
+
+
+
+
+
+
+
+
+
     private void OnNewFrame(object sender, EventArgs e)
     {
         // Clamp max fps, WPF framerates is wonky sometimes...
@@ -243,14 +257,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return;
         _lastUpdate = DateTime.UtcNow; */ //todo
 
-
-        // todo
-        if (done)
-        {
-            return;
-        }
-
-
 #if !RELEASE
 #pragma warning disable CS0162
         if (Config.LogCaptureCount) StopwatchService.TrackFunctionCallRate();
@@ -262,24 +268,67 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (!State.CaptureOnSelf && State.MainWindowPos.Contains(point.X, point.Y))
             return;
 
+        // todo add if mouse changed or color changed
         /* if (_lastMousePos.X == point.X && _lastMousePos.Y == point.Y)
             return; */
         _lastMousePos = point;
 
-        StopwatchService.Start(100);
+        StopwatchService.Start(100, "UpdateUI");
         UpdateUI(point);
         StopwatchService.Stop();
     }
 
-    private void UpdateUI(POINT p)
+    private void UpdateUI(POINT point)
     {
+        if (State.IsEnabled)
+            UpdateUI_CaptureEnabled(point);
+        else
+            UpdateUI_CaptureDisabled(point);
+    }
+
+    private void UpdateUI_CaptureEnabled(POINT point)
+    {
+        // Grab a small image around the cursor and update zoomview and color preview
         var zoomLevel = Math.Clamp(100 - _zoomLevel, 1, 100);
         var height = zoomLevel;
         var width = zoomLevel;
+        var (capturedImage, r, g, b) = ScreenCaptureService.GetCapturedImageWithCenterColor(point.X, point.Y, width, height);
 
-        var (capturedImage, r, g, b) = ScreenCaptureService.GetCapturedImageWithCenterColor(p.X, p.Y, width, height);
         ZoomView.Source = capturedImage;
+        UpdateColors(r, g, b);
+    }
 
+    private void UpdateUI_CaptureDisabled(POINT point)
+    {
+        // Use the captured whole screen and update zoomview and color preview
+        Console.WriteLine($"UpdateUI_CaptureDisabled: {point.X}, {point.Y}");
+    }
+
+    private void UpdateZoomView()
+    {
+        var point = _lastMousePos;
+
+        // Running capture
+        if (State.IsEnabled)
+        {
+            var zoom = Math.Clamp(100 - _zoomLevel, 1, 100);
+            var height = zoom;
+            var width = zoom;
+            ZoomView.Source = ScreenCaptureService.GetCapturedImage(point.X, point.Y, width, height);
+
+            return;
+        }
+
+        // Paused capture, use the saved fullscreen image to update zoomview
+        if (_fullscreenZoomViewSource != null)
+        {
+            //ZoomView.Source = _fullscreenZoomViewSource;
+            Console.WriteLine($"Fullscreen");
+        }
+    }
+
+    private void UpdateColors(byte r, byte g, byte b)
+    {
         if (ColorService.IsSameColor(_currentBrush, r, g, b))
             return;
 
@@ -293,23 +342,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ColorService.UpdateThemeColors(_invertedBrush);
     }
 
-
-    bool done = false; // todo
-
-    private void UpdateZoomView(POINT p, int zoom)
-    {
-        var zoomLevel = Math.Clamp(100 - zoom, 1, 100);
-        var height = zoomLevel;
-        var width = zoomLevel;
-
-        //ZoomView.Source = ScreenCaptureService.GetCapturedImage(p.X, p.Y, width, height);
-
-
-        ZoomView.Source = ScreenCaptureService.GetCapturedImageFullScreen(p.X, p.Y);
-
-        done = true;
-    }
-
     private void UpdateColorsStatic()
     {
         byte r = _currentBrush.Color.R;
@@ -321,16 +353,25 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ColorService.UpdateThemeColors(_invertedBrush);
     }
 
-    public void MoveZoomTargetOutsideApp()
+
+
+
+
+
+
+
+
+
+    public void SetIsEnabled(bool enabled)
     {
-        if (State.CaptureOnSelf || !State.MainWindowPos.Contains(_lastMousePos.X, _lastMousePos.Y))
-            return;
+        State.IsEnabled = enabled;
+        SetIsEnabledIcon(State.IsEnabled);
+        OnPropertyChanged(nameof(IsEnabledProxy));
+    }
 
-        var window = State.MainWindowPos;
-        _lastMousePos.X = window.Left - 1;
-        _lastMousePos.Y = window.Bottom;
-
-        UpdateUI(_lastMousePos);
+    private void SetIsEnabledIcon(bool enabled)
+    {
+        IsEnabledIcon.Icon = enabled ? FontAwesomeIcon.Pause : FontAwesomeIcon.Play;
     }
 
     public string GetColorType()

@@ -10,14 +10,16 @@ public static class StopwatchService
     private static double _sum = 0;
     private static int _counter = 0;
     private static int _sampleSize = 100;
+    private static string _txt = "";
     private static int _callCount;
     private static DateTime _callStart = DateTime.UtcNow;
     private static int _renderFrameCount;
     private static TimeSpan _renderWindowStart;
     private static bool _renderWindowInitialized;
 
-    public static void Start(int sampleSize = 100)
+    public static void Start(int sampleSize = 100, string txt = "")
     {
+        _txt = txt;
         _sampleSize = sampleSize;
         _stopwatch ??= new Stopwatch();
         _stopwatch.Restart();
@@ -35,7 +37,7 @@ public static class StopwatchService
         if (_counter >= _sampleSize)
         {
             var avg = _sum / _counter;
-            Console.WriteLine($"Samples: {_counter}, AVG: {avg:F2} ms");
+            Console.WriteLine($"{_txt} Samples: {_counter}, AVG: {avg:F2} ms");
             _counter = 0;
             _sum = 0;
         }
