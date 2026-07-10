@@ -268,6 +268,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return; */
         _lastMousePos = point;
 
+        StopwatchService.TrackFunctionCallRate(); //todo
+
         //StopwatchService.Start(100, "UpdateUI");
         UpdateUI(point);
         //StopwatchService.Stop();
@@ -287,13 +289,15 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void UpdateUI_CaptureEnabled(POINT point, int height, int width)
     {
+        StopwatchService.Start(50); // todo
+
         // Grab a small image around the cursor and update zoomview and color preview live
-        /* var (capturedImage, r, g, b) = ScreenCaptureService.GetImageWithCenterColor(point.X, point.Y, width, height);
+        var (capturedImage, r, g, b) = ScreenCaptureService.GetImageWithCenterColor(point.X, point.Y, width, height);
 
         ZoomView.Source = capturedImage;
-        UpdateColors(r, g, b); */
-        StopwatchService.Start(50); // todo
-        ZoomView.Source = ScreenCaptureService.GetImage(point.X, point.Y, width, height);
+        UpdateColors(r, g, b);
+
+        //ZoomView.Source = ScreenCaptureService.GetImage(point.X, point.Y, width, height);
         StopwatchService.Stop();
     }
 

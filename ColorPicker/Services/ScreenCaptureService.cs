@@ -93,6 +93,14 @@ public static class ScreenCaptureService
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static BitmapSource GetImage(int x, int y, int width, int height)
     {
+        if (ScreenCaptureGPUService.TryCaptureRegion(x, y, width, height, out BitmapSource duplicated))
+        {
+            Console.WriteLine("Captured using GPU duplication.");
+            return duplicated;
+        }
+
+        Console.WriteLine("Captured using GDI BitBlt fallback.");
+
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
         {
@@ -140,6 +148,14 @@ public static class ScreenCaptureService
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (BitmapSource Bitmap, byte R, byte G, byte B) GetImageWithCenterColor(int x, int y, int width, int height)
     {
+        if (ScreenCaptureGPUService.TryCaptureRegionWithCenterColor(x, y, width, height, out BitmapSource duplicated, out byte dr, out byte dg, out byte db))
+        {
+            Console.WriteLine("Captured using GPU duplication.");
+            return (duplicated, dr, dg, db);
+        }
+
+        Console.WriteLine("Captured using GDI BitBlt fallback.");
+
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
         {
