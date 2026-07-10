@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ColorPicker.Models;
 using ColorPicker.Services;
 using ColorPicker.Settings;
@@ -103,9 +104,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (State.IsEnabled) return;
 
         // Save whole screen where the crosshair in zoomview is located at 
-        _fullscreenZoomViewSource = ScreenCaptureService.GetCapturedImageFullScreen(_lastMousePos.X, _lastMousePos.Y);
+        _fullscreenImage = ScreenCaptureService.GetFullScreenImage(_lastMousePos.X, _lastMousePos.Y);
 
-        // Auto copy to clipboard when capture is paused if enabled in settings
+        // Auto copy selected colorcode to clipboard when capture is paused if enabled in settings
         if (State.AutoCopyToClipboard)
         {
             _ = ColorService.CopyColorToClipboard();
@@ -280,52 +281,59 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void UpdateUI(POINT point)
     {
-        if (State.IsEnabled)
-            UpdateUI_CaptureEnabled(point);
-        else
-            UpdateUI_CaptureDisabled(point);
-    }
-
-    private void UpdateUI_CaptureEnabled(POINT point)
-    {
-        // Grab a small image around the cursor and update zoomview and color preview
         var zoomLevel = Math.Clamp(100 - _zoomLevel, 1, 100);
         var height = zoomLevel;
         var width = zoomLevel;
-        var (capturedImage, r, g, b) = ScreenCaptureService.GetCapturedImageWithCenterColor(point.X, point.Y, width, height);
+
+        if (State.IsEnabled)
+            UpdateUI_CaptureEnabled(point, height, width);
+        else
+            UpdateUI_CaptureDisabled(point, height, width);
+    }
+
+    private void UpdateUI_CaptureEnabled(POINT point, int height, int width)
+    {
+        // Grab a small image around the cursor and update zoomview and color preview live
+        var (capturedImage, r, g, b) = ScreenCaptureService.GetImageWithCenterColor(point.X, point.Y, width, height);
 
         ZoomView.Source = capturedImage;
         UpdateColors(r, g, b);
     }
 
-    private void UpdateUI_CaptureDisabled(POINT point)
+    private void UpdateUI_CaptureDisabled(POINT point, int height, int width)
     {
-        // Use the captured whole screen and update zoomview and color preview
-        Console.WriteLine($"UpdateUI_CaptureDisabled: {point.X}, {point.Y}");
+        if (_fullscreenImage == null) return;
+
+        // Grab a small image around the cursor from the saved fullscreen image and update zoomview and color preview
+        var (croppedImage, r, g, b) = ScreenCaptureService.GetCroppedImageWithCenterColor(_fullscreenImage, point, width, height);
+
+        ZoomView.Source = croppedImage;
+        UpdateColors(r, g, b);
     }
 
     private void UpdateZoomView()
     {
+        var zoom = Math.Clamp(100 - _zoomLevel, 1, 100);
+        var height = zoom;
+        var width = zoom;
         var point = _lastMousePos;
 
-        // Running capture
+        // Running capture, grab small image around the cursor and update zoomview
         if (State.IsEnabled)
         {
-            var zoom = Math.Clamp(100 - _zoomLevel, 1, 100);
-            var height = zoom;
-            var width = zoom;
-            ZoomView.Source = ScreenCaptureService.GetCapturedImage(point.X, point.Y, width, height);
-
+            ZoomView.Source = ScreenCaptureService.GetImage(point.X, point.Y, width, height);
             return;
         }
 
         // Paused capture, use the saved fullscreen image to update zoomview
-        if (_fullscreenZoomViewSource != null)
+        if (_fullscreenImage != null)
         {
-            //ZoomView.Source = _fullscreenZoomViewSource;
-            Console.WriteLine($"Fullscreen");
+            var (croppedImage, _, _, _) = ScreenCaptureService.GetCroppedImageWithCenterColor(_fullscreenImage, point, width, height);
+            ZoomView.Source = croppedImage;
         }
     }
+
+
 
     private void UpdateColors(byte r, byte g, byte b)
     {

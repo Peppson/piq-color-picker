@@ -18,12 +18,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public static bool IsEnabledProxy => State.IsEnabled;
-    public static string GlobalHotkeyHint =>
-        State.GlobalHotkeyEnabled && !string.IsNullOrWhiteSpace(State.GlobalHotkey)
-            ? $"Custom hotkey ({State.GlobalHotkey})"
-            : "Custom hotkey";
-
     private ColorTypes _colorType;
     public ColorTypes CurrentColorType // HEX, RGB...
     {
@@ -56,6 +50,11 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         }
     }
 
+    public static bool IsEnabledProxy => State.IsEnabled;
+    public static string GlobalHotkeyHint =>
+        State.GlobalHotkeyEnabled && !string.IsNullOrWhiteSpace(State.GlobalHotkey)
+            ? $"Custom hotkey ({State.GlobalHotkey})"
+            : "Custom hotkey";
     public int ZoomPercent =>
         (_zoomLevel - (int)Config.MinZoomLevel) * 100 / ((int)Config.MaxZoomLevel - (int)Config.MinZoomLevel); // Ugly af
     public void RefreshHotkeyHint() => OnPropertyChanged(nameof(GlobalHotkeyHint));
@@ -70,5 +69,5 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     private DateTime _lastUpdate = DateTime.UtcNow;
     private SolidColorBrush _currentBrush = new(Colors.White);
     private SolidColorBrush _invertedBrush = new(Colors.Black);
-    private System.Windows.Media.Imaging.BitmapSource? _fullscreenZoomViewSource = null;
+    private System.Windows.Media.Imaging.BitmapSource? _fullscreenImage = null;
 }

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using ColorPicker.Models;
 
 namespace ColorPicker.Services;
 
@@ -11,12 +12,14 @@ public static class ScreenCaptureService
 {
     private const int SRCCOPY = 0x00CC0020;
     private static WriteableBitmap? _reusableBitmap;
+    private static int _fullscreenZoomViewSourceLeft;
+    private static int _fullscreenZoomViewSourceTop;
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static BitmapSource GetCapturedImageFullScreen(int targetX, int targetY)
+    public static BitmapSource GetFullScreenImage(int targetX, int targetY)
     {
-        var targetPoint = new Models.POINT { X = targetX, Y = targetY };
+        var targetPoint = new POINT { X = targetX, Y = targetY };
 
         if (Win32Api.TryGetMonitorBoundsFromPoint(targetPoint, out int left, out int top, out int width, out int height))
         {
@@ -24,22 +27,47 @@ public static class ScreenCaptureService
             int centerY = top + (height / 2);
 
             StopwatchService.Start(20);
-            var image = GetCapturedImage(centerX, centerY, width, height);
+            var image = GetImage(centerX, centerY, width, height);
             StopwatchService.Stop();
 
-
             return image;
-            //return GetCapturedImage(centerX, centerY, width, height);
         }
 
-        // Fallback to primary monitor when monitor lookup fails.
+        // Fallback to primary monitor when monitor lookup fails. todo
         int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
         int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
-        return GetCapturedImage(screenWidth / 2, screenHeight / 2, screenWidth, screenHeight);
+        return GetImage(screenWidth / 2, screenHeight / 2, screenWidth, screenHeight);
+    }
+
+    public static (BitmapSource croppedImage, byte R, byte G, byte B) GetCroppedImageWithCenterColor(
+        BitmapSource fullscreenCapture,
+        POINT point,
+        int width,
+        int height)
+    {
+        int maxX = Math.Max(0, fullscreenCapture.PixelWidth - width);
+        int maxY = Math.Max(0, fullscreenCapture.PixelHeight - height);
+
+        int sourceX = point.X - _fullscreenZoomViewSourceLeft - (width / 2);
+        int sourceY = point.Y - _fullscreenZoomViewSourceTop - (height / 2);
+
+        sourceX = Math.Clamp(sourceX, 0, maxX);
+        sourceY = Math.Clamp(sourceY, 0, maxY);
+
+        var crop = new CroppedBitmap(fullscreenCapture, new Int32Rect(sourceX, sourceY, width, height));
+
+        var centerPixel = new byte[4];
+        crop.CopyPixels(new Int32Rect(width / 2, height / 2, 1, 1), centerPixel, 4, 0);
+
+        byte b = centerPixel[0];
+        byte g = centerPixel[1];
+        byte r = centerPixel[2];
+
+        return (crop, r, g, b);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static BitmapSource GetCapturedImage(int x, int y, int width, int height)
+    public static BitmapSource GetImage(int x, int y, int width, int height)
     {
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
@@ -86,7 +114,7 @@ public static class ScreenCaptureService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static (BitmapSource Bitmap, byte R, byte G, byte B) GetCapturedImageWithCenterColor(int x, int y, int width, int height)
+    public static (BitmapSource Bitmap, byte R, byte G, byte B) GetImageWithCenterColor(int x, int y, int width, int height)
     {
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
