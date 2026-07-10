@@ -71,7 +71,7 @@ public static class ColorService
             success = "Copy failed!";
         }
 
-        await MessageService.ShowAsync(_picker, success, Config.MessageDuration);
+        await MessageService.ShowAsync(_picker, success, Config.StatusMessageDuration_ms);
     }
 
     public static ColorTypes StringToColorType(string colorType)

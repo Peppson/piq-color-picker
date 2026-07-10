@@ -1,8 +1,6 @@
 zoom view capture whole screen 
 max fps capture?
 
-double check color conversions
-
 welcome window?
 icon? copyright?
 images? copyright?

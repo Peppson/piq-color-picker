@@ -54,30 +54,8 @@
         </Button>
 
         <Button
-            x:Name="SettingsButton"
-            Grid.Column="3"
-            Width="46"
-            Height="32"
-            Click="SettingsButton_Click"
-            Focusable="False"
-            Cursor="Hand"
-            RenderOptions.EdgeMode="Aliased"
-            Style="{StaticResource TitleBarButtonStyle}">
-            <Button.ToolTip>
-                Settings
-            </Button.ToolTip>
-            <fa:ImageAwesome
-                x:Name="SettingsButtonIcon"
-                Width="12"
-                Height="12"
-                VerticalAlignment="Center"
-                Foreground="{StaticResource PrimaryText}"
-                Icon="cog" />
-        </Button>
-
-        <Button
             x:Name="OnTopButton"
-            Grid.Column="4"
+            Grid.Column="3"
             Width="46"
             Height="32"
             Cursor="Hand"
@@ -95,6 +73,28 @@
                 VerticalAlignment="Center"
                 Foreground="{StaticResource PrimaryText}"
                 Icon="ThumbTack" />
+        </Button>
+
+        <Button
+            x:Name="SettingsButton"
+            Grid.Column="4"
+            Width="46"
+            Height="32"
+            Click="SettingsButton_Click"
+            Focusable="False"
+            Cursor="Hand"
+            RenderOptions.EdgeMode="Aliased"
+            Style="{StaticResource TitleBarButtonStyle}">
+            <Button.ToolTip>
+                Settings
+            </Button.ToolTip>
+            <fa:ImageAwesome
+                x:Name="SettingsButtonIcon"
+                Width="12"
+                Height="12"
+                VerticalAlignment="Center"
+                Foreground="{StaticResource PrimaryText}"
+                Icon="cog" />
         </Button>
 
         <Button

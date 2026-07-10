@@ -26,12 +26,16 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     private void OnNewFrame(object sender, EventArgs e)
     {
         // Clamp max fps, WPF framerates is wonky sometimes...
-        const int minInterval = 1000 / Config.MaxSamplesPerSecond;
+        const int sampleInterval = 1000 / Config.MaxSamplesPerSecond;
 
         if (!State.IsEnabled || State.IsMinimized || State.IsDraggingOrResizing)
             return;
 
-        if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(minInterval))
+#if !RELEASE
+        if (Config.LogCaptureCount) StopwatchService.TrackCallRate();
+#endif
+
+        if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(sampleInterval))
             return;
         _lastUpdate = DateTime.UtcNow;
 
