@@ -12,8 +12,8 @@ public static class ScreenCaptureService
 {
     private const int SRCCOPY = 0x00CC0020;
     private static WriteableBitmap? _reusableBitmap;
-    private static int _fullscreenZoomViewSourceLeft;
-    private static int _fullscreenZoomViewSourceTop;
+    private static int _fullscreenImageLeft;
+    private static int _fullscreenImageTop;
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -23,47 +23,71 @@ public static class ScreenCaptureService
 
         if (Win32Api.TryGetMonitorBoundsFromPoint(targetPoint, out int left, out int top, out int width, out int height))
         {
+            _fullscreenImageLeft = left;
+            _fullscreenImageTop = top;
             int centerX = left + (width / 2);
             int centerY = top + (height / 2);
 
-            StopwatchService.Start(20);
-            var image = GetImage(centerX, centerY, width, height);
-            StopwatchService.Stop();
-
-            return image;
+            return GetImage(centerX, centerY, width, height);
         }
 
-        // Fallback to primary monitor when monitor lookup fails. todo
+        // Fallback to primary monitor if monitor lookup fails
+        _fullscreenImageLeft = 0;
+        _fullscreenImageTop = 0;
         int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
         int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
+
         return GetImage(screenWidth / 2, screenHeight / 2, screenWidth, screenHeight);
     }
 
-    public static (BitmapSource croppedImage, byte R, byte G, byte B) GetCroppedImageWithCenterColor(
+    public static (BitmapSource croppedImage, byte R, byte G, byte B) GetPausedImageWithCenterColor(
         BitmapSource fullscreenCapture,
         POINT point,
         int width,
         int height)
     {
-        int maxX = Math.Max(0, fullscreenCapture.PixelWidth - width);
-        int maxY = Math.Max(0, fullscreenCapture.PixelHeight - height);
+        int sourceX = point.X - _fullscreenImageLeft - (width / 2);
+        int sourceY = point.Y - _fullscreenImageTop - (height / 2);
 
-        int sourceX = point.X - _fullscreenZoomViewSourceLeft - (width / 2);
-        int sourceY = point.Y - _fullscreenZoomViewSourceTop - (height / 2);
+        var output = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
 
-        sourceX = Math.Clamp(sourceX, 0, maxX);
-        sourceY = Math.Clamp(sourceY, 0, maxY);
+        int destX = Math.Max(0, -sourceX);
+        int destY = Math.Max(0, -sourceY);
+        int copySourceX = Math.Max(0, sourceX);
+        int copySourceY = Math.Max(0, sourceY);
 
-        var crop = new CroppedBitmap(fullscreenCapture, new Int32Rect(sourceX, sourceY, width, height));
+        int copyWidth = Math.Min(fullscreenCapture.PixelWidth - copySourceX, width - destX);
+        int copyHeight = Math.Min(fullscreenCapture.PixelHeight - copySourceY, height - destY);
+
+        if (copyWidth > 0 && copyHeight > 0)
+        {
+            int stride = copyWidth * 4;
+            var pixels = new byte[stride * copyHeight];
+
+            fullscreenCapture.CopyPixels(
+                new Int32Rect(copySourceX, copySourceY, copyWidth, copyHeight),
+                pixels,
+                stride,
+                0);
+
+            output.WritePixels(new Int32Rect(destX, destY, copyWidth, copyHeight), pixels, stride, 0);
+        }
 
         var centerPixel = new byte[4];
-        crop.CopyPixels(new Int32Rect(width / 2, height / 2, 1, 1), centerPixel, 4, 0);
+        int centerSourceX = point.X - _fullscreenImageLeft;
+        int centerSourceY = point.Y - _fullscreenImageTop;
+
+        if (centerSourceX >= 0 && centerSourceX < fullscreenCapture.PixelWidth &&
+            centerSourceY >= 0 && centerSourceY < fullscreenCapture.PixelHeight)
+        {
+            fullscreenCapture.CopyPixels(new Int32Rect(centerSourceX, centerSourceY, 1, 1), centerPixel, 4, 0);
+        }
 
         byte b = centerPixel[0];
         byte g = centerPixel[1];
         byte r = centerPixel[2];
 
-        return (crop, r, g, b);
+        return (output, r, g, b);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -27,7 +27,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        // Spaghetti
+        // Spaghetti this whole thing :)
         CurrentColorType = State.CurrentColorType;
 
         ZoomLevel = State.SetZoomLevelOnStartup
@@ -84,7 +84,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ToggleEnabled_Click(object sender, MouseButtonEventArgs e)
     {
-        // ColorView has broad click area, ignore clicks that originated from child buttons
+        // Ignore clicks that originated from child buttons
         if (ReferenceEquals(sender, ColorView) && e.OriginalSource is DependencyObject source)
         {
             if (FindAncestor<Border>(source, DropdownButton) || FindAncestor<Border>(source, CopyButton))
@@ -103,8 +103,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         if (State.IsEnabled) return;
 
-        // Save whole screen where the crosshair in zoomview is located at 
-        _fullscreenImage = ScreenCaptureService.GetFullScreenImage(_lastMousePos.X, _lastMousePos.Y);
+        // Wait 1 frame to let WPF + DWM present updated UI before capturing fullscreen image
+        ScheduleFullscreenCaptureOnNextRender();
 
         // Auto copy selected colorcode to clipboard when capture is paused if enabled in settings
         if (State.AutoCopyToClipboard)
@@ -176,9 +176,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ZoomView_MouseDown(object sender, MouseButtonEventArgs e)
     {
-        // Only allow dragging after capture
-        if (State.IsEnabled) return;
-
         if (e.LeftButton == MouseButtonState.Pressed)
         {
             _isDragging = true;
@@ -207,10 +204,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         _lastMousePos.X = targetX;
         _lastMousePos.Y = targetY;
 
-        // todo
-        StopwatchService.Start(20, "Move Zoom Target");
         UpdateUI(_lastMousePos);
-        StopwatchService.Stop();
     }
 
     private void ZoomView_MouseUp(object sender, MouseButtonEventArgs e)
@@ -274,9 +268,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return; */
         _lastMousePos = point;
 
-        StopwatchService.Start(100, "UpdateUI");
         UpdateUI(point);
-        StopwatchService.Stop();
     }
 
     private void UpdateUI(POINT point)
@@ -305,7 +297,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (_fullscreenImage == null) return;
 
         // Grab a small image around the cursor from the saved fullscreen image and update zoomview and color preview
-        var (croppedImage, r, g, b) = ScreenCaptureService.GetCroppedImageWithCenterColor(_fullscreenImage, point, width, height);
+        var (croppedImage, r, g, b) = ScreenCaptureService.GetPausedImageWithCenterColor(_fullscreenImage, point, width, height);
 
         ZoomView.Source = croppedImage;
         UpdateColors(r, g, b);
@@ -322,18 +314,15 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (State.IsEnabled)
         {
             ZoomView.Source = ScreenCaptureService.GetImage(point.X, point.Y, width, height);
-            return;
         }
 
         // Paused capture, use the saved fullscreen image to update zoomview
-        if (_fullscreenImage != null)
+        else if (_fullscreenImage != null)
         {
-            var (croppedImage, _, _, _) = ScreenCaptureService.GetCroppedImageWithCenterColor(_fullscreenImage, point, width, height);
+            var (croppedImage, _, _, _) = ScreenCaptureService.GetPausedImageWithCenterColor(_fullscreenImage, point, width, height);
             ZoomView.Source = croppedImage;
         }
     }
-
-
 
     private void UpdateColors(byte r, byte g, byte b)
     {
@@ -361,14 +350,24 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ColorService.UpdateThemeColors(_invertedBrush);
     }
 
+    private void ScheduleFullscreenCaptureOnNextRender()
+    {
+        // Capture after two rendered frames to let WPF + DWM present updated UI. 
+        int renderTicks = 0;
+        void captureOnNextRender(object? s, EventArgs e)
+        {
+            if (renderTicks++ < 2) return;
 
+            CompositionTarget.Rendering -= captureOnNextRender;
 
+            if (State.IsEnabled) return;
 
+            _fullscreenImage = ScreenCaptureService.GetFullScreenImage(_lastMousePos.X, _lastMousePos.Y);
+            UpdateUI(_lastMousePos);
+        }
 
-
-
-
-
+        CompositionTarget.Rendering += captureOnNextRender;
+    }
 
     public void SetIsEnabled(bool enabled)
     {

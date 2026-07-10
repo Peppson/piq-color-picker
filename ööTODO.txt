@@ -1,4 +1,4 @@
-zoom view capture whole screen 
+
 max fps capture?
 
 welcome window?
