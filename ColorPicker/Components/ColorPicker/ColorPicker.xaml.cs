@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -21,37 +22,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
-    }
-
-    private void OnNewFrame(object sender, EventArgs e)
-    {
-        // Clamp max fps, WPF framerates is wonky sometimes...
-        const int sampleInterval = 1000 / Config.MaxSamplesPerSecond;
-
-        if (!State.IsEnabled || State.IsMinimized || State.IsDraggingOrResizing)
-            return;
-
-#if !RELEASE
-#pragma warning disable CS0162
-        if (Config.LogCaptureCount) StopwatchService.TrackFunctionCallRate();
-#pragma warning restore CS0162
-#endif
-
-        if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(sampleInterval))
-            return;
-        _lastUpdate = DateTime.UtcNow;
-
-        if (!Win32Api.GetCursorPos(out POINT point))
-            return;
-
-        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(point.X, point.Y))
-            return;
-
-        if (_lastMousePos.X == point.X && _lastMousePos.Y == point.Y)
-            return;
-        _lastMousePos = point;
-
-        UpdateColors(point);
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
@@ -146,7 +116,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         // Arrow keys
         HandleArrowKeyMovement(sender, e);
 
-        UpdateColors(_lastMousePos);
+        UpdateUI(_lastMousePos);
         e.Handled = true;
     }
 
@@ -245,8 +215,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         _lastMousePos.X = targetX;
         _lastMousePos.Y = targetY;
 
-        UpdateZoomView(_lastMousePos, ZoomLevel);
-        UpdateColors(_lastMousePos);
+        UpdateUI(_lastMousePos);
     }
 
     private void ZoomView_MouseUp(object sender, MouseButtonEventArgs e)
@@ -262,24 +231,60 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         }
     }
 
-    private void UpdateZoomView(POINT p, int zoom)
+    private void OnNewFrame(object sender, EventArgs e)
     {
-        var invertedZoom = Math.Clamp(100 - zoom, 1, 100);
-        //StopwatchService.Start(200);
-        ZoomView.Source = ScreenCaptureService.GetRegion(p.X, p.Y, invertedZoom, invertedZoom);
-        //StopwatchService.Stop();
+        // Clamp max fps, WPF framerates is wonky sometimes...
+        const double sampleInterval = 1000.0 / Config.MaxSamplesPerSecond;
+
+        if (!State.IsEnabled || State.IsMinimized || State.IsDraggingOrResizing)
+            return;
+
+        /* if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(sampleInterval))
+            return;
+        _lastUpdate = DateTime.UtcNow; */ //todo
+
+
+        // todo
+        if (done)
+        {
+            Console.WriteLine("Done");
+            return;
+        }
+
+
+#if !RELEASE
+#pragma warning disable CS0162
+        if (Config.LogCaptureCount) StopwatchService.TrackFunctionCallRate();
+#pragma warning restore CS0162
+#endif
+        if (!Win32Api.GetCursorPos(out POINT point))
+            return;
+
+        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(point.X, point.Y))
+            return;
+
+        /* if (_lastMousePos.X == point.X && _lastMousePos.Y == point.Y)
+            return; */
+        _lastMousePos = point;
+
+        StopwatchService.Start(100);
+        UpdateUI(point);
+        StopwatchService.Stop();
     }
 
-    private void UpdateColors(POINT p)
+    private void UpdateUI(POINT p)
     {
-        byte r, g, b;
-        (r, g, b) = ColorService.GetColorAtPos(p);
+        var zoomLevel = Math.Clamp(100 - _zoomLevel, 1, 100);
+        var height = zoomLevel;
+        var width = zoomLevel;
 
-        // ZoomView
-        UpdateZoomView(p, _zoomLevel);
+        var (capturedImage, r, g, b) = ScreenCaptureService.GetCapturedImageWithCenterColor(p.X, p.Y, width, height);
 
-        if (ColorService.IsSameColor(_currentBrush, r, g, b)) return;
+        if (ColorService.IsSameColor(_currentBrush, r, g, b))
+            return;
 
+        // Colors 
+        ZoomView.Source = capturedImage;
         _currentBrush.Color = Color.FromRgb(r, g, b);
         _invertedBrush.Color = ColorService.GetInvertedColor(r, g, b);
 
@@ -287,6 +292,20 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ColorService.UpdatePreviewView(_currentBrush);
         ColorService.UpdateTextContent(r, g, b, CurrentColorType);
         ColorService.UpdateThemeColors(_invertedBrush);
+    }
+
+
+    bool done = false; // todo
+
+    private void UpdateZoomView(POINT p, int zoom)
+    {
+        var zoomLevel = Math.Clamp(100 - zoom, 1, 100);
+        var height = zoomLevel;
+        var width = zoomLevel;
+        //ZoomView.Source = ScreenCaptureService.GetCapturedImage(p.X, p.Y, width, height);
+        ZoomView.Source = ScreenCaptureService.GetCapturedImageFullScreen();
+
+        done = true;
     }
 
     private void UpdateColorsStatic()
@@ -309,7 +328,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         _lastMousePos.X = window.Left - 1;
         _lastMousePos.Y = window.Bottom;
 
-        UpdateColors(_lastMousePos);
+        UpdateUI(_lastMousePos);
     }
 
     public string GetColorType()

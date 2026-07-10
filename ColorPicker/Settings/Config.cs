@@ -8,7 +8,7 @@ public static class Config
     public const bool IsWelcomeWindowEnabled = false;
 
     // Debug
-    public static readonly bool? IsEnabledOverride = false; // null = disabled
+    public static readonly bool? IsEnabledOverride = null; // null = disabled
     public const bool ShowDebugbutton = false;
     public const bool BootSettingsWindow = false;
     public const bool BootWelcomeWindow = false;
@@ -17,7 +17,7 @@ public static class Config
 
     // Constants
     public const string GithubLink = "https://github.com/Peppson/color-grab";
-    public const int MaxSamplesPerSecond = 120;
+    public const int MaxSamplesPerSecond = 1120; // todo
     public const int InitialZoomLevel = 19;
     public const double MinZoomLevel = 11; // Uneven needed for px centering
     public const double MaxZoomLevel = 91;

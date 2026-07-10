@@ -16,12 +16,11 @@ public static class ColorService
         _picker = pickerInstance;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] // todo unused?
     public static (byte, byte, byte) GetColorAtPos(POINT p)
     {
         IntPtr hdc = Win32Api.GetDC(IntPtr.Zero);
-        uint color = Win32Api.GetPixel(hdc, p.X, p.Y);
-
+        uint color = Win32Api.GetPixel(hdc, p.X, p.Y); // 3.7ms todo
         _ = Win32Api.ReleaseDC(IntPtr.Zero, hdc);
 
         byte r = (byte)(color & 0x000000FF);
