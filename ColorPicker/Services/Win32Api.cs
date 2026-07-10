@@ -46,4 +46,10 @@ public static partial class Win32Api
         int nXSrc,
         int nYSrc,
         int dwRop);
+
+    internal static IntPtr PreventMaximize(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        handled = (msg == 0x00A3);
+        return IntPtr.Zero;
+    }
 }

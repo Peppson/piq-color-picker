@@ -45,7 +45,7 @@ public partial class MainWindow : Window
     {
         // Prevent maximize from doubleclick on titlebar
         var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
-        hwndSource.AddHook(PreventMaximize);
+        hwndSource.AddHook(Win32Api.PreventMaximize);
 
         if (!GlobalHotkeyManager.Register(this, State.GlobalHotkey!)) State.GlobalHotkey = "";
     }
@@ -55,10 +55,7 @@ public partial class MainWindow : Window
         SetupWindowDragTimer();
 
 #pragma warning disable CS0162
-        if (Config.IsWelcomeWindowEnabled)
-        {
-            IsFirstBootWindow();
-        }
+        if (Config.IsWelcomeWindowEnabled) IsFirstBootWindow();
 #pragma warning restore CS0162
 
         State.IsFirstBoot = false;
@@ -75,7 +72,6 @@ public partial class MainWindow : Window
         State.IsDraggingOrResizing = true;
         _dragTimer.Stop();
         _dragTimer.Start();
-        State.UpdateMainWindowPos();
     }
 
     private void OnWindowClose(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -112,17 +108,13 @@ public partial class MainWindow : Window
 
     private void SetupWindowDragTimer()
     {
-        _dragTimer.Interval = TimeSpan.FromMilliseconds(25);
+        _dragTimer.Interval = TimeSpan.FromMilliseconds(50);
+
         _dragTimer.Tick += (s, e) =>
         {
             _dragTimer.Stop();
             State.IsDraggingOrResizing = false;
+            State.UpdateMainWindowPos();
         };
-    }
-
-    private IntPtr PreventMaximize(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-    {
-        handled = (msg == 0x00A3);
-        return IntPtr.Zero;
     }
 }

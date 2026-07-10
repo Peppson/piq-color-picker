@@ -34,14 +34,14 @@ public partial class WindowTitleBar : UserControl
 
         if (State.IsSettingsOpen)
         {
-            State.MainWindow.ColorPicker.DisableInput();
+            State.MainWindow.ColorPicker.DisableInputCallbacks();
             State.MainWindow.SettingsWindow.RefreshHotkeyInput();
             State.MainWindow.ColorPicker.Visibility = Visibility.Collapsed;
             State.MainWindow.SettingsWindow.Visibility = Visibility.Visible;
         }
         else
         {
-            State.MainWindow.ColorPicker.EnableInput();
+            State.MainWindow.ColorPicker.SetupInputCallbacks();
             State.MainWindow.SettingsWindow.Reset();
             State.MainWindow.ColorPicker.Visibility = Visibility.Visible;
             State.MainWindow.SettingsWindow.Visibility = Visibility.Collapsed;

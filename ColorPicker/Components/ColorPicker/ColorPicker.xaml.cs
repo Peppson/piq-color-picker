@@ -32,36 +32,38 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return;
 
 #if !RELEASE
-        if (Config.LogCaptureCount) StopwatchService.TrackCallRate();
+#pragma warning disable CS0162
+        if (Config.LogCaptureCount) StopwatchService.TrackFunctionCallRate();
+#pragma warning restore CS0162
 #endif
 
         if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(sampleInterval))
             return;
         _lastUpdate = DateTime.UtcNow;
 
-        if (!Win32Api.GetCursorPos(out POINT p))
+        if (!Win32Api.GetCursorPos(out POINT point))
             return;
 
-        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(p.X, p.Y))
+        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(point.X, point.Y))
             return;
 
-        if (_lastMousePos.X == p.X && _lastMousePos.Y == p.Y)
+        if (_lastMousePos.X == point.X && _lastMousePos.Y == point.Y)
             return;
-        _lastMousePos = p;
+        _lastMousePos = point;
 
-        UpdateColors(p);
+        UpdateColors(point);
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        // Spagetthi
+        // Spaghetti
         CurrentColorType = State.CurrentColorType;
 
         ZoomLevel = State.SetZoomLevelOnStartup
             ? State.ZoomLevel
             : Config.InitialZoomLevel;
 
-        EnableInput();
+        SetupInputCallbacks();
         RegisterSliderParts();
         SetIsEnabledIcon(State.IsEnabled);
         UpdateColorsStatic();
@@ -69,7 +71,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void OnUnloaded(object? sender, RoutedEventArgs e)
     {
-        State.MainWindow.PreviewKeyDown -= ColorPicker_Keyboard_Click;
+        DisableInputCallbacks();
     }
 
     private void DropdownButton_Click(object sender, MouseButtonEventArgs e)
@@ -120,20 +122,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         ToggleIsEnabled();
         e.Handled = true;
-    }
-
-    private static bool FindAncestor<T>(DependencyObject source, T target) where T : DependencyObject
-    {
-        DependencyObject? current = source;
-        while (current != null)
-        {
-            if (ReferenceEquals(current, target))
-                return true;
-
-            current = VisualTreeHelper.GetParent(current);
-        }
-
-        return false;
     }
 
     private void ColorPicker_Keyboard_Click(object sender, KeyEventArgs e)
@@ -318,7 +306,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return;
 
         var window = State.MainWindowPos;
-
         _lastMousePos.X = window.Left - 1;
         _lastMousePos.Y = window.Bottom;
 
@@ -330,7 +317,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         return CurrentColorType.ToString();
     }
 
-    public void EnableInput()
+    public void SetupInputCallbacks()
     {
         State.MainWindow.PreviewKeyDown += ColorPicker_Keyboard_Click;
         CompositionTarget.Rendering += OnNewFrame!;
@@ -339,9 +326,13 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ZoomView.MouseDown += ZoomView_MouseDown;
         ZoomView.MouseMove += ZoomView_MouseMove;
         ZoomView.MouseUp += ZoomView_MouseUp;
+
+#if !RELEASE
+        CompositionTarget.Rendering += OnRenderingDebug;
+#endif
     }
 
-    public void DisableInput()
+    public void DisableInputCallbacks()
     {
         State.MainWindow.PreviewKeyDown -= ColorPicker_Keyboard_Click;
         CompositionTarget.Rendering -= OnNewFrame!;
@@ -350,6 +341,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         ZoomView.MouseDown -= ZoomView_MouseDown;
         ZoomView.MouseMove -= ZoomView_MouseMove;
         ZoomView.MouseUp -= ZoomView_MouseUp;
+
+#if !RELEASE
+        CompositionTarget.Rendering -= OnRenderingDebug;
+#endif
     }
 
     private void RegisterSliderParts()
@@ -371,4 +366,28 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             }
         }
     }
+
+    private static bool FindAncestor<T>(DependencyObject source, T target) where T : DependencyObject
+    {
+        DependencyObject? current = source;
+        while (current != null)
+        {
+            if (ReferenceEquals(current, target))
+                return true;
+
+            current = VisualTreeHelper.GetParent(current);
+        }
+
+        return false;
+    }
+
+#if !RELEASE
+    private void OnRenderingDebug(object? sender, EventArgs e)
+    {
+        if (Config.LogFPS && e is RenderingEventArgs renderingArgs)
+        {
+            StopwatchService.TrackRenderFps(renderingArgs.RenderingTime);
+        }
+    }
+#endif
 }
