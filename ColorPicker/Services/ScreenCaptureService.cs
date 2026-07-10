@@ -21,7 +21,7 @@ public static class ScreenCaptureService
     {
         var targetPoint = new POINT { X = targetX, Y = targetY };
 
-        if (Win32Api.TryGetMonitorBoundsFromPoint(targetPoint, out int left, out int top, out int width, out int height))
+        if (TryGetMonitorBoundsFromPoint(targetPoint, out int left, out int top, out int width, out int height))
         {
             _fullscreenImageLeft = left;
             _fullscreenImageTop = top;
@@ -193,5 +193,28 @@ public static class ScreenCaptureService
         }
 
         return (_reusableBitmap, centerR, centerG, centerB);
+    }
+
+    internal static bool TryGetMonitorBoundsFromPoint(POINT point, out int left, out int top, out int width, out int height)
+    {
+        left = 0;
+        top = 0;
+        width = 0;
+        height = 0;
+
+        IntPtr monitor = Win32Api.MonitorFromPoint(point, Win32Api.MONITOR_DEFAULTTONEAREST);
+        if (monitor == IntPtr.Zero)
+            return false;
+
+        var monitorInfo = new Win32Api.MONITORINFO { cbSize = Marshal.SizeOf<Win32Api.MONITORINFO>() };
+        if (!Win32Api.GetMonitorInfo(monitor, ref monitorInfo))
+            return false;
+
+        left = monitorInfo.rcMonitor.Left;
+        top = monitorInfo.rcMonitor.Top;
+        width = monitorInfo.rcMonitor.Right - monitorInfo.rcMonitor.Left;
+        height = monitorInfo.rcMonitor.Bottom - monitorInfo.rcMonitor.Top;
+
+        return width > 0 && height > 0;
     }
 }
