@@ -14,13 +14,27 @@ public static class ScreenCaptureService
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static BitmapSource GetCapturedImageFullScreen()
+    public static BitmapSource GetCapturedImageFullScreen(int targetX, int targetY)
     {
-        var screenWidth = (int)SystemParameters.PrimaryScreenWidth;
-        var screenHeight = (int)SystemParameters.PrimaryScreenHeight;
+        var targetPoint = new Models.POINT { X = targetX, Y = targetY };
 
-        Console.WriteLine($"Screen width: {screenWidth}, height: {screenHeight}");
+        if (Win32Api.TryGetMonitorBoundsFromPoint(targetPoint, out int left, out int top, out int width, out int height))
+        {
+            int centerX = left + (width / 2);
+            int centerY = top + (height / 2);
 
+            StopwatchService.Start(20);
+            var image = GetCapturedImage(centerX, centerY, width, height);
+            StopwatchService.Stop();
+
+
+            return image;
+            //return GetCapturedImage(centerX, centerY, width, height);
+        }
+
+        // Fallback to primary monitor when monitor lookup fails.
+        int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
+        int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
         return GetCapturedImage(screenWidth / 2, screenHeight / 2, screenWidth, screenHeight);
     }
 

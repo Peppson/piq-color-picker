@@ -247,7 +247,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         // todo
         if (done)
         {
-            Console.WriteLine("Done");
             return;
         }
 
@@ -279,12 +278,12 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         var width = zoomLevel;
 
         var (capturedImage, r, g, b) = ScreenCaptureService.GetCapturedImageWithCenterColor(p.X, p.Y, width, height);
+        ZoomView.Source = capturedImage;
 
         if (ColorService.IsSameColor(_currentBrush, r, g, b))
             return;
 
         // Colors 
-        ZoomView.Source = capturedImage;
         _currentBrush.Color = Color.FromRgb(r, g, b);
         _invertedBrush.Color = ColorService.GetInvertedColor(r, g, b);
 
@@ -302,8 +301,11 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         var zoomLevel = Math.Clamp(100 - zoom, 1, 100);
         var height = zoomLevel;
         var width = zoomLevel;
+
         //ZoomView.Source = ScreenCaptureService.GetCapturedImage(p.X, p.Y, width, height);
-        ZoomView.Source = ScreenCaptureService.GetCapturedImageFullScreen();
+
+
+        ZoomView.Source = ScreenCaptureService.GetCapturedImageFullScreen(p.X, p.Y);
 
         done = true;
     }
