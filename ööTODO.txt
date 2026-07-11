@@ -1,7 +1,5 @@
-test on laptop
 
-max fps on zoom and move zoomview?
-
+copy right colors 
 screen capture gpu white outlines fix
 
 welcome window?

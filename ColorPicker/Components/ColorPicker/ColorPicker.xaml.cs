@@ -154,9 +154,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         else if (e.Key == Key.Down)
             nextY++;
 
-        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(nextX, nextY))
-            return;
-
         _lastMousePos.X = nextX;
         _lastMousePos.Y = nextY;
         e.Handled = true;
@@ -181,8 +178,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         _isDragging = true;
         Mouse.OverrideCursor = Cursors.None;
 
-        if (Win32Api.GetCursorPos(out _dragStartMouse))
-            _dragStartPos = _lastMousePos;
+        if (Win32Api.GetCursorPos(out _dragStartMouse)) _dragStartPos = _lastMousePos;
 
         ZoomView.CaptureMouse();
     }
@@ -195,8 +191,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         int dy = currentMouse.Y - _dragStartMouse.Y;
         int targetX = _dragStartPos.X - dx;
         int targetY = _dragStartPos.Y - dy;
-
-        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(targetX, targetY)) return;
 
         _lastMousePos.X = targetX;
         _lastMousePos.Y = targetY;

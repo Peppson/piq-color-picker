@@ -54,7 +54,7 @@
                     Cursor="Hand"
                     ToolTipService.InitialShowDelay="0">
                     <Border.ToolTip>
-                        <TextBlock> Zoom view<LineBreak /> ● Drag with mouse left-click<LineBreak />
+                        <TextBlock> Post capture<LineBreak /> ● Drag with mouse left-click<LineBreak />
                             ● Move with arrow keys<LineBreak /> ● Adjust zoom level</TextBlock>
                     </Border.ToolTip>
                     <fa:ImageAwesome
