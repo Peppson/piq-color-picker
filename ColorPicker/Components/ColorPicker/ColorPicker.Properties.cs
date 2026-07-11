@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -63,12 +64,13 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     public Border? Slider_1 { get; set; }
     public RepeatButton? Slider_2 { get; set; }
     public RepeatButton? Slider_3 { get; set; }
+    private Window? _inputHostWindow;
+    private bool _inputCallbacksRegistered = false;
     private bool _isDragging = false;
     private bool _copyCurrentColor = false;
     private POINT _dragStartMouse;
     private POINT _dragStartPos;
     private POINT _lastMousePos;
-    private DateTime _lastUpdate = DateTime.UtcNow;
     private SolidColorBrush _currentBrush = new(Colors.White);
     private SolidColorBrush _invertedBrush = new(Colors.Black);
     private System.Windows.Media.Imaging.BitmapSource? _fullscreenImage = null;

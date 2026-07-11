@@ -389,7 +389,12 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     public void SetupInputCallbacks()
     {
-        State.MainWindow.PreviewKeyDown += ColorPicker_Keyboard_Click;
+        if (_inputCallbacksRegistered) return;
+
+        _inputHostWindow = Window.GetWindow(this);
+        if (_inputHostWindow == null) return;
+
+        _inputHostWindow.PreviewKeyDown += ColorPicker_Keyboard_Click;
         CompositionTarget.Rendering += OnNewFrame!;
 
         ZoomView.MouseWheel += ZoomView_MouseWheel;
@@ -400,11 +405,16 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 #if !RELEASE
         CompositionTarget.Rendering += OnRenderingDebug;
 #endif
+
+        _inputCallbacksRegistered = true;
     }
 
     public void DisableInputCallbacks()
     {
-        State.MainWindow.PreviewKeyDown -= ColorPicker_Keyboard_Click;
+        if (!_inputCallbacksRegistered) return;
+
+        _inputHostWindow?.PreviewKeyDown -= ColorPicker_Keyboard_Click;
+
         CompositionTarget.Rendering -= OnNewFrame!;
 
         ZoomView.MouseWheel -= ZoomView_MouseWheel;
@@ -415,6 +425,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 #if !RELEASE
         CompositionTarget.Rendering -= OnRenderingDebug;
 #endif
+
+        _inputHostWindow = null;
+        _inputCallbacksRegistered = false;
     }
 
     private void RegisterSliderParts()
@@ -427,8 +440,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             track.IncreaseRepeatButton.ApplyTemplate();
             track.Thumb.ApplyTemplate();
 
-            Slider_2 = track.DecreaseRepeatButton as RepeatButton;
-            Slider_3 = track.IncreaseRepeatButton as RepeatButton;
+            Slider_2 = track.DecreaseRepeatButton;
+            Slider_3 = track.IncreaseRepeatButton;
 
             if (track.Thumb.Template.FindName("PART_ThumbBorder", track.Thumb) is Border thumbBorder)
             {

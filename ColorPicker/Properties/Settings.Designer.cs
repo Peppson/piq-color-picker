@@ -8,187 +8,150 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ColorPicker.Properties
-{
-
-
+namespace ColorPicker.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "18.7.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double WindowTop
-        {
-            get
-            {
+        public double WindowTop {
+            get {
                 return ((double)(this["WindowTop"]));
             }
-            set
-            {
+            set {
                 this["WindowTop"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double WindowLeft
-        {
-            get
-            {
+        public double WindowLeft {
+            get {
                 return ((double)(this["WindowLeft"]));
             }
-            set
-            {
+            set {
                 this["WindowLeft"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("HEX")]
-        public string ColorType
-        {
-            get
-            {
+        public string ColorType {
+            get {
                 return ((string)(this["ColorType"]));
             }
-            set
-            {
+            set {
                 this["ColorType"] = value;
             }
         }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool AutoCopyToClipboard
-        {
-            get
-            {
-                return ((bool)(this["AutoCopyToClipboard"]));
-            }
-            set
-            {
-                this["AutoCopyToClipboard"] = value;
-            }
-        }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CaptureColorOnSelf
-        {
-            get
-            {
+        public bool CaptureColorOnSelf {
+            get {
                 return ((bool)(this["CaptureColorOnSelf"]));
             }
-            set
-            {
+            set {
                 this["CaptureColorOnSelf"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsFirstBoot
-        {
-            get
-            {
+        public bool IsFirstBoot {
+            get {
                 return ((bool)(this["IsFirstBoot"]));
             }
-            set
-            {
+            set {
                 this["IsFirstBoot"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SetWindowPosOnStartup
-        {
-            get
-            {
+        public bool SetWindowPosOnStartup {
+            get {
                 return ((bool)(this["SetWindowPosOnStartup"]));
             }
-            set
-            {
+            set {
                 this["SetWindowPosOnStartup"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string GlobalHotkey
-        {
-            get
-            {
+        public string GlobalHotkey {
+            get {
                 return ((string)(this["GlobalHotkey"]));
             }
-            set
-            {
+            set {
                 this["GlobalHotkey"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool GlobalHotkeyEnabled
-        {
-            get
-            {
+        public bool GlobalHotkeyEnabled {
+            get {
                 return ((bool)(this["GlobalHotkeyEnabled"]));
             }
-            set
-            {
+            set {
                 this["GlobalHotkeyEnabled"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SetZoomLevelOnStartup
-        {
-            get
-            {
+        public bool SetZoomLevelOnStartup {
+            get {
                 return ((bool)(this["SetZoomLevelOnStartup"]));
             }
-            set
-            {
+            set {
                 this["SetZoomLevelOnStartup"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("19")]
-        public int ZoomLevel
-        {
-            get
-            {
+        public int ZoomLevel {
+            get {
                 return ((int)(this["ZoomLevel"]));
             }
-            set
-            {
+            set {
                 this["ZoomLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoCopyToClipboard {
+            get {
+                return ((bool)(this["AutoCopyToClipboard"]));
+            }
+            set {
+                this["AutoCopyToClipboard"] = value;
             }
         }
     }
