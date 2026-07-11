@@ -38,7 +38,7 @@ public static class StopwatchService
         if (_counter >= _sampleSize)
         {
             var avg = _sum / _counter;
-            Console.WriteLine($"{_txt} Samples: {_counter}, AVG: {avg:F2} ms");
+            Console.WriteLine($"{_txt}: {_counter} | Enabled: {State.IsEnabled} | AVG: {avg:F2}ms");
             _counter = 0;
             _sum = 0;
         }

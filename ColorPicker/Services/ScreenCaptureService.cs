@@ -16,18 +16,16 @@ public static class ScreenCaptureService
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static BitmapSource GetFullScreenImage(int targetX, int targetY)
+    public static BitmapSource GetFullScreenImage(POINT targetPoint)
     {
-        var targetPoint = new POINT { X = targetX, Y = targetY };
-
-        if (TryGetMonitorBoundsFromPoint(targetPoint, out int left, out int top, out int width, out int height))
+        if (TryGetMonitorBounds(targetPoint, out int left, out int top, out int width, out int height))
         {
             _fullscreenImageLeft = left;
             _fullscreenImageTop = top;
             int centerX = left + (width / 2);
             int centerY = top + (height / 2);
 
-            return GetImage(centerX, centerY, width, height);
+            return GetImageWithCenterColor(centerX, centerY, width, height).Bitmap;
         }
 
         // Fallback to primary monitor if monitor lookup fails
@@ -36,7 +34,7 @@ public static class ScreenCaptureService
         int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
         int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
 
-        return GetImage(screenWidth / 2, screenHeight / 2, screenWidth, screenHeight);
+        return GetImageWithCenterColor(screenWidth / 2, screenHeight / 2, screenWidth, screenHeight).Bitmap;
     }
 
     public static (BitmapSource croppedImage, byte R, byte G, byte B) GetPausedImageWithCenterColor(
@@ -90,74 +88,15 @@ public static class ScreenCaptureService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static BitmapSource GetImage(int x, int y, int width, int height)
-    {
-        if (ScreenCaptureGPUService.TryCaptureRegion(x, y, width, height, out BitmapSource duplicated))
-        {
-            //Console.WriteLine("Captured using GPU duplication.");
-            return duplicated;
-        }
-
-        //Console.WriteLine("Captured using GDI BitBlt fallback.");
-
-        // Reuse WriteableBitmap
-        if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
-        {
-            _reusableBitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
-        }
-
-        IntPtr hdcScreen = Win32Api.GetDC(IntPtr.Zero);
-        IntPtr hdcMem = IntPtr.Zero;
-        IntPtr hBitmap = IntPtr.Zero;
-        IntPtr hOld = IntPtr.Zero;
-
-        try
-        {
-            hdcMem = Win32Api.CreateCompatibleDC(hdcScreen);
-            hBitmap = Win32Api.CreateCompatibleBitmap(hdcScreen, width, height);
-            hOld = Win32Api.SelectObject(hdcMem, hBitmap);
-
-            int srcX = x - (width / 2);
-            int srcY = y - (height / 2);
-            Win32Api.BitBlt(hdcMem, 0, 0, width, height, hdcScreen, srcX, srcY, SRCCOPY);
-
-            var bmpSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            bmpSource.Freeze();
-
-            // Copy pixels into reusable WriteableBitmap
-            int stride = width * 4;
-            var pixels = new byte[stride * height];
-            bmpSource.CopyPixels(pixels, stride, 0);
-
-            _reusableBitmap.Lock();
-            _reusableBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
-            _reusableBitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
-            _reusableBitmap.Unlock();
-
-            return _reusableBitmap;
-        }
-        finally
-        {
-            if (hOld != IntPtr.Zero && hdcMem != IntPtr.Zero)
-                _ = Win32Api.SelectObject(hdcMem, hOld);
-            if (hBitmap != IntPtr.Zero)
-                _ = Win32Api.DeleteObject(hBitmap);
-            if (hdcMem != IntPtr.Zero)
-                _ = Win32Api.DeleteDC(hdcMem);
-            _ = Win32Api.ReleaseDC(IntPtr.Zero, hdcScreen);
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (BitmapSource Bitmap, byte R, byte G, byte B) GetImageWithCenterColor(int x, int y, int width, int height)
     {
+        // GPU accelerated screen capture using Desktop Duplication API
         if (ScreenCaptureGPUService.TryCaptureRegionWithCenterColor(x, y, width, height, out BitmapSource duplicated, out byte dr, out byte dg, out byte db))
         {
-            //Console.WriteLine("Captured using GPU duplication.");
             return (duplicated, dr, dg, db);
         }
 
-        //Console.WriteLine("Captured using GDI BitBlt fallback.");
+        Console.WriteLine("Fallback!!! "); // todo
 
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
@@ -216,7 +155,7 @@ public static class ScreenCaptureService
         }
     }
 
-    internal static bool TryGetMonitorBoundsFromPoint(POINT point, out int left, out int top, out int width, out int height)
+    internal static bool TryGetMonitorBounds(POINT point, out int left, out int top, out int width, out int height)
     {
         left = 0;
         top = 0;

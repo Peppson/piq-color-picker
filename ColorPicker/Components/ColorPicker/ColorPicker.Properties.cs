@@ -57,11 +57,12 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             : "Custom hotkey";
     public int ZoomPercent =>
         (_zoomLevel - (int)Config.MinZoomLevel) * 100 / ((int)Config.MaxZoomLevel - (int)Config.MinZoomLevel); // Ugly af
+
     public void RefreshHotkeyHint() => OnPropertyChanged(nameof(GlobalHotkeyHint));
+
     public Border? Slider_1 { get; set; }
     public RepeatButton? Slider_2 { get; set; }
     public RepeatButton? Slider_3 { get; set; }
-
     private bool _isDragging = false;
     private POINT _dragStartMouse;
     private POINT _dragStartPos;

@@ -14,7 +14,7 @@ public static class Config
 
     public const bool Log_RendererFPS = false;
     public const bool Log_UpdateUI_FunctionCallRate = false;
-    public const bool Log_UpdateUI_FPS = false;
+    public const bool Log_UpdateUI_FPS = true;
     public const bool Log_UpdateZoomView_FPS = true;
 
     // Constants

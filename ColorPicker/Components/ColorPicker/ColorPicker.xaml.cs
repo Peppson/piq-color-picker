@@ -321,7 +321,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         // Running capture, grab small image around the cursor and update zoomview live
         if (State.IsEnabled)
         {
-            ZoomView.Source = ScreenCaptureService.GetImage(point.X, point.Y, width, height);
+            ZoomView.Source = ScreenCaptureService.GetImageWithCenterColor(point.X, point.Y, width, height).Bitmap;
         }
 
         // Paused capture, use the saved fullscreen image to update zoomview
@@ -363,7 +363,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ScheduleFullscreenCaptureOnNextRender()
     {
-        // Capture after two rendered frames to let WPF + DWM present updated UI. 
+        // Capture after two rendered frames to let WPF + DWM present updated UI.
         int renderTicks = 0;
         void captureOnNextRender(object? s, EventArgs e)
         {
@@ -373,7 +373,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
             if (State.IsEnabled) return;
 
-            _fullscreenImage = ScreenCaptureService.GetFullScreenImage(_lastMousePos.X, _lastMousePos.Y);
+            var targetPoint = new POINT { X = _lastMousePos.X, Y = _lastMousePos.Y };
+            _fullscreenImage = ScreenCaptureService.GetFullScreenImage(targetPoint);
+
             UpdateUI(_lastMousePos);
         }
 
