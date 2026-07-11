@@ -26,8 +26,12 @@ public static class ScreenCaptureGPUService
     private static int _activeOutputBottom;
     private static int _stagingWidth;
     private static int _stagingHeight;
+    private static bool _hasCachedFrame;
+    private static byte _cachedR;
+    private static byte _cachedG;
+    private static byte _cachedB;
 
-    public static bool TryCaptureRegionWithCenterColor(int centerX, int centerY, int width, int height, out BitmapSource bitmap, out byte r, out byte g, out byte b)
+    public static bool GPU_GetImageWithCenterColor(int centerX, int centerY, int width, int height, out BitmapSource bitmap, out byte r, out byte g, out byte b)
     {
         lock (SyncRoot)
         {
@@ -48,7 +52,18 @@ public static class ScreenCaptureGPUService
             {
                 var acquireResult = _duplication!.AcquireNextFrame(0, out _, out IDXGIResource desktopResource);
                 if (acquireResult == Vortice.DXGI.ResultCode.WaitTimeout)
+                {
+                    if (_hasCachedFrame && _reusableBitmap != null)
+                    {
+                        bitmap = _reusableBitmap;
+                        r = _cachedR;
+                        g = _cachedG;
+                        b = _cachedB;
+                        return true;
+                    }
+
                     return false;
+                }
                 if (acquireResult.Failure)
                 {
                     RecreateDuplication();
@@ -81,6 +96,11 @@ public static class ScreenCaptureGPUService
                     b = System.Runtime.InteropServices.Marshal.ReadByte(mapped.DataPointer, centerOffset + 0);
                     g = System.Runtime.InteropServices.Marshal.ReadByte(mapped.DataPointer, centerOffset + 1);
                     r = System.Runtime.InteropServices.Marshal.ReadByte(mapped.DataPointer, centerOffset + 2);
+
+                    _cachedR = r;
+                    _cachedG = g;
+                    _cachedB = b;
+                    _hasCachedFrame = true;
                 }
                 finally
                 {
@@ -101,11 +121,6 @@ public static class ScreenCaptureGPUService
                     _duplication?.ReleaseFrame();
             }
         }
-    }
-
-    public static bool TryCaptureRegion(int centerX, int centerY, int width, int height, out BitmapSource bitmap)
-    {
-        return TryCaptureRegionWithCenterColor(centerX, centerY, width, height, out bitmap, out _, out _, out _);
     }
 
     private static bool EnsureDevice()
@@ -206,6 +221,7 @@ public static class ScreenCaptureGPUService
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
         {
             _reusableBitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
+            _hasCachedFrame = false;
         }
     }
 

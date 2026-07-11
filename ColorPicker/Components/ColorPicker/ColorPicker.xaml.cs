@@ -363,11 +363,11 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ScheduleFullscreenCaptureOnNextRender()
     {
-        // Capture after two rendered frames to let WPF + DWM present updated UI.
+        // Capture after 3 rendered frames to let WPF + DWM present updated UI.
         int renderTicks = 0;
         void captureOnNextRender(object? s, EventArgs e)
         {
-            if (renderTicks++ < 2) return;
+            if (renderTicks++ < 3) return;
 
             CompositionTarget.Rendering -= captureOnNextRender;
 

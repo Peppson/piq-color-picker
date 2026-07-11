@@ -16,6 +16,19 @@ public static class ScreenCaptureService
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static (BitmapSource Bitmap, byte R, byte G, byte B) GetImageWithCenterColor(int x, int y, int width, int height)
+    {
+        // GPU accelerated screen capture using Desktop Duplication API
+        if (ScreenCaptureGPUService.GPU_GetImageWithCenterColor(x, y, width, height, out BitmapSource duplicated, out byte dr, out byte dg, out byte db))
+            return (duplicated, dr, dg, db);
+
+        Console.WriteLine("Fallback!!! "); // todo
+
+        // Fallback to GDI-based screen capture if GPU capture fails
+        return GDI_GetImageWithCenterColor(x, y, width, height);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static BitmapSource GetFullScreenImage(POINT targetPoint)
     {
         if (TryGetMonitorBounds(targetPoint, out int left, out int top, out int width, out int height))
@@ -88,16 +101,8 @@ public static class ScreenCaptureService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static (BitmapSource Bitmap, byte R, byte G, byte B) GetImageWithCenterColor(int x, int y, int width, int height)
+    public static (BitmapSource Bitmap, byte R, byte G, byte B) GDI_GetImageWithCenterColor(int x, int y, int width, int height)
     {
-        // GPU accelerated screen capture using Desktop Duplication API
-        if (ScreenCaptureGPUService.TryCaptureRegionWithCenterColor(x, y, width, height, out BitmapSource duplicated, out byte dr, out byte dg, out byte db))
-        {
-            return (duplicated, dr, dg, db);
-        }
-
-        Console.WriteLine("Fallback!!! "); // todo
-
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
         {
