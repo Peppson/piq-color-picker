@@ -14,7 +14,7 @@
       <Value Profile="(Default)">HEX</Value>
     </Setting>
     <Setting Name="AutoCopyToClipboard" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">false</Value>
     </Setting>
     <Setting Name="CaptureColorOnSelf" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
