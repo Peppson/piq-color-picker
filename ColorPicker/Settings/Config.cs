@@ -4,7 +4,6 @@ namespace ColorPicker.Settings;
 
 public static class Config
 {
-    // Flags
     public const bool IsWelcomeWindowEnabled = false;
 
     // Debug
@@ -12,8 +11,11 @@ public static class Config
     public const bool ShowDebugbutton = false;
     public const bool BootSettingsWindow = false;
     public const bool BootWelcomeWindow = false;
-    public const bool LogCaptureCount = false;
-    public const bool LogFPS = false;
+
+    public const bool Log_RendererFPS = false;
+    public const bool Log_UpdateUI_FunctionCallRate = false;
+    public const bool Log_UpdateUI_FPS = false;
+    public const bool Log_UpdateZoomView_FPS = true;
 
     // Constants
     public const string GithubLink = "https://github.com/Peppson/color-grab";

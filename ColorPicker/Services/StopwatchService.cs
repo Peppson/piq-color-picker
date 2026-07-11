@@ -2,8 +2,6 @@ using System.Diagnostics;
 
 namespace ColorPicker.Services;
 
-#if !RELEASE 
-
 public static class StopwatchService
 {
     private static Stopwatch? _stopwatch;
@@ -17,6 +15,8 @@ public static class StopwatchService
     private static TimeSpan _renderWindowStart;
     private static bool _renderWindowInitialized;
 
+
+    [Conditional("DEBUG")]
     public static void Start(int sampleSize = 100, string txt = "")
     {
         _txt = txt;
@@ -25,6 +25,7 @@ public static class StopwatchService
         _stopwatch.Restart();
     }
 
+    [Conditional("DEBUG")]
     public static void Stop()
     {
         if (_stopwatch == null) return;
@@ -43,6 +44,7 @@ public static class StopwatchService
         }
     }
 
+    [Conditional("DEBUG")]
     public static void TrackFunctionCallRate([System.Runtime.CompilerServices.CallerMemberName] string caller = "")
     {
         _callCount++;
@@ -57,6 +59,7 @@ public static class StopwatchService
         }
     }
 
+    [Conditional("DEBUG")]
     public static void TrackRenderFps(TimeSpan renderingTime)
     {
         if (!_renderWindowInitialized)
@@ -78,5 +81,3 @@ public static class StopwatchService
         }
     }
 }
-
-#endif

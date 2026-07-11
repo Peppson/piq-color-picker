@@ -252,11 +252,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return;
         _lastUpdate = DateTime.UtcNow; */ //todo
 
-#if !RELEASE
 #pragma warning disable CS0162
-        if (Config.LogCaptureCount) StopwatchService.TrackFunctionCallRate();
+        if (Config.Log_UpdateUI_FunctionCallRate) StopwatchService.TrackFunctionCallRate();
 #pragma warning restore CS0162
-#endif
+
         if (!Win32Api.GetCursorPos(out POINT point))
             return;
 
@@ -268,15 +267,14 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return; */
         _lastMousePos = point;
 
-        StopwatchService.TrackFunctionCallRate(); //todo
-
-        //StopwatchService.Start(100, "UpdateUI");
         UpdateUI(point);
-        //StopwatchService.Stop();
     }
 
+#pragma warning disable CS0162
     private void UpdateUI(POINT point)
     {
+        if (Config.Log_UpdateUI_FPS) StopwatchService.Start(100, "UpdateUI");
+
         var zoomLevel = Math.Clamp(100 - _zoomLevel, 1, 100);
         var height = zoomLevel;
         var width = zoomLevel;
@@ -285,41 +283,42 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             UpdateUI_CaptureEnabled(point, height, width);
         else
             UpdateUI_CaptureDisabled(point, height, width);
+
+        if (Config.Log_UpdateUI_FPS) StopwatchService.Stop();
     }
+#pragma warning restore CS0162
 
     private void UpdateUI_CaptureEnabled(POINT point, int height, int width)
     {
-        StopwatchService.Start(50); // todo
-
         // Grab a small image around the cursor and update zoomview and color preview live
         var (capturedImage, r, g, b) = ScreenCaptureService.GetImageWithCenterColor(point.X, point.Y, width, height);
 
         ZoomView.Source = capturedImage;
         UpdateColors(r, g, b);
-
-        //ZoomView.Source = ScreenCaptureService.GetImage(point.X, point.Y, width, height);
-        StopwatchService.Stop();
     }
 
     private void UpdateUI_CaptureDisabled(POINT point, int height, int width)
     {
         if (_fullscreenImage == null) return;
 
-        // Grab a small image around the cursor from the saved fullscreen image and update zoomview and color preview
+        // Grab a small image around the cursor from the saved fullscreen image and update zoomview and color preview from that
         var (croppedImage, r, g, b) = ScreenCaptureService.GetPausedImageWithCenterColor(_fullscreenImage, point, width, height);
 
         ZoomView.Source = croppedImage;
         UpdateColors(r, g, b);
     }
 
+#pragma warning disable CS0162
     private void UpdateZoomView()
     {
+        if (Config.Log_UpdateZoomView_FPS) StopwatchService.Start(100, "UpdateZoomView");
+
         var zoom = Math.Clamp(100 - _zoomLevel, 1, 100);
         var height = zoom;
         var width = zoom;
         var point = _lastMousePos;
 
-        // Running capture, grab small image around the cursor and update zoomview
+        // Running capture, grab small image around the cursor and update zoomview live
         if (State.IsEnabled)
         {
             ZoomView.Source = ScreenCaptureService.GetImage(point.X, point.Y, width, height);
@@ -331,7 +330,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             var (croppedImage, _, _, _) = ScreenCaptureService.GetPausedImageWithCenterColor(_fullscreenImage, point, width, height);
             ZoomView.Source = croppedImage;
         }
+
+        if (Config.Log_UpdateZoomView_FPS) StopwatchService.Stop();
     }
+#pragma warning restore CS0162
 
     private void UpdateColors(byte r, byte g, byte b)
     {
@@ -462,7 +464,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 #if !RELEASE
     private void OnRenderingDebug(object? sender, EventArgs e)
     {
-        if (Config.LogFPS && e is RenderingEventArgs renderingArgs)
+        if (Config.Log_RendererFPS && e is RenderingEventArgs renderingArgs)
         {
             StopwatchService.TrackRenderFps(renderingArgs.RenderingTime);
         }

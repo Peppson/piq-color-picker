@@ -35,6 +35,19 @@ public static partial class Win32Api
     [LibraryImport("user32.dll")]
     internal static partial IntPtr GetDC(IntPtr hWnd);
 
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    internal static partial IntPtr CreateCompatibleDC(IntPtr hdc);
+
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    internal static partial IntPtr CreateCompatibleBitmap(IntPtr hdc, int nWidth, int nHeight);
+
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    internal static partial IntPtr SelectObject(IntPtr hdc, IntPtr hgdiobj);
+
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool DeleteDC(IntPtr hdc);
+
     [LibraryImport("gdi32.dll")]
     internal static partial uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
 

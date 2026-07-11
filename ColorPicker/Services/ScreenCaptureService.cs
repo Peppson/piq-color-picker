@@ -1,7 +1,6 @@
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System.Windows.Interop;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ColorPicker.Models;
@@ -95,11 +94,11 @@ public static class ScreenCaptureService
     {
         if (ScreenCaptureGPUService.TryCaptureRegion(x, y, width, height, out BitmapSource duplicated))
         {
-            Console.WriteLine("Captured using GPU duplication.");
+            //Console.WriteLine("Captured using GPU duplication.");
             return duplicated;
         }
 
-        Console.WriteLine("Captured using GDI BitBlt fallback.");
+        //Console.WriteLine("Captured using GDI BitBlt fallback.");
 
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
@@ -107,42 +106,46 @@ public static class ScreenCaptureService
             _reusableBitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
         }
 
-        using var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-        using (var g = Graphics.FromImage(bmp))
-        {
-            IntPtr hdcDest = g.GetHdc();
-            IntPtr hdcSrc = Win32Api.GetDC(IntPtr.Zero);
-
-            try
-            {
-                int srcX = x - (width / 2);
-                int srcY = y - (height / 2);
-                Win32Api.BitBlt(hdcDest, 0, 0, width, height, hdcSrc, srcX, srcY, SRCCOPY);
-            }
-            finally
-            {
-                _ = Win32Api.ReleaseDC(IntPtr.Zero, hdcSrc);
-                g.ReleaseHdc(hdcDest);
-            }
-        }
-
-        // Copy
-        var rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-        var bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, bmp.PixelFormat);
+        IntPtr hdcScreen = Win32Api.GetDC(IntPtr.Zero);
+        IntPtr hdcMem = IntPtr.Zero;
+        IntPtr hBitmap = IntPtr.Zero;
+        IntPtr hOld = IntPtr.Zero;
 
         try
         {
+            hdcMem = Win32Api.CreateCompatibleDC(hdcScreen);
+            hBitmap = Win32Api.CreateCompatibleBitmap(hdcScreen, width, height);
+            hOld = Win32Api.SelectObject(hdcMem, hBitmap);
+
+            int srcX = x - (width / 2);
+            int srcY = y - (height / 2);
+            Win32Api.BitBlt(hdcMem, 0, 0, width, height, hdcScreen, srcX, srcY, SRCCOPY);
+
+            var bmpSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            bmpSource.Freeze();
+
+            // Copy pixels into reusable WriteableBitmap
+            int stride = width * 4;
+            var pixels = new byte[stride * height];
+            bmpSource.CopyPixels(pixels, stride, 0);
+
             _reusableBitmap.Lock();
-            _reusableBitmap.WritePixels(new Int32Rect(0, 0, width, height), bmpData.Scan0, bmpData.Stride * height, bmpData.Stride);
+            _reusableBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
             _reusableBitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
             _reusableBitmap.Unlock();
+
+            return _reusableBitmap;
         }
         finally
         {
-            bmp.UnlockBits(bmpData);
+            if (hOld != IntPtr.Zero && hdcMem != IntPtr.Zero)
+                _ = Win32Api.SelectObject(hdcMem, hOld);
+            if (hBitmap != IntPtr.Zero)
+                _ = Win32Api.DeleteObject(hBitmap);
+            if (hdcMem != IntPtr.Zero)
+                _ = Win32Api.DeleteDC(hdcMem);
+            _ = Win32Api.ReleaseDC(IntPtr.Zero, hdcScreen);
         }
-
-        return _reusableBitmap;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -150,11 +153,11 @@ public static class ScreenCaptureService
     {
         if (ScreenCaptureGPUService.TryCaptureRegionWithCenterColor(x, y, width, height, out BitmapSource duplicated, out byte dr, out byte dg, out byte db))
         {
-            Console.WriteLine("Captured using GPU duplication.");
+            //Console.WriteLine("Captured using GPU duplication.");
             return (duplicated, dr, dg, db);
         }
 
-        Console.WriteLine("Captured using GDI BitBlt fallback.");
+        //Console.WriteLine("Captured using GDI BitBlt fallback.");
 
         // Reuse WriteableBitmap
         if (_reusableBitmap == null || _reusableBitmap.PixelWidth != width || _reusableBitmap.PixelHeight != height)
@@ -162,53 +165,55 @@ public static class ScreenCaptureService
             _reusableBitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
         }
 
-        using var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-        using (var g = Graphics.FromImage(bmp))
-        {
-            IntPtr hdcDest = g.GetHdc();
-            IntPtr hdcSrc = Win32Api.GetDC(IntPtr.Zero);
-
-            try
-            {
-                int srcX = x - (width / 2);
-                int srcY = y - (height / 2);
-                Win32Api.BitBlt(hdcDest, 0, 0, width, height, hdcSrc, srcX, srcY, SRCCOPY);
-            }
-            finally
-            {
-                _ = Win32Api.ReleaseDC(IntPtr.Zero, hdcSrc);
-                g.ReleaseHdc(hdcDest);
-            }
-        }
-
-        byte centerR = 0;
-        byte centerG = 0;
-        byte centerB = 0;
-
-        var rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-        var bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, bmp.PixelFormat);
+        IntPtr hdcScreen = Win32Api.GetDC(IntPtr.Zero);
+        IntPtr hdcMem = IntPtr.Zero;
+        IntPtr hBitmap = IntPtr.Zero;
+        IntPtr hOld = IntPtr.Zero;
 
         try
         {
+            hdcMem = Win32Api.CreateCompatibleDC(hdcScreen);
+            hBitmap = Win32Api.CreateCompatibleBitmap(hdcScreen, width, height);
+            hOld = Win32Api.SelectObject(hdcMem, hBitmap);
+
+            int srcX = x - (width / 2);
+            int srcY = y - (height / 2);
+            Win32Api.BitBlt(hdcMem, 0, 0, width, height, hdcScreen, srcX, srcY, SRCCOPY);
+
+            var bmpSource = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            bmpSource.Freeze();
+
             int centerX = width / 2;
             int centerY = height / 2;
-            int pixelOffset = (centerY * bmpData.Stride) + (centerX * 4);
+            var cropped = new CroppedBitmap(bmpSource, new Int32Rect(centerX, centerY, 1, 1));
+            var pixel = new byte[4];
+            cropped.CopyPixels(pixel, 4, 0);
 
-            centerB = Marshal.ReadByte(bmpData.Scan0, pixelOffset + 0);
-            centerG = Marshal.ReadByte(bmpData.Scan0, pixelOffset + 1);
-            centerR = Marshal.ReadByte(bmpData.Scan0, pixelOffset + 2);
+            byte centerB = pixel[0];
+            byte centerG = pixel[1];
+            byte centerR = pixel[2];
+
+            int stride = width * 4;
+            var pixels = new byte[stride * height];
+            bmpSource.CopyPixels(pixels, stride, 0);
 
             _reusableBitmap.Lock();
-            _reusableBitmap.WritePixels(new Int32Rect(0, 0, width, height), bmpData.Scan0, bmpData.Stride * height, bmpData.Stride);
+            _reusableBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
             _reusableBitmap.AddDirtyRect(new Int32Rect(0, 0, width, height));
             _reusableBitmap.Unlock();
+
+            return (_reusableBitmap, centerR, centerG, centerB);
         }
         finally
         {
-            bmp.UnlockBits(bmpData);
+            if (hOld != IntPtr.Zero && hdcMem != IntPtr.Zero)
+                _ = Win32Api.SelectObject(hdcMem, hOld);
+            if (hBitmap != IntPtr.Zero)
+                _ = Win32Api.DeleteObject(hBitmap);
+            if (hdcMem != IntPtr.Zero)
+                _ = Win32Api.DeleteDC(hdcMem);
+            _ = Win32Api.ReleaseDC(IntPtr.Zero, hdcScreen);
         }
-
-        return (_reusableBitmap, centerR, centerG, centerB);
     }
 
     internal static bool TryGetMonitorBoundsFromPoint(POINT point, out int left, out int top, out int width, out int height)

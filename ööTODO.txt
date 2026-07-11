@@ -1,3 +1,5 @@
+test on laptop
+
 screen capture gpu white outlines fix
 max fps capture?
 
