@@ -37,6 +37,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         SetupInputCallbacks();
         RegisterSliderParts();
         SetIsEnabledIcon(State.IsEnabled);
+        SetAutoCopyIconVisibility(State.AutoCopyToClipboard);
         UpdateColorsStatic();
     }
 
@@ -241,11 +242,12 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     {
         if (_copyCurrentColor) CopyColorToClipboard();
 
-        // Clamp max fps, WPF framerates is wonky sometimes...
-        const double sampleInterval = 1000.0 / Config.MaxSamplesPerSecond;
-
         if (!State.IsEnabled || State.IsMinimized || State.IsDraggingOrResizing)
             return;
+
+
+        // Clamp max fps, WPF framerates is wonky sometimes...
+        //const double sampleInterval = 1000.0 / Config.MaxSamplesPerSecond;
 
         /* if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(sampleInterval))
             return;
@@ -260,6 +262,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         // todo add if mouse changed or color changed
         /* if (_lastMousePos.X == point.X && _lastMousePos.Y == point.Y)
             return; */
+
         _lastMousePos = point;
 
         UpdateUI(point);
@@ -382,6 +385,12 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     private void SetIsEnabledIcon(bool enabled)
     {
         IsEnabledIcon.Icon = enabled ? FontAwesomeIcon.Pause : FontAwesomeIcon.Play;
+    }
+
+    public void SetAutoCopyIconVisibility(bool enabled)
+    {
+        Console.WriteLine($"SetAutoCopyIconVisibility: {enabled}");
+        AutoCopy.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public string GetColorType()

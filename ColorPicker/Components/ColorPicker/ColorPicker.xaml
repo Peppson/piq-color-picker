@@ -206,7 +206,28 @@
                         </Border.ContextMenu>
                     </Border>
 
-                    <!--  Top Message  -->
+                    <!--  Auto copy icon  -->
+                    <Border
+                        x:Name="AutoCopy"
+                        Width="20"
+                        Height="20"
+                        Margin="6"
+                        Cursor="Hand"
+                        HorizontalAlignment="Center"
+                        >
+                        <Border.ToolTip>
+                            <TextBlock> Auto copy to clipboard enabled</TextBlock>
+                        </Border.ToolTip>
+                        <fa:ImageAwesome
+                            x:Name="AutoCopyIcon"
+                            Cursor="Hand"
+                            Width="16"
+                            Height="16"
+                            Foreground="Black"
+                            Icon="Magic" />
+                    </Border>
+
+                    <!--  Copied Message  -->
                     <TextBlock
                         x:Name="Message"
                         Margin="0,7,0,0"

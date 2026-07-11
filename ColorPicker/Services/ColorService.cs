@@ -116,6 +116,7 @@ public static class ColorService
         // Icons
         _picker.DropdownButtonIcon.Foreground = brush;
         _picker.CopyButtonIcon.Foreground = brush;
+        _picker.AutoCopyIcon.Foreground = brush;
         _picker.IsEnabledIcon.Foreground = brush;
         _picker.InfoButtonIcon.Foreground = brush;
 

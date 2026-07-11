@@ -63,6 +63,7 @@ public class SettingsViewModel : INotifyPropertyChanged
             if (State.AutoCopyToClipboard != value)
             {
                 State.AutoCopyToClipboard = value;
+                State.MainWindow.ColorPicker.SetAutoCopyIconVisibility(value);
                 OnPropertyChanged(nameof(AutoCopyToClipboard));
             }
         }
