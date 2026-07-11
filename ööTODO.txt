@@ -1,9 +1,18 @@
 
+fix for msix packaging
+app.manifest 
+.csproj 
+
+fontawesome not full comaptible warning?
 
 pexels images mount fuji japanese maple
 
 
-msix:
+Ms portal:
+https://partner.microsoft.com/en-us/dashboard/home
+
+msix docs:
+https://github.com/microsoftdocs/msix-docs/blob/main/msix-src/package/packaging-uwp-apps.md
 https://learn.microsoft.com/en-us/windows/apps/publish/get-started?tabs=individual%2Cmsix-pwa-getting-started
 
 msix packaing visual studio youtube;
@@ -13,3 +22,11 @@ https://www.youtube.com/watch?v=h7NB9eKjMq8
 icon? copyright?
 images? copyright?
 
+
+msix upload;
+microsoft store option
+
+
+
+privacy policy?
+Piqo does not collect, store, or transmit any personal data. Screen capture data is processed locally on the user's device and is never uploaded.

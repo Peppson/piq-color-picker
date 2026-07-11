@@ -31,7 +31,7 @@
                 Margin="12,11,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Auto copy to clipboard when capture is paused"
+                Content="Auto copy to clipboard when capture is stopped"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding AutoCopyToClipboard, Mode=TwoWay}" />
 
@@ -42,7 +42,8 @@
                 Margin="12,11,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Include Color Grab in live capture"
+                Content="{x:Static config:Config.AppName}"
+                ContentStringFormat="Include {0} in live capture"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding CaptureOnSelf, Mode=TwoWay}" />
 
@@ -53,7 +54,7 @@
                 Margin="12,11,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Remember window position"
+                Content="Remember position on startup"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding SetWindowPosOnStartup, Mode=TwoWay}" />
 
@@ -64,7 +65,7 @@
                 Margin="12,11,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Remember zoom level"
+                Content="Remember zoom level on startup"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding SetZoomLevelOnStartup, Mode=TwoWay}" />
 
@@ -85,7 +86,7 @@
                     HorizontalAlignment="Left"
                     VerticalContentAlignment="Center"
                     BorderBrush="{StaticResource Border}"
-                    Content="Enable global hotkey"
+                    Content="Enable global start/stop hotkey"
                     Foreground="{StaticResource PrimaryText}"
                     IsChecked="{Binding GlobalHotkeyEnabled, Mode=TwoWay}" />
 
@@ -111,8 +112,11 @@
                         </Style>
                     </fa:ImageAwesome.Style>
                     <fa:ImageAwesome.ToolTip>
-                        <TextBlock> Global hotkey can be used even when Color Grab is not the active
-                            window. <LineBreak /> The hotkey must include Ctrl, Alt, or Shift. </TextBlock>
+                        <TextBlock>
+                            <Run Text="{Binding Source={x:Static config:Config.AppName}, Mode=OneWay, StringFormat='Global hotkey can be used even when {0} is not the active window.'}" />
+                            <LineBreak />
+                            <Run Text="The hotkey must include Ctrl, Alt, or Shift." />
+                        </TextBlock>
                     </fa:ImageAwesome.ToolTip>
                 </fa:ImageAwesome>
 

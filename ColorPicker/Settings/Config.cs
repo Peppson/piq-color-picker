@@ -19,6 +19,7 @@ public static class Config
     public const bool Log_UpdateZoomView_FunctionCallRate = false;
 
     // Constants
+    public const string AppName = "Color Grab";
     public const string GithubLink = "https://github.com/Peppson/color-grab";
     public const int InitialZoomLevel = 19;
     public const double MinZoomLevel = 11; // Uneven needed for px centering
