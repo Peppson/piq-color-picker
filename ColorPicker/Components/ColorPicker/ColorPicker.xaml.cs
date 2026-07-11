@@ -71,14 +71,17 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         {
             CurrentColorType = colorType;
             UpdateColorsStatic();
+
+            // Auto copy colorcode
+            if (State.AutoCopyToClipboard) _copyCurrentColor = true;
         }
+
         e.Handled = true;
     }
 
     private void CopyButton_Click(object sender, RoutedEventArgs e)
     {
-        _ = ColorService.CopyColorToClipboard();
-        ColorService.UpdateMessageColor(_invertedBrush);
+        _copyCurrentColor = true;
         e.Handled = true;
     }
 
@@ -106,12 +109,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         // Wait 1 frame to let WPF + DWM present updated UI before capturing fullscreen image
         ScheduleFullscreenCaptureOnNextRender();
 
-        // Auto copy selected colorcode to clipboard when capture is paused if enabled in settings
-        if (State.AutoCopyToClipboard)
-        {
-            _ = ColorService.CopyColorToClipboard();
-            ColorService.UpdateMessageColor(_invertedBrush);
-        }
+        // Auto copy colorcode
+        if (State.AutoCopyToClipboard) _copyCurrentColor = true;
     }
 
     private void ColorPicker_Keyboard_Click(object sender, KeyEventArgs e)
@@ -119,8 +118,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         // CTRL + C
         if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
         {
-            _ = ColorService.CopyColorToClipboard();
-            ColorService.UpdateMessageColor(_invertedBrush);
+            _copyCurrentColor = true;
             e.Handled = true;
             return;
         }
@@ -153,9 +151,15 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             nextY--;
         else if (e.Key == Key.Down)
             nextY++;
+        else
+            return;
 
         _lastMousePos.X = nextX;
         _lastMousePos.Y = nextY;
+
+        // Auto copy colorcode
+        if (State.AutoCopyToClipboard) _copyCurrentColor = true;
+
         e.Handled = true;
     }
 
@@ -205,6 +209,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         _isDragging = false;
         ZoomView.ReleaseMouseCapture();
 
+        // Auto copy colorcode
+        if (State.AutoCopyToClipboard) _copyCurrentColor = true;
+
         // Set mouse pos back where we started
         Win32Api.SetCursorPos(_dragStartMouse.X, _dragStartMouse.Y);
         Mouse.OverrideCursor = null;
@@ -232,6 +239,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void OnNewFrame(object sender, EventArgs e)
     {
+        if (_copyCurrentColor) CopyColorToClipboard();
+
         // Clamp max fps, WPF framerates is wonky sometimes...
         const double sampleInterval = 1000.0 / Config.MaxSamplesPerSecond;
 
@@ -378,6 +387,15 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     public string GetColorType()
     {
         return CurrentColorType.ToString();
+    }
+
+    private void CopyColorToClipboard()
+    {
+        var showMessage = !State.AutoCopyToClipboard; // Don't show message if auto copy is enabled
+
+        _ = ColorService.CopyColorToClipboard(showMessage);
+        ColorService.UpdateMessageColor(_invertedBrush);
+        _copyCurrentColor = false;
     }
 
     public void SetupInputCallbacks()

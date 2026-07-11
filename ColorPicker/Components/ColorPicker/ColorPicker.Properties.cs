@@ -64,6 +64,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     public RepeatButton? Slider_2 { get; set; }
     public RepeatButton? Slider_3 { get; set; }
     private bool _isDragging = false;
+    private bool _copyCurrentColor = false;
     private POINT _dragStartMouse;
     private POINT _dragStartPos;
     private POINT _lastMousePos;

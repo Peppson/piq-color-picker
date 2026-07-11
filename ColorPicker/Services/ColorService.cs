@@ -42,21 +42,29 @@ public static class ColorService
                 brush.Color.B == b;
     }
 
-    public static async Task CopyColorToClipboard()
+    public static async Task CopyColorToClipboard(bool showMessage)
     {
-        if (string.IsNullOrEmpty(CurrentColorCode)) return;
+        Console.WriteLine($"Auto copy colorcode {CurrentColorCode} showMessage: {showMessage}"); // todo
 
-        string success = "Copied";
+        if (string.IsNullOrEmpty(CurrentColorCode))
+        {
+            if (showMessage)
+                await MessageService.ShowAsync(_picker, "Copy failed!", Config.StatusMessageDuration_ms);
+            return;
+        }
+
+        string message = "Copied";
         try
         {
             Clipboard.SetText(CurrentColorCode);
         }
         catch
         {
-            success = "Copy failed!";
+            message = "Copy failed!";
         }
 
-        await MessageService.ShowAsync(_picker, success, Config.StatusMessageDuration_ms);
+        if (showMessage)
+            await MessageService.ShowAsync(_picker, message, Config.StatusMessageDuration_ms);
     }
 
     public static ColorTypes StringToColorType(string colorType)
@@ -75,6 +83,7 @@ public static class ColorService
     public static void UpdateTextContent(byte r, byte g, byte b, ColorTypes currentColorType)
     {
         string content, type;
+
         switch (currentColorType)
         {
             case ColorTypes.RGB:

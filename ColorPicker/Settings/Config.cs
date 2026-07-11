@@ -12,7 +12,7 @@ public static class Config
     public const bool BootSettingsWindow = false;
     public const bool BootWelcomeWindow = false;
 
-    public const bool Log_RendererFPS = true;
+    public const bool Log_RendererFPS = false;
     public const bool Log_UpdateUI_Frametimes = false;
     public const bool Log_UpdateUI_FunctionCallRate = false;
     public const bool Log_UpdateZoomView_Frametimes = false;
