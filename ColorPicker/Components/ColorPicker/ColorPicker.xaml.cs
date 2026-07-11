@@ -252,10 +252,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return;
         _lastUpdate = DateTime.UtcNow; */ //todo
 
-#pragma warning disable CS0162
-        if (Config.Log_UpdateUI_FunctionCallRate) StopwatchService.TrackFunctionCallRate();
-#pragma warning restore CS0162
-
         if (!Win32Api.GetCursorPos(out POINT point))
             return;
 
@@ -273,7 +269,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 #pragma warning disable CS0162
     private void UpdateUI(POINT point)
     {
-        if (Config.Log_UpdateUI_FPS) StopwatchService.Start(100, "UpdateUI");
+        if (Config.Log_UpdateUI_Frametimes) StopwatchService.Start(100, "UpdateUI");
+        if (Config.Log_UpdateUI_FunctionCallRate) StopwatchService.TrackFunctionCallRate();
 
         var zoomLevel = Math.Clamp(100 - _zoomLevel, 1, 100);
         var height = zoomLevel;
@@ -284,16 +281,16 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         else
             UpdateUI_CaptureDisabled(point, height, width);
 
-        if (Config.Log_UpdateUI_FPS) StopwatchService.Stop();
+        if (Config.Log_UpdateUI_Frametimes) StopwatchService.Stop();
     }
 #pragma warning restore CS0162
 
     private void UpdateUI_CaptureEnabled(POINT point, int height, int width)
     {
         // Grab a small image around the cursor and update zoomview and color preview live
-        var (capturedImage, r, g, b) = ScreenCaptureService.GetImageWithCenterColor(point.X, point.Y, width, height);
+        var (image, r, g, b) = ScreenCaptureService.GetImageWithCenterColor(point.X, point.Y, width, height);
 
-        ZoomView.Source = capturedImage;
+        ZoomView.Source = image;
         UpdateColors(r, g, b);
     }
 
@@ -302,16 +299,17 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (_fullscreenImage == null) return;
 
         // Grab a small image around the cursor from the saved fullscreen image and update zoomview and color preview from that
-        var (croppedImage, r, g, b) = ScreenCaptureService.GetPausedImageWithCenterColor(_fullscreenImage, point, width, height);
+        var (image, r, g, b) = ScreenCaptureService.GetPausedImageWithCenterColor(_fullscreenImage, point, width, height);
 
-        ZoomView.Source = croppedImage;
+        ZoomView.Source = image;
         UpdateColors(r, g, b);
     }
 
 #pragma warning disable CS0162
     private void UpdateZoomView()
     {
-        if (Config.Log_UpdateZoomView_FPS) StopwatchService.Start(100, "UpdateZoomView");
+        if (Config.Log_UpdateZoomView_Frametimes) StopwatchService.Start(100, "UpdateZoomView");
+        if (Config.Log_UpdateZoomView_FunctionCallRate) StopwatchService.TrackFunctionCallRate();
 
         var zoom = Math.Clamp(100 - _zoomLevel, 1, 100);
         var height = zoom;
@@ -331,7 +329,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             ZoomView.Source = croppedImage;
         }
 
-        if (Config.Log_UpdateZoomView_FPS) StopwatchService.Stop();
+        if (Config.Log_UpdateZoomView_Frametimes) StopwatchService.Stop();
     }
 #pragma warning restore CS0162
 
