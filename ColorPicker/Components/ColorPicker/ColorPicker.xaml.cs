@@ -176,18 +176,15 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ZoomView_MouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (State.IsEnabled) return;
+        if (State.IsEnabled || e.LeftButton != MouseButtonState.Pressed) return;
 
-        if (e.LeftButton == MouseButtonState.Pressed)
-        {
-            _isDragging = true;
-            Mouse.OverrideCursor = Cursors.None;
+        _isDragging = true;
+        Mouse.OverrideCursor = Cursors.None;
 
-            if (Win32Api.GetCursorPos(out _dragStartMouse))
-                _dragStartPos = _lastMousePos;
+        if (Win32Api.GetCursorPos(out _dragStartMouse))
+            _dragStartPos = _lastMousePos;
 
-            ZoomView.CaptureMouse();
-        }
+        ZoomView.CaptureMouse();
     }
 
     private void ZoomView_MouseMove(object sender, MouseEventArgs e)
@@ -209,15 +206,14 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ZoomView_MouseUp(object sender, MouseButtonEventArgs e)
     {
-        if (_isDragging)
-        {
-            _isDragging = false;
-            ZoomView.ReleaseMouseCapture();
+        if (!_isDragging) return;
 
-            // Set mouse pos back where we started
-            Win32Api.SetCursorPos(_dragStartMouse.X, _dragStartMouse.Y);
-            Mouse.OverrideCursor = null;
-        }
+        _isDragging = false;
+        ZoomView.ReleaseMouseCapture();
+
+        // Set mouse pos back where we started
+        Win32Api.SetCursorPos(_dragStartMouse.X, _dragStartMouse.Y);
+        Mouse.OverrideCursor = null;
     }
 
     public void MoveZoomTargetOutsideApp()
