@@ -1,5 +1,4 @@
 
-copy right colors 
 screen capture gpu white outlines fix
 
 welcome window?
