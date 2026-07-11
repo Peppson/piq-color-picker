@@ -14,15 +14,12 @@ public static class ScreenCaptureService
     private static int _fullscreenImageLeft;
     private static int _fullscreenImageTop;
 
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (BitmapSource Bitmap, byte R, byte G, byte B) GetImageWithCenterColor(int x, int y, int width, int height)
     {
         // GPU accelerated screen capture using Desktop Duplication API
         if (ScreenCaptureGPUService.GPU_GetImageWithCenterColor(x, y, width, height, out BitmapSource duplicated, out byte dr, out byte dg, out byte db))
             return (duplicated, dr, dg, db);
-
-        Console.WriteLine("Fallback!!! "); // todo
 
         // Fallback to GDI-based screen capture if GPU capture fails
         return GDI_GetImageWithCenterColor(x, y, width, height);
