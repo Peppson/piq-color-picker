@@ -20,7 +20,6 @@ public static class Config
 
     // Constants
     public const string GithubLink = "https://github.com/Peppson/color-grab";
-    public const int MaxSamplesPerSecond = 240; // todo
     public const int InitialZoomLevel = 19;
     public const double MinZoomLevel = 11; // Uneven needed for px centering
     public const double MaxZoomLevel = 91;

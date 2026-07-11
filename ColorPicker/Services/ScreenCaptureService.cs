@@ -101,6 +101,24 @@ public static class ScreenCaptureService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static POINT ClampPointToFullscreenImage(BitmapSource fullscreenCapture, POINT point)
+    {
+        int minX = _fullscreenImageLeft;
+        int minY = _fullscreenImageTop;
+        int maxX = _fullscreenImageLeft + fullscreenCapture.PixelWidth - 1;
+        int maxY = _fullscreenImageTop + fullscreenCapture.PixelHeight - 1;
+
+        if (maxX < minX || maxY < minY)
+            return point;
+
+        return new POINT
+        {
+            X = Math.Clamp(point.X, minX, maxX),
+            Y = Math.Clamp(point.Y, minY, maxY)
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (BitmapSource Bitmap, byte R, byte G, byte B) GDI_GetImageWithCenterColor(int x, int y, int width, int height)
     {
         // Reuse WriteableBitmap

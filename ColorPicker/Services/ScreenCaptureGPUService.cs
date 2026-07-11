@@ -26,6 +26,8 @@ public static class ScreenCaptureGPUService
     private static int _activeOutputBottom;
     private static int _stagingWidth;
     private static int _stagingHeight;
+    private static byte[]? _reusablePixels;
+    private static int _reusableStride;
     private static bool _hasCachedFrame;
     private static byte _cachedR;
     private static byte _cachedG;
@@ -53,7 +55,10 @@ public static class ScreenCaptureGPUService
                 var acquireResult = _duplication!.AcquireNextFrame(0, out _, out IDXGIResource desktopResource);
                 if (acquireResult == Vortice.DXGI.ResultCode.WaitTimeout)
                 {
-                    if (_hasCachedFrame && _reusableBitmap != null)
+                    if (_hasCachedFrame &&
+                        _reusableBitmap != null &&
+                        _reusableBitmap.PixelWidth == width &&
+                        _reusableBitmap.PixelHeight == height)
                     {
                         bitmap = _reusableBitmap;
                         r = _cachedR;
@@ -72,15 +77,20 @@ public static class ScreenCaptureGPUService
 
                 frameAcquired = true;
 
+                int outputWidth = _activeOutputRight - _activeOutputLeft;
+                int outputHeight = _activeOutputBottom - _activeOutputTop;
+                int requestedLeft = centerX - (width / 2);
+                int requestedTop = centerY - (height / 2);
+                int requestedLeftRel = requestedLeft - _activeOutputLeft;
+                int requestedTopRel = requestedTop - _activeOutputTop;
+                int maxSrcLeft = Math.Max(0, outputWidth - width);
+                int maxSrcTop = Math.Max(0, outputHeight - height);
+                int srcLeft = Math.Clamp(requestedLeftRel, 0, maxSrcLeft);
+                int srcTop = Math.Clamp(requestedTopRel, 0, maxSrcTop);
+
                 using (desktopResource)
                 using (var desktopTexture = desktopResource.QueryInterface<ID3D11Texture2D>())
                 {
-                    int left = centerX - (width / 2);
-                    int top = centerY - (height / 2);
-
-                    int srcLeft = Math.Clamp(left - _activeOutputLeft, 0, (_activeOutputRight - _activeOutputLeft) - width);
-                    int srcTop = Math.Clamp(top - _activeOutputTop, 0, (_activeOutputBottom - _activeOutputTop) - height);
-
                     var srcBox = new Box(srcLeft, srcTop, 0, srcLeft + width, srcTop + height, 1);
                     _context!.CopySubresourceRegion(_stagingTexture!, 0, 0, 0, 0, desktopTexture, 0, srcBox);
                 }
@@ -89,13 +99,35 @@ public static class ScreenCaptureGPUService
                 try
                 {
                     EnsureWriteableBitmap(width, height);
-                    int rowPitch = (int)mapped.RowPitch;
-                    _reusableBitmap!.WritePixels(new Int32Rect(0, 0, width, height), mapped.DataPointer, rowPitch * height, rowPitch);
+                    EnsureReusablePixelBuffer(width, height);
 
-                    int centerOffset = ((height / 2) * rowPitch) + ((width / 2) * 4);
-                    b = System.Runtime.InteropServices.Marshal.ReadByte(mapped.DataPointer, centerOffset + 0);
-                    g = System.Runtime.InteropServices.Marshal.ReadByte(mapped.DataPointer, centerOffset + 1);
-                    r = System.Runtime.InteropServices.Marshal.ReadByte(mapped.DataPointer, centerOffset + 2);
+                    int rowPitch = (int)mapped.RowPitch;
+                    Array.Clear(_reusablePixels!, 0, _reusablePixels!.Length);
+
+                    int srcX = Math.Max(0, requestedLeftRel - srcLeft);
+                    int srcY = Math.Max(0, requestedTopRel - srcTop);
+                    int destX = Math.Max(0, srcLeft - requestedLeftRel);
+                    int destY = Math.Max(0, srcTop - requestedTopRel);
+                    int copyWidth = Math.Min(width - srcX, width - destX);
+                    int copyHeight = Math.Min(height - srcY, height - destY);
+
+                    if (copyWidth > 0 && copyHeight > 0)
+                    {
+                        int copyBytesPerRow = copyWidth * 4;
+                        for (int row = 0; row < copyHeight; row++)
+                        {
+                            IntPtr sourceRow = IntPtr.Add(mapped.DataPointer, ((srcY + row) * rowPitch) + (srcX * 4));
+                            int destOffset = ((destY + row) * _reusableStride) + (destX * 4);
+                            System.Runtime.InteropServices.Marshal.Copy(sourceRow, _reusablePixels, destOffset, copyBytesPerRow);
+                        }
+                    }
+
+                    _reusableBitmap!.WritePixels(new Int32Rect(0, 0, width, height), _reusablePixels, _reusableStride, 0);
+
+                    int centerOffset = ((height / 2) * _reusableStride) + ((width / 2) * 4);
+                    b = _reusablePixels[centerOffset + 0];
+                    g = _reusablePixels[centerOffset + 1];
+                    r = _reusablePixels[centerOffset + 2];
 
                     _cachedR = r;
                     _cachedG = g;
@@ -225,10 +257,24 @@ public static class ScreenCaptureGPUService
         }
     }
 
+    private static void EnsureReusablePixelBuffer(int width, int height)
+    {
+        int stride = width * 4;
+        int size = stride * height;
+
+        if (_reusablePixels == null || _reusablePixels.Length != size)
+        {
+            _reusablePixels = new byte[size];
+            _reusableStride = stride;
+            _hasCachedFrame = false;
+        }
+    }
+
     private static void RecreateDuplication()
     {
         _duplication?.Dispose();
         _duplication = null;
         _activeOutputLeft = _activeOutputTop = _activeOutputRight = _activeOutputBottom = 0;
+        _hasCachedFrame = false;
     }
 }

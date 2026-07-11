@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using ColorPicker.Models;
 using ColorPicker.Services;
 using ColorPicker.Settings;
@@ -278,6 +276,9 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     private void UpdateUI_CaptureDisabled(POINT point, int height, int width)
     {
         if (_fullscreenImage == null) return;
+
+        point = ScreenCaptureService.ClampPointToFullscreenImage(_fullscreenImage, point);
+        _lastMousePos = point;
 
         // Grab a small image around the cursor from the saved fullscreen image and update zoomview and color preview from that
         var (image, r, g, b) = ScreenCaptureService.GetPausedImageWithCenterColor(_fullscreenImage, point, width, height);

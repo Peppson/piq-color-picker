@@ -1,6 +1,4 @@
 
-screen capture gpu white outlines fix
-
 welcome window?
 icon? copyright?
 images? copyright?
