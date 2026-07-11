@@ -44,8 +44,6 @@ public static class ColorService
 
     public static async Task CopyColorToClipboard(bool showMessage)
     {
-        Console.WriteLine($"Auto copy colorcode {CurrentColorCode} showMessage: {showMessage}"); // todo
-
         if (string.IsNullOrEmpty(CurrentColorCode))
         {
             if (showMessage)

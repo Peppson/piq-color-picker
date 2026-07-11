@@ -53,7 +53,6 @@
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
     <PackageReference Include="Vortice.DXGI" Version="3.8.3" />
-    <!-- todo <PackageReference Include="System.Drawing.Common" Version="9.0.8" /> -->
   </ItemGroup>
 
   <PropertyGroup>

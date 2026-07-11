@@ -230,14 +230,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         UpdateUI(_lastMousePos);
     }
 
-
-
-
-
-
-
-
-
     private void OnNewFrame(object sender, EventArgs e)
     {
         if (_copyCurrentColor) CopyColorToClipboard();
@@ -245,26 +237,13 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         if (!State.IsEnabled || State.IsMinimized || State.IsDraggingOrResizing)
             return;
 
-
-        // Clamp max fps, WPF framerates is wonky sometimes...
-        //const double sampleInterval = 1000.0 / Config.MaxSamplesPerSecond;
-
-        /* if (DateTime.UtcNow < _lastUpdate.AddMilliseconds(sampleInterval))
-            return;
-        _lastUpdate = DateTime.UtcNow; */ //todo
-
         if (!Win32Api.GetCursorPos(out POINT point))
             return;
 
         if (!State.CaptureOnSelf && State.MainWindowPos.Contains(point.X, point.Y))
             return;
 
-        // todo add if mouse changed or color changed
-        /* if (_lastMousePos.X == point.X && _lastMousePos.Y == point.Y)
-            return; */
-
         _lastMousePos = point;
-
         UpdateUI(point);
     }
 
@@ -389,7 +368,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     public void SetAutoCopyIconVisibility(bool enabled)
     {
-        Console.WriteLine($"SetAutoCopyIconVisibility: {enabled}");
         AutoCopy.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -404,6 +382,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         _ = ColorService.CopyColorToClipboard(showMessage);
         ColorService.UpdateMessageColor(_invertedBrush);
+
         _copyCurrentColor = false;
     }
 
