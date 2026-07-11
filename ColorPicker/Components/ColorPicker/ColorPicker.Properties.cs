@@ -45,12 +45,12 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
                 State.ZoomLevel = value;
                 OnPropertyChanged(nameof(ZoomLevel));
                 OnPropertyChanged(nameof(ZoomPercent));
-                UpdateZoomView();
+                UpdateZoomViewZoomLevel();
             }
         }
     }
 
-    public static bool IsEnabledProxy => State.IsEnabled;
+    public bool IsEnabledProxy => State.IsEnabled;
     public static string GlobalHotkeyHint =>
         State.GlobalHotkeyEnabled && !string.IsNullOrWhiteSpace(State.GlobalHotkey)
             ? $"Custom hotkey ({State.GlobalHotkey})"

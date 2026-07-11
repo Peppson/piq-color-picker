@@ -133,16 +133,15 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
             return;
         }
 
+        // Only allow arrowkeys after capture
+        if (State.IsEnabled) return;
+
         HandleArrowKeyMovement(sender, e);
         UpdateUI(_lastMousePos);
-        e.Handled = true;
     }
 
     private void HandleArrowKeyMovement(object sender, KeyEventArgs e)
     {
-        // Only allow arrowkeys after capture
-        if (State.IsEnabled) return;
-
         int nextX = _lastMousePos.X;
         int nextY = _lastMousePos.Y;
 
@@ -160,6 +159,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
         _lastMousePos.X = nextX;
         _lastMousePos.Y = nextY;
+        e.Handled = true;
     }
 
     private void ZoomView_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -176,6 +176,8 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ZoomView_MouseDown(object sender, MouseButtonEventArgs e)
     {
+        if (State.IsEnabled) return;
+
         if (e.LeftButton == MouseButtonState.Pressed)
         {
             _isDragging = true;
@@ -190,16 +192,14 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ZoomView_MouseMove(object sender, MouseEventArgs e)
     {
-        if (!_isDragging || !Win32Api.GetCursorPos(out POINT currentMouse))
-            return;
+        if (!_isDragging || !Win32Api.GetCursorPos(out POINT currentMouse)) return;
 
         int dx = currentMouse.X - _dragStartMouse.X;
         int dy = currentMouse.Y - _dragStartMouse.Y;
         int targetX = _dragStartPos.X - dx;
         int targetY = _dragStartPos.Y - dy;
 
-        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(targetX, targetY))
-            return;
+        if (!State.CaptureOnSelf && State.MainWindowPos.Contains(targetX, targetY)) return;
 
         _lastMousePos.X = targetX;
         _lastMousePos.Y = targetY;
@@ -306,7 +306,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     }
 
 #pragma warning disable CS0162
-    private void UpdateZoomView()
+    private void UpdateZoomViewZoomLevel()
     {
         if (Config.Log_UpdateZoomView_Frametimes) StopwatchService.Start(100, "UpdateZoomView");
         if (Config.Log_UpdateZoomView_FunctionCallRate) StopwatchService.TrackFunctionCallRate();
@@ -378,13 +378,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         }
 
         CompositionTarget.Rendering += captureOnNextRender;
-    }
-
-    public void SetIsEnabled(bool enabled)
-    {
-        State.IsEnabled = enabled;
-        SetIsEnabledIcon(State.IsEnabled);
-        OnPropertyChanged(nameof(IsEnabledProxy));
     }
 
     private void SetIsEnabledIcon(bool enabled)
