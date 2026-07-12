@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
     xmlns:local="clr-namespace:ColorPicker.Components"
+    d:DesignWidth="440"
+    d:DesignHeight="240"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="Consolas"
     mc:Ignorable="d">
@@ -189,8 +191,7 @@
                 Margin="0,2,12,14"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Background="Red">
+                Orientation="Horizontal">
 
                 <Button
                     Width="140"

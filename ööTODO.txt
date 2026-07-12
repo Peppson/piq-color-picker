@@ -30,3 +30,9 @@ microsoft store option
 
 privacy policy?
 Piqo does not collect, store, or transmit any personal data. Screen capture data is processed locally on the user's device and is never uploaded.
+
+
+
+feature:
+Multi monitor aware 
+Global hotkey blabla
