@@ -122,6 +122,7 @@ public static class State
         Console.WriteLine($"- CurrentColorType: {Properties.Settings.Default.ColorType}");
         Console.WriteLine($"- GlobalHotkey: {GlobalHotkey}");
         Console.WriteLine($"- GlobalHotkeyEnabled: {GlobalHotkeyEnabled}");
+        Console.WriteLine($"- IsWindows11 OrGreater: {Config.IsWindows11OrGreater}");
         Console.WriteLine("");
     }
 }
