@@ -9,7 +9,7 @@ pexels images mount fuji japanese maple
 
 
 Ms portal:
-https://partner.microsoft.com/en-us/dashboard/home
+https://storedeveloper.microsoft.com/en-US/home
 
 msix docs:
 https://github.com/microsoftdocs/msix-docs/blob/main/msix-src/package/packaging-uwp-apps.md
@@ -29,10 +29,14 @@ microsoft store option
 
 
 privacy policy?
-Piqo does not collect, store, or transmit any personal data. Screen capture data is processed locally on the user's device and is never uploaded.
+Piq does not collect, store, or transmit any personal data. Screen capture data is processed locally on the user's device and is never uploaded.
 
 
 
 feature:
 Multi monitor aware 
 Global hotkey blabla
+
+
+icon:
+mer än 180x180 på eclipse på kanter

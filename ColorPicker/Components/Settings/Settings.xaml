@@ -67,7 +67,7 @@
                 Margin="12,11,0,0"
                 VerticalContentAlignment="Center"
                 BorderBrush="{StaticResource Border}"
-                Content="Remember zoom level on startup"
+                Content="Remember zoom on startup"
                 Foreground="{StaticResource PrimaryText}"
                 IsChecked="{Binding SetZoomLevelOnStartup, Mode=TwoWay}" />
 
@@ -88,7 +88,7 @@
                     HorizontalAlignment="Left"
                     VerticalContentAlignment="Center"
                     BorderBrush="{StaticResource Border}"
-                    Content="Enable global start/stop hotkey"
+                    Content="Enable global capture hotkey"
                     Foreground="{StaticResource PrimaryText}"
                     IsChecked="{Binding GlobalHotkeyEnabled, Mode=TwoWay}" />
 
@@ -167,6 +167,8 @@
                 ToolTipService.InitialShowDelay="0">
                 <fa:ImageAwesome.ToolTip>
                     <TextBlock>
+                        <Run Text="{x:Static config:Config.AppNameFull}" />
+                        <LineBreak />
                         <Run Text="Version: " />
                         <Run Text="{x:Static config:Config.VersionNumber}" />
                         <LineBreak />

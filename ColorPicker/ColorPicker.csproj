@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>ColorGrab</AssemblyName>
+    <AssemblyName>ColorPicker</AssemblyName>
     <AppVersion>1.0.2</AppVersion>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>

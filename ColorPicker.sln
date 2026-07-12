@@ -5,7 +5,7 @@ VisualStudioVersion = 18.7.11925.98 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPicker", "ColorPicker\ColorPicker.csproj", "{29C756CF-8A7C-4919-BD69-51888C9DEDEE}"
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "ColorPicker.Packaging", "Msix.Packaging\ColorPicker.Packaging.wapproj", "{7AE1598C-D01E-4A2C-A901-7CDF2676D5DD}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "ColorPicker.Packaging", "ColorPicker.Packaging\ColorPicker.Packaging.wapproj", "{7AE1598C-D01E-4A2C-A901-7CDF2676D5DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
