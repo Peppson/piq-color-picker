@@ -1,20 +1,14 @@
 
-fix for msix packaging
-app.manifest 
-.csproj 
-fontawesome not full comaptible warning?
-
 
 pexels images mount fuji japanese maple
-
-
-icon? copyright?
-images? copyright?
-
-
 msix upload;
 microsoft store option
 
+
+
+
+----- Publish local EXE -----
+dotnet publish ColorPicker.csproj -c Release -p:PublishProfile=SelfContainedExe -o "$HOME/Desktop"
 
 
 
@@ -23,7 +17,7 @@ microsoft store option
 Name: 
 Piq - Color Picker
 
-Current published version:
+Current published version: "<AppVersion>1.0.2</AppVersion>"
 1.0.2
 
 Desc:
@@ -44,6 +38,7 @@ Piq does not collect, store, transmit, or share any personal data. All screen ca
 
 
 
+----- Links -----
 
 Ms portal:
 https://storedeveloper.microsoft.com/en-US/home
