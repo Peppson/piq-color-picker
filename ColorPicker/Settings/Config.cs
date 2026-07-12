@@ -9,8 +9,8 @@ public static class Config
     // Debug
     public static readonly bool? IsEnabledOverride = null; // null = disabled
     public const bool ShowDebugbutton = false;
-    public const bool BootSettingsWindow = false;
     public const bool BootWelcomeWindow = false;
+    public const bool BootSettingsWindow = false;
 
     public const bool Log_RendererFPS = false;
     public const bool Log_UpdateUI_Frametimes = false;
@@ -22,6 +22,7 @@ public static class Config
     public const string AppName = "Piq";
     public const string AppNameFull = $"{AppName} - Color Picker";
     public const string GithubLink = "https://github.com/Peppson/piq-color-picker";
+    public const double WindowCornerRadius = 8;
     public const int InitialZoomLevel = 19;
     public const double MinZoomLevel = 11; // Uneven needed for px centering
     public const double MaxZoomLevel = 91;
