@@ -2,8 +2,9 @@
 fix for msix packaging
 app.manifest 
 .csproj 
-
 fontawesome not full comaptible warning?
+
+
 
 pexels images mount fuji japanese maple
 
@@ -19,6 +20,7 @@ msix packaing visual studio youtube;
 https://www.youtube.com/watch?v=N6jPl3tBNfg
 https://www.youtube.com/watch?v=h7NB9eKjMq8
 
+
 icon? copyright?
 images? copyright?
 
@@ -26,6 +28,9 @@ images? copyright?
 msix upload;
 microsoft store option
 
+
+descripton no longer than:
+Pix2d (Pixel Art Studio) is powerful and easy to use tool for anyone, who want to make pixel perfect art. Optimized for pen and touch input devices. Perfectly fit for making
 
 
 privacy policy?
