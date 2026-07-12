@@ -35,7 +35,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         SetupInputCallbacks();
         RegisterSliderParts();
         SetIsEnabledIcon(State.IsEnabled);
-        SetAutoCopyIconVisibility(State.AutoCopyToClipboard);
+        SetCopyIconsVisibility(State.AutoCopyToClipboard);
         UpdateColorsStatic();
     }
 
@@ -81,6 +81,11 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
     private void CopyButton_Click(object sender, RoutedEventArgs e)
     {
         _copyCurrentColor = true;
+        e.Handled = true;
+    }
+
+    private void AutoCopyButton_Click(object sender, RoutedEventArgs e)
+    {
         e.Handled = true;
     }
 
@@ -367,9 +372,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         IsEnabledIcon.Icon = enabled ? FontAwesomeIcon.Pause : FontAwesomeIcon.Play;
     }
 
-    public void SetAutoCopyIconVisibility(bool enabled)
+    public void SetCopyIconsVisibility(bool enabled)
     {
         AutoCopy.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
+        CopyButton.Visibility = enabled ? Visibility.Collapsed : Visibility.Visible;
     }
 
     public string GetColorType()

@@ -25,14 +25,16 @@
             Height="18"
             Margin="6,0,0,0"
             Source="/Assets/logo_32x32.ico" />
-
+        
+        <!--
         <TextBlock
             Grid.Column="1"
             Margin="6,0,0,0"
             VerticalAlignment="Center"
             FontSize="13"
             Foreground="{StaticResource PrimaryText}"
-            Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Title}" /> 
+            Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Title}" />  
+        -->
 
         <Button
             x:Name="DebugButton"

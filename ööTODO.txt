@@ -1,4 +1,6 @@
 
+todo smaller icon on titlebar
+
 
 pexels images mount fuji japanese maple
 msix upload;
@@ -7,7 +9,7 @@ microsoft store option
 
 
 
------ Publish local EXE -----
+----- Local EXE -----
 dotnet publish ColorPicker.csproj -c Release -p:PublishProfile=SelfContainedExe -o "$HOME/Desktop"
 
 
