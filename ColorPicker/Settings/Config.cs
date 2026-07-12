@@ -5,12 +5,9 @@ namespace ColorPicker.Settings;
 
 public static class Config
 {
-    public const bool IsWelcomeWindowEnabled = false;
-
     // Debug
     public static readonly bool? IsEnabledOverride = null; // null = disabled
     public const bool ShowDebugbutton = false;
-    public const bool BootWelcomeWindow = false;
     public const bool BootSettingsWindow = false;
 
     public const bool Log_RendererFPS = false;

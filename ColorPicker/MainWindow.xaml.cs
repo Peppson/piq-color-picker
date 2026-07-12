@@ -53,11 +53,6 @@ public partial class MainWindow : Window
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         SetupWindowDragTimer();
-
-#pragma warning disable CS0162
-        if (Config.IsWelcomeWindowEnabled) IsFirstBootWindow();
-#pragma warning restore CS0162
-
         State.IsFirstBoot = false;
         State.UpdateMainWindowPos();
     }
@@ -90,20 +85,6 @@ public partial class MainWindow : Window
 
         this.Top = State.WindowTop;
         this.Left = State.WindowLeft;
-    }
-
-    private void IsFirstBootWindow()
-    {
-        if (!Config.BootWelcomeWindow && !State.IsFirstBoot) return;
-
-        State.IsEnabled = false;
-        var welcomeWindow = new Windows.WelcomeWindow
-        {
-            Owner = this
-        };
-
-        welcomeWindow.ShowDialog();
-        State.IsEnabled = true;
     }
 
     private void SetupWindowDragTimer()
