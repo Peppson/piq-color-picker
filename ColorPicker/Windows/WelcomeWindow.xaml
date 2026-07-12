@@ -11,7 +11,7 @@
     Title="{x:Static config:Config.AppName}"
     Width="640"
     Height="480"
-    AllowsTransparency="True"
+    AllowsTransparency="False"
     Background="{StaticResource SettingsBackground}"
     FontFamily="Consolas"
     FontSize="13"
@@ -23,11 +23,12 @@
     mc:Ignorable="d">
 
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="32"
-            ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+        <WindowChrome
+            CaptionHeight="32"
+            ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
     </WindowChrome.WindowChrome>
 
-    <Border Style="{StaticResource WindowBorderStyle}">
+    <Border>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32" />

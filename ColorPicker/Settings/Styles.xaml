@@ -1,20 +1,10 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:ColorPicker.Settings"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-
-    <!--  Window border  -->
-    <Style x:Key="WindowBorderStyle" TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush" Value="{StaticResource WindowBorder}" />
-        <Setter Property="BorderThickness" Value="2,0,2,2" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}" Value="Maximized">
-                <Setter Property="BorderThickness" Value="0" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
 
     <!--  Window Titlebar Buttons  -->
     <Style x:Key="TitleBarButtonStyle" TargetType="Button">

@@ -51,6 +51,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         DropdownButton.ContextMenu.HorizontalOffset = 0;
         DropdownButton.ContextMenu.VerticalOffset = 0;
         DropdownButton.ContextMenu.IsOpen = true;
+        e.Handled = true;
     }
 
     private void DropdownMouse_Click(object sender, MouseButtonEventArgs e)
@@ -62,6 +63,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         DropdownButton.ContextMenu.HorizontalOffset = mousePos.X;
         DropdownButton.ContextMenu.VerticalOffset = mousePos.Y;
         DropdownButton.ContextMenu.IsOpen = true;
+        e.Handled = true;
     }
 
     private void DropdownMenuItem_Click(object sender, RoutedEventArgs e)
@@ -91,13 +93,12 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void ToggleEnabled_Click(object sender, MouseButtonEventArgs e)
     {
-        // Ignore clicks that originated from child buttons
-        if (ReferenceEquals(sender, ColorView) && e.OriginalSource is DependencyObject source)
-        {
-            if (FindAncestor<Border>(source, DropdownButton) || FindAncestor<Border>(source, CopyButton))
-                return;
-        }
+        ToggleIsEnabled();
+        e.Handled = true;
+    }
 
+    private void ToggleEnabledView_Click(object sender, MouseButtonEventArgs e)
+    {
         ToggleIsEnabled();
         e.Handled = true;
     }
@@ -454,20 +455,6 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
                 Slider_1 = thumbBorder;
             }
         }
-    }
-
-    private static bool FindAncestor<T>(DependencyObject source, T target) where T : DependencyObject
-    {
-        DependencyObject? current = source;
-        while (current != null)
-        {
-            if (ReferenceEquals(current, target))
-                return true;
-
-            current = VisualTreeHelper.GetParent(current);
-        }
-
-        return false;
     }
 
 #if !RELEASE
