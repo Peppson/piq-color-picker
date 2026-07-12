@@ -9,7 +9,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
-    <ApplicationIcon>Assets\FullSizeIcon_32.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\logo-soft-edges_32x32.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
@@ -41,15 +41,15 @@
 
   <!-- Assets -->
   <ItemGroup>
-    <None Remove="Assets\FullSizeIcon_32.ico" />
+    <None Remove="Assets\logo-soft-edges_32x32.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\FullSizeIcon_32.ico">
+    <Resource Include="Assets\logo-soft-edges_32x32.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
-  <!-- Misc -->
+  <!-- Packages -->
   <ItemGroup>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />

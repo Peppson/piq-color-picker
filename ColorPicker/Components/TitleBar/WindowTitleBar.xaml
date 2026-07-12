@@ -24,7 +24,7 @@
             Width="18"
             Height="18"
             Margin="6,0,1,0"
-            Source="/Assets/FullSizeIcon_32.ico" />
+            Source="/Assets/logo-soft-edges_32x32.ico" />
 
         <TextBlock
             Grid.Column="1"
@@ -32,7 +32,7 @@
             VerticalAlignment="Center"
             FontSize="13"
             Foreground="{StaticResource PrimaryText}"
-            Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Title}" />
+            Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Title}" /> 
 
         <Button
             x:Name="DebugButton"

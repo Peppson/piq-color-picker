@@ -46,9 +46,9 @@
                 <!--  Info Icon  -->
                 <Border
                     x:Name="InfoButton"
-                    Width="20"
-                    Height="20"
-                    Margin="6,6,0,0"
+                    Width="21"
+                    Height="21"
+                    Margin="5,6,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Cursor="Hand"
