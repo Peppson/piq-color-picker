@@ -6,6 +6,8 @@ Todo
 <a href='//'><img src='https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png' alt='Ms Store' height='50px'/></a>
 -->
 
+# TODO...
+
 Lightweight desktop color picker that grabs any pixel color from the mouse cursor.  
 View and copy colors in `HEX`,`RGB`,`HSV`,`HSL` and `CMYK` formats, with zoom view for precise selection.  
 
