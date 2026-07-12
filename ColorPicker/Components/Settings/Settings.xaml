@@ -117,7 +117,7 @@
                         <TextBlock>
                             <Run Text="{Binding Source={x:Static config:Config.AppName}, Mode=OneWay, StringFormat='Global hotkey can be used even when {0} is not the active window.'}" />
                             <LineBreak />
-                            <Run Text="The hotkey must include Ctrl, Alt, or Shift." />
+                            <Run Text="The hotkey must include atleast one modifier key: Ctrl, Alt, or Shift." />
                         </TextBlock>
                     </fa:ImageAwesome.ToolTip>
                 </fa:ImageAwesome>
