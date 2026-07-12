@@ -24,7 +24,7 @@
             Width="18"
             Height="18"
             Margin="6,0,0,0"
-            Source="/Assets/logo-soft-edges_32x32.ico" />
+            Source="/Assets/logo_32x32.ico" />
 
         <TextBlock
             Grid.Column="1"

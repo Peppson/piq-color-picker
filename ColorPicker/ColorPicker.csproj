@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Assets\logo-soft-edges_256x256.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
@@ -25,10 +25,10 @@
 
   <!-- Assets -->
   <ItemGroup>
-    <None Remove="Assets\logo-soft-edges_32x32.ico" />
+    <None Remove="Assets\logo_32x32.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\logo-soft-edges_32x32.ico">
+    <Resource Include="Assets\logo_32x32.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

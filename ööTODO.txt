@@ -6,6 +6,7 @@ microsoft store option
 
 
 
+
 ----- Publish local EXE -----
 dotnet publish ColorPicker.csproj -c Release -p:PublishProfile=SelfContainedExe -o "$HOME/Desktop"
 
