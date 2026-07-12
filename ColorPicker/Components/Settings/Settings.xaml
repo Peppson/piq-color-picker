@@ -99,7 +99,7 @@
                     Margin="0,0,6,0"
                     Cursor="Hand"
                     Icon="QuestionCircle"
-                    ToolTipService.InitialShowDelay="100">
+                    ToolTipService.InitialShowDelay="10">
                     <fa:ImageAwesome.Style>
                         <Style TargetType="fa:ImageAwesome">
                             <Setter Property="Foreground" Value="{StaticResource PrimaryText}" />

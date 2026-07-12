@@ -36,7 +36,7 @@
       uap18:RuntimeBehavior="packagedClassicApp">
       <uap:VisualElements
         DisplayName="Piq - Color Picker"
-        Description="TODO"
+        Description="Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard post-capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">

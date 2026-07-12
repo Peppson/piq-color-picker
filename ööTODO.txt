@@ -5,20 +5,7 @@ app.manifest
 fontawesome not full comaptible warning?
 
 
-
 pexels images mount fuji japanese maple
-
-
-Ms portal:
-https://storedeveloper.microsoft.com/en-US/home
-
-msix docs:
-https://github.com/microsoftdocs/msix-docs/blob/main/msix-src/package/packaging-uwp-apps.md
-https://learn.microsoft.com/en-us/windows/apps/publish/get-started?tabs=individual%2Cmsix-pwa-getting-started
-
-msix packaing visual studio youtube;
-https://www.youtube.com/watch?v=N6jPl3tBNfg
-https://www.youtube.com/watch?v=h7NB9eKjMq8
 
 
 icon? copyright?
@@ -29,19 +16,43 @@ msix upload;
 microsoft store option
 
 
-descripton no longer than:
-Pix2d (Pixel Art Studio) is powerful and easy to use tool for anyone, who want to make pixel perfect art. Optimized for pen and touch input devices. Perfectly fit for making
 
 
-privacy policy?
-Piq does not collect, store, or transmit any personal data. Screen capture data is processed locally on the user's device and is never uploaded.
+----- MsStore -----
+
+Name: 
+Piq - Color Picker
+
+Current published version:
+1.0.2
+
+Desc:
+Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard post-capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
+
+Features:
+Capture colors from any pixel on your screen.
+Select the exact pixel with mouse or keyboard post-capture.
+Copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
+Global hotkey to start and stop capture.
+Always-on-top window option.
+Multi-monitor support.
+Persistent user settings.
+Lightweight, intuitive, and easy to use.
+
+Privacy policy:
+Piq does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device and is never uploaded or sent to any third party.
 
 
 
-feature:
-Multi monitor aware 
-Global hotkey blabla
 
+Ms portal:
+https://storedeveloper.microsoft.com/en-US/home
 
-icon:
-mer än 180x180 på eclipse på kanter
+Msix docs:
+https://github.com/microsoftdocs/msix-docs/blob/main/msix-src/package/packaging-uwp-apps.md
+https://learn.microsoft.com/en-us/windows/apps/publish/get-started?tabs=individual%2Cmsix-pwa-getting-started
+
+Packaging visual studio youtube;
+https://www.youtube.com/watch?v=N6jPl3tBNfg
+https://www.youtube.com/watch?v=h7NB9eKjMq8
+
