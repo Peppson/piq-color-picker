@@ -85,7 +85,7 @@ public static partial class GlobalHotkeyManager
     {
         if (Enum.TryParse<Key>(key, true, out var keyEnum))
             return (uint)KeyInterop.VirtualKeyFromKey(keyEnum);
-        
+
         return 0;
     }
 
