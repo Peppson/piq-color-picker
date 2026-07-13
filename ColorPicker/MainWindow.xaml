@@ -16,7 +16,7 @@
     Background="{StaticResource WindowBorder}"
     FontFamily="Consolas"
     Icon="pack://application:,,,/Assets/logo_32x32.ico"
-    ResizeMode="CanResizeWithGrip"
+    ResizeMode="CanResize"
     WindowState="Normal"
     WindowStyle="None"
     mc:Ignorable="d">
