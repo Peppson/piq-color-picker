@@ -1,6 +1,12 @@
 
 Todo:
-LICENSE
+ms store upload properties/my app doesnt save user info
+
+README
+
+github desc:
+Lightweight color picker that grabs any pixel color from your screen. Available on the Microsoft Store.
+
 
 
 ----- Publish local EXE -----
