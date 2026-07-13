@@ -51,7 +51,7 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
         }
     }
 
-    public bool IsEnabledProxy => State.IsEnabled;
+    public bool IsEnabledProxy => State.IsEnabled; // dont static
     public static string GlobalHotkeyHint =>
         State.GlobalHotkeyEnabled && !string.IsNullOrWhiteSpace(State.GlobalHotkey)
             ? $"Custom hotkey ({State.GlobalHotkey})"

@@ -77,6 +77,13 @@ public class SettingsViewModel : INotifyPropertyChanged
             if (State.GlobalHotkeyEnabled != value)
             {
                 State.GlobalHotkeyEnabled = value;
+
+                if (!value)
+                {
+                    GlobalHotkeyManager.UnRegister(State.MainWindow);
+                    State.MainWindow.SettingsWindow.RefreshHotkeyInput();
+                }
+
                 OnPropertyChanged(nameof(GlobalHotkeyEnabled));
             }
         }

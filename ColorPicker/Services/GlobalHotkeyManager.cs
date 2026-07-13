@@ -28,10 +28,13 @@ public static partial class GlobalHotkeyManager
         // Try to set hotkey
         var helper = new WindowInteropHelper(window);
         if (!Win32Api.RegisterHotKey(helper.Handle, HOTKEY_ID, modifiers, key))
+        {
             return false;
+        }
 
         _source = HwndSource.FromHwnd(helper.Handle);
         _source?.AddHook(HandleHotkey);
+
         return true;
     }
 
@@ -43,6 +46,8 @@ public static partial class GlobalHotkeyManager
         Win32Api.UnregisterHotKey(helper.Handle, HOTKEY_ID);
         _source.RemoveHook(HandleHotkey);
         _source = null;
+
+        State.GlobalHotkey = "";
     }
 
     private static IntPtr HandleHotkey(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -85,7 +90,7 @@ public static partial class GlobalHotkeyManager
     {
         if (Enum.TryParse<Key>(key, true, out var keyEnum))
             return (uint)KeyInterop.VirtualKeyFromKey(keyEnum);
-        
+
         return 0;
     }
 
