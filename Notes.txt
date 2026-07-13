@@ -36,7 +36,7 @@ Copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
 Global hotkey to start and stop capture.
 Always-on-top window option.
 Multi-monitor support.
-Persistent user settings.
+Persistent settings.
 
 Privacy policy:
 Piq does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device and is never uploaded or sent to any third party.
