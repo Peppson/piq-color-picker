@@ -10,6 +10,7 @@ public static partial class GlobalHotkeyManager
     private const int WM_HOTKEY = 0x0312;
     private static HwndSource? _source;
 
+
     public static bool Register(Window window, string hotkey)
     {
         if (string.IsNullOrWhiteSpace(hotkey)) return false;
@@ -29,11 +30,13 @@ public static partial class GlobalHotkeyManager
         var helper = new WindowInteropHelper(window);
         if (!Win32Api.RegisterHotKey(helper.Handle, HOTKEY_ID, modifiers, key))
         {
+            Log.Debug($"Failed to register hotkey: {hotkey}");
             return false;
         }
 
         _source = HwndSource.FromHwnd(helper.Handle);
         _source?.AddHook(HandleHotkey);
+        Log.Debug($"Registered hotkey: {hotkey}");
 
         return true;
     }
@@ -48,6 +51,7 @@ public static partial class GlobalHotkeyManager
         _source = null;
 
         State.GlobalHotkey = "";
+        Log.Debug("Unregistered hotkey");
     }
 
     private static IntPtr HandleHotkey(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

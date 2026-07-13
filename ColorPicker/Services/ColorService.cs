@@ -61,8 +61,11 @@ public static class ColorService
             message = "Copy failed!";
         }
 
+        Log.Debug($"Copied to clipboard: {CurrentColorCode}");
+
         if (showMessage)
             await MessageService.ShowAsync(_picker, message, Config.StatusMessageDuration_ms);
+
     }
 
     public static ColorTypes StringToColorType(string colorType)

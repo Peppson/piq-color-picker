@@ -92,8 +92,7 @@ public static partial class Win32Api
 
     internal static IntPtr OnWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
-        if (
-            msg != WM_NCLBUTTONDBLCLK
+        if (msg != WM_NCLBUTTONDBLCLK
             && msg != WM_ENTERSIZEMOVE
             && msg != WM_EXITSIZEMOVE
         )

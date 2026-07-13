@@ -1,14 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Interop;
 using ColorPicker.Services;
-using ColorPicker.Settings;
 
 namespace ColorPicker;
 
 public partial class MainWindow : Window
 {
     internal Components.Settings? _settingsWindow;
-
     public Components.Settings SettingsWindow
     {
         get
@@ -36,7 +34,7 @@ public partial class MainWindow : Window
         Closing += OnWindowClose;
 
         State.Init(this);
-        SetWindowPosition();
+        SetStartupWindowPosition();
     }
 
     private void OnSourceInitialized(object? sender, EventArgs e)
@@ -74,7 +72,7 @@ public partial class MainWindow : Window
         GlobalHotkeyManager.UnRegister(this);
     }
 
-    private void SetWindowPosition()
+    private void SetStartupWindowPosition()
     {
         if (!State.SetWindowPosOnStartup || State.IsFirstBoot)
         {

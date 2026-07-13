@@ -14,6 +14,7 @@ public static class ScreenCaptureService
     private static int _fullscreenImageLeft;
     private static int _fullscreenImageTop;
 
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (BitmapSource Bitmap, byte R, byte G, byte B) GetImageWithCenterColor(int x, int y, int width, int height)
     {
@@ -43,6 +44,8 @@ public static class ScreenCaptureService
         _fullscreenImageTop = 0;
         int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
         int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
+
+        Log.Debug($"Failed to get bounds ({targetPoint.X}, {targetPoint.Y}). Primary monitor backup: (0, 0, {screenWidth}, {screenHeight})");
 
         return GetImageWithCenterColor(screenWidth / 2, screenHeight / 2, screenWidth, screenHeight).Bitmap;
     }
