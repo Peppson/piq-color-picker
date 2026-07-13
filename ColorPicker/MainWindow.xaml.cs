@@ -40,9 +40,10 @@ public partial class MainWindow : Window
     private void OnSourceInitialized(object? sender, EventArgs e)
     {
         // Handle native move/resize lifecycle and prevent titlebar double-click maximize.
-        var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
+        if (PresentationSource.FromVisual(this) is not HwndSource hwndSource) return;
         hwndSource.AddHook(Win32Api.OnWindowProc);
 
+        // Register global hotkey if enabled
         if (State.GlobalHotkeyEnabled && !string.IsNullOrEmpty(State.GlobalHotkey))
         {
             if (!GlobalHotkeyManager.Register(this, State.GlobalHotkey!))
@@ -70,6 +71,7 @@ public partial class MainWindow : Window
     {
         State.Save();
         GlobalHotkeyManager.UnRegister(this);
+        ScreenCaptureGPUService.Cleanup();
     }
 
     private void SetStartupWindowPosition()

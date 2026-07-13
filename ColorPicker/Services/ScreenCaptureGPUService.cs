@@ -33,6 +33,7 @@ public static class ScreenCaptureGPUService
     private static byte _cachedG;
     private static byte _cachedB;
 
+
     public static bool GPU_GetImageWithCenterColor(int centerX, int centerY, int width, int height, out BitmapSource bitmap, out byte r, out byte g, out byte b)
     {
         lock (SyncRoot)
@@ -276,5 +277,30 @@ public static class ScreenCaptureGPUService
         _duplication = null;
         _activeOutputLeft = _activeOutputTop = _activeOutputRight = _activeOutputBottom = 0;
         _hasCachedFrame = false;
+    }
+
+    public static void Cleanup()
+    {
+        lock (SyncRoot)
+        {
+            RecreateDuplication();
+
+            _stagingTexture?.Dispose();
+            _stagingTexture = null;
+            _stagingWidth = 0;
+            _stagingHeight = 0;
+
+            _context?.Dispose();
+            _context = null;
+
+            _device?.Dispose();
+            _device = null;
+
+            _reusableBitmap = null;
+            _reusablePixels = null;
+            _reusableStride = 0;
+            _hasCachedFrame = false;
+            _cachedR = _cachedG = _cachedB = 0;
+        }
     }
 }
