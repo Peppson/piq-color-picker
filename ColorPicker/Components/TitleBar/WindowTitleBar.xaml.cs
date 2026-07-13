@@ -13,8 +13,8 @@ public partial class WindowTitleBar : UserControl
 
 #if !RELEASE
 #pragma warning disable CS0162
-        if (Config.ShowDebugbutton)
-            DebugButton.Visibility = Visibility.Visible;
+        DebugButton.Visibility = Visibility.Visible;
+        DebugButton.ToolTip = Config.DebugButtonConfigTooltip;
 
         if (Config.BootSettingsWindow)
             Loaded += SettingsButton_Click;
