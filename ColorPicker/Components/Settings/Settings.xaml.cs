@@ -34,16 +34,15 @@ public partial class Settings : UserControl
         KeybindInput.BorderBrush = (System.Windows.Media.Brush)FindResource("LogoBlue");
 
         if (!string.IsNullOrWhiteSpace(State.GlobalHotkey))
+        {
             GlobalHotkeyManager.UnRegister(State.MainWindow);
+            RefreshHotkeyInput();
+        }
     }
 
     private void KeybindInput_LostFocus(object sender, RoutedEventArgs e)
     {
         KeybindInput.BorderBrush = System.Windows.Media.Brushes.Black;
-
-        if (!string.IsNullOrWhiteSpace(State.GlobalHotkey))
-            _ = GlobalHotkeyManager.Register(State.MainWindow, State.GlobalHotkey);
-
         RefreshHotkeyInput();
     }
 
@@ -53,8 +52,8 @@ public partial class Settings : UserControl
         var key = (e.Key == Key.System) ? e.SystemKey : e.Key;
         e.Handled = true;
 
-        // Spacebar, Back, Delete, Escape
-        if (HandleSpecialKeys(key))
+        // Back, Delete, Escape
+        if (HandleCancelKeys(key))
             return;
 
         // Require at least one modifier
@@ -64,22 +63,14 @@ public partial class Settings : UserControl
             return;
         }
 
-        // Ctrl + Alt + ...
+        // Ctrl + Alt + Shift
         if (GlobalHotkeyManager.IsModifierKey(key))
         {
             KeybindInput.Text = $"{GlobalHotkeyManager.BuildModifiersString(modifierKey)}+";
             return;
         }
 
-        // Same hotkey
         var hotkey = GlobalHotkeyManager.BuildHotkeyString(modifierKey, key);
-        if (hotkey == State.GlobalHotkey)
-        {
-            RefreshHotkeyInput();
-            return;
-        }
-
-        // Set new hotkey
         RegisterHotkey(hotkey);
     }
 
@@ -102,26 +93,13 @@ public partial class Settings : UserControl
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private bool HandleSpecialKeys(Key key)
+    private bool HandleCancelKeys(Key key)
     {
         // Clear hotkey
-        if (key == Key.Back || key == Key.Delete)
+        if (key == Key.Back || key == Key.Delete || key == Key.Escape)
         {
-            var previousHotkey = State.GlobalHotkey;
-            State.GlobalHotkey = "";
             GlobalHotkeyManager.UnRegister(State.MainWindow);
             RefreshHotkeyInput();
-
-            if (!string.Equals(previousHotkey, State.GlobalHotkey, StringComparison.Ordinal))
-                RefreshHotkeyHint();
-            return true;
-        }
-        // Cancel input
-        else if (key == Key.Escape || key == Key.Enter)
-        {
-            ClearFocus(true);
-            RefreshHotkeyInput();
-            RefreshHotkeyHint();
             return true;
         }
 
