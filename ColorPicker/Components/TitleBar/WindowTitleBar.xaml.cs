@@ -54,6 +54,8 @@ public partial class WindowTitleBar : UserControl
     private void OnCloseButton_Click(object sender, RoutedEventArgs e) =>
         State.MainWindow.Close();
 
-    private void DebugButton_Click(object sender, RoutedEventArgs e) =>
-        State.ResetDebug();
+    private void DebugButton_Click(object sender, RoutedEventArgs e)
+    {
+        e.Handled = true;
+    }
 }

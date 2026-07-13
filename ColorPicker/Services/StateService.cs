@@ -93,17 +93,4 @@ public static class State
             (int)(bottomRight.Y - topLeft.Y)
         );
     }
-
-    public static void ResetDebug()
-    {
-        _isResetting = true;
-        Properties.Settings.Default.Reset();
-        Properties.Settings.Default.Save();
-
-        // Force restart
-        var currentExe = Environment.ProcessPath ??
-            throw new InvalidOperationException("Could not get process path");
-        System.Diagnostics.Process.Start(currentExe);
-        Application.Current.Shutdown();
-    }
 }

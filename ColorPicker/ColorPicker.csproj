@@ -9,9 +9,10 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
 
-  <!-- Build Config -->
+  <!-- Build Configs -->
   <PropertyGroup Condition="'$(Configuration)' != 'Release'">
     <OutputType>Exe</OutputType>
   </PropertyGroup>
