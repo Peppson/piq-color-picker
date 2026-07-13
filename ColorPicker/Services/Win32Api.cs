@@ -6,6 +6,9 @@ namespace ColorPicker.Services;
 public static partial class Win32Api
 {
     internal const uint MONITOR_DEFAULTTONEAREST = 2;
+    internal const int WM_NCLBUTTONDBLCLK = 0x00A3;
+    internal const int WM_ENTERSIZEMOVE = 0x0231;
+    internal const int WM_EXITSIZEMOVE = 0x0232;
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct RECT
@@ -87,9 +90,31 @@ public static partial class Win32Api
         int nYSrc,
         int dwRop);
 
-    internal static IntPtr PreventMaximize(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    internal static IntPtr OnWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
-        handled = (msg == 0x00A3);
+        if (
+            msg != WM_NCLBUTTONDBLCLK
+            && msg != WM_ENTERSIZEMOVE
+            && msg != WM_EXITSIZEMOVE
+        )
+        {
+            return IntPtr.Zero;
+        }
+
+        switch (msg)
+        {
+            case WM_NCLBUTTONDBLCLK:
+                handled = true;
+                return IntPtr.Zero;
+            case WM_ENTERSIZEMOVE:
+                State.IsDraggingOrResizing = true;
+                break;
+            case WM_EXITSIZEMOVE:
+                State.IsDraggingOrResizing = false;
+                State.UpdateMainWindowPos();
+                break;
+        }
+
         return IntPtr.Zero;
     }
 }

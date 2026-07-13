@@ -38,7 +38,7 @@ public static class StopwatchService
         if (_counter >= _sampleSize)
         {
             var avg = _sum / _counter;
-            Console.WriteLine($"{_txt}: {_counter} | Enabled: {State.IsEnabled} | AVG: {avg:F2}ms");
+            Log.Debug($"{_txt}: {_counter} | Enabled: {State.IsEnabled} | AVG: {avg:F2}ms");
             _counter = 0;
             _sum = 0;
         }
@@ -52,7 +52,7 @@ public static class StopwatchService
         if ((DateTime.UtcNow - _callStart).TotalSeconds >= 1)
         {
             var methodText = string.IsNullOrEmpty(caller) ? "" : $" {caller}()";
-            Console.WriteLine($"Calls/sec{methodText}: {_callCount}");
+            Log.Debug($"Calls/sec{methodText}: {_callCount}");
 
             _callCount = 0;
             _callStart = DateTime.UtcNow;
@@ -74,7 +74,7 @@ public static class StopwatchService
         if (elapsed.TotalSeconds >= 1)
         {
             double fps = _renderFrameCount / elapsed.TotalSeconds;
-            Console.WriteLine($"WPF render fps: {fps:F1}");
+            Log.Debug($"WPF render fps: {fps:F1}");
 
             _renderFrameCount = 0;
             _renderWindowStart = renderingTime;

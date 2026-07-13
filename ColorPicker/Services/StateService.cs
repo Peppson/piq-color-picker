@@ -38,7 +38,7 @@ public static class State
         if (Config.IsEnabledOverride != null)
             IsEnabled = Config.IsEnabledOverride.Value;
 
-        StartupLogDebug();
+        Log.Startup();
 #endif
     }
 
@@ -105,24 +105,5 @@ public static class State
             throw new InvalidOperationException("Could not get process path");
         System.Diagnostics.Process.Start(currentExe);
         Application.Current.Shutdown();
-    }
-
-    private static void StartupLogDebug()
-    {
-        Console.WriteLine($"\n--- {Config.VersionNumber} ---");
-        Console.WriteLine($"- IsFirstBoot: {IsFirstBoot}");
-        Console.WriteLine($"- IsEnabled: {IsEnabled} (override = {Config.IsEnabledOverride.HasValue})");
-        Console.WriteLine($"- AutoCopyToClipboard: {AutoCopyToClipboard}");
-        Console.WriteLine($"- SetWindowPosOnStartup: {SetWindowPosOnStartup}");
-        Console.WriteLine($"- SetZoomLevelOnStartup: {SetZoomLevelOnStartup}");
-        Console.WriteLine($"- ZoomLevel: {ZoomLevel}");
-        Console.WriteLine($"- CaptureOnSelf: {CaptureOnSelf}");
-        Console.WriteLine($"- WindowTop: {WindowTop}");
-        Console.WriteLine($"- WindowLeft: {WindowLeft}");
-        Console.WriteLine($"- CurrentColorType: {Properties.Settings.Default.ColorType}");
-        Console.WriteLine($"- GlobalHotkey: {GlobalHotkey}");
-        Console.WriteLine($"- GlobalHotkeyEnabled: {GlobalHotkeyEnabled}");
-        Console.WriteLine($"- IsWindows11 OrGreater: {Config.IsWindows11OrGreater}");
-        Console.WriteLine("");
     }
 }

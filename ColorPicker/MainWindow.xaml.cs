@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Threading;
 using ColorPicker.Services;
 using ColorPicker.Settings;
 
@@ -8,7 +7,6 @@ namespace ColorPicker;
 
 public partial class MainWindow : Window
 {
-    private readonly DispatcherTimer _dragTimer = new();
     internal Components.Settings? _settingsWindow;
 
     public Components.Settings SettingsWindow
@@ -43,16 +41,19 @@ public partial class MainWindow : Window
 
     private void OnSourceInitialized(object? sender, EventArgs e)
     {
-        // Prevent maximize from doubleclick on titlebar
+        // Handle native move/resize lifecycle and prevent titlebar double-click maximize.
         var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
-        hwndSource.AddHook(Win32Api.PreventMaximize);
+        hwndSource.AddHook(Win32Api.OnWindowProc);
 
-        if (!GlobalHotkeyManager.Register(this, State.GlobalHotkey!)) State.GlobalHotkey = "";
+        if (State.GlobalHotkeyEnabled && !string.IsNullOrEmpty(State.GlobalHotkey))
+        {
+            if (!GlobalHotkeyManager.Register(this, State.GlobalHotkey!))
+                State.GlobalHotkey = "";
+        }
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        SetupWindowDragTimer();
         State.IsFirstBoot = false;
         State.UpdateMainWindowPos();
     }
@@ -64,9 +65,7 @@ public partial class MainWindow : Window
 
     private void OnWindowSizeOrLocationChanged(object? sender, EventArgs e)
     {
-        State.IsDraggingOrResizing = true;
-        _dragTimer.Stop();
-        _dragTimer.Start();
+        if (!State.IsDraggingOrResizing) State.UpdateMainWindowPos();
     }
 
     private void OnWindowClose(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -85,17 +84,5 @@ public partial class MainWindow : Window
 
         this.Top = State.WindowTop;
         this.Left = State.WindowLeft;
-    }
-
-    private void SetupWindowDragTimer()
-    {
-        _dragTimer.Interval = TimeSpan.FromMilliseconds(50);
-
-        _dragTimer.Tick += (s, e) =>
-        {
-            _dragTimer.Stop();
-            State.IsDraggingOrResizing = false;
-            State.UpdateMainWindowPos();
-        };
     }
 }
