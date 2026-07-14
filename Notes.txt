@@ -2,6 +2,10 @@
 Todo:
 README correct msstore link x2
 
+github desc:
+Lightweight desktop color picker that grabs any pixel color from your screen. Available on Microsoft Store.
+
+
 
 
 
