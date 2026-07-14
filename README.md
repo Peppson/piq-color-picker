@@ -7,7 +7,8 @@ Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tun
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a> 
 
-<br>
+<br>  
+
 
 ![App1](/Images/Screenshots/v1.0.2/github/1.png)  
  
