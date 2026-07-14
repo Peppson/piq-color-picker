@@ -5,9 +5,10 @@ Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tun
 
 <a href="https://apps.microsoft.com/detail?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
-</a> 
+</a>  
 
-<br>  
+<br>   
+&nbsp;
 
 
 ![App1](/Images/Screenshots/v1.0.2/github/1.png)  
