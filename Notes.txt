@@ -1,17 +1,12 @@
 
 Todo:
-ms store upload properties/my app doesnt save user info
+README correct msstore link x2
 
-README
-
-github desc:
-Lightweight color picker that grabs any pixel color from your screen. Available on the Microsoft Store.
 
 
 
 ----- Publish local EXE -----
 dotnet publish ColorPicker/ColorPicker.csproj -c Release -p:PublishProfile=SelfContainedExe -o "$HOME/Desktop"
-
 
 
 
@@ -36,10 +31,9 @@ Copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
 Global hotkey to start and stop capture.
 Always-on-top window option.
 Multi-monitor support.
-Persistent settings.
 
 Privacy policy:
-PiQ does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device and is never uploaded or sent to any third party.
+PiQ does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device. No images, colors, or other data are uploaded or shared with any third party.
 
 Notes:
 PiQ is a classic desktop color picker that requires desktop interop.
@@ -55,7 +49,6 @@ eyedropper tool
 css html website
 
 Images: = upscaled version
-
 
 
 
@@ -76,7 +69,6 @@ Images: = upscaled version
 > Launch Win App Cert Kit
 > All the tests!
 > Upload AppPackages/.appxupload
-
 
 
 
