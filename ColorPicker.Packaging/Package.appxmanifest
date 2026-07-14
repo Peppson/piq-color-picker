@@ -9,12 +9,12 @@
   IgnorableNamespaces="uap rescap uap6 uap18">
 
   <Identity
-    Name="JWDevWorks.Piq-ColorPicker"
+    Name="JWDevWorks.PiQ-ColorPicker"
     Publisher="CN=D6DD39EE-3B89-4335-AF2D-24CDFBC6FA79"
     Version="1.0.2.0" />
 
   <Properties>
-    <DisplayName>Piq - Color Picker</DisplayName>
+    <DisplayName>PiQ - Color Picker</DisplayName>
     <PublisherDisplayName>JW DevWorks</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -35,12 +35,12 @@
       EntryPoint="$targetentrypoint$" uap18:TrustLevel="mediumIL"
       uap18:RuntimeBehavior="packagedClassicApp">
       <uap:VisualElements
-        DisplayName="Piq"
-        Description="Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard post-capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats."
+        DisplayName="PiQ"
+        Description="Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" ShortName="Piq"
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" ShortName="PiQ"
           Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />

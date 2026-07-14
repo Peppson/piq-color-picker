@@ -15,7 +15,7 @@ public static class Config
     public const bool Log_UpdateZoomView_FunctionCallRate = false;
 
     // Constants 
-    public const string AppName = "Piq";
+    public const string AppName = "PiQ";
     public const string AppNameFull = $"{AppName} - Color Picker";
     public const string GithubLink = "https://github.com/Peppson/piq-color-picker";
     public const double BottomCornerRadius = 5;

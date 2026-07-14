@@ -18,16 +18,16 @@ dotnet publish ColorPicker/ColorPicker.csproj -c Release -p:PublishProfile=SelfC
 ----- MsStore -----
 
 Name: 
-Piq - Color Picker
+PiQ - Color Picker 
 
 Current published version: "<AppVersion>1.0.2</AppVersion>"
 1.0.2
 
 Desc long:
-Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard post-capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
+Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
 
 Desc Short:
-Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard post-capture, and copy colors in various formats.
+Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
 
 Features:
 Capture colors from any pixel on your screen.
@@ -39,12 +39,11 @@ Multi-monitor support.
 Persistent settings.
 
 Privacy policy:
-Piq does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device and is never uploaded or sent to any third party.
+PiQ does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device and is never uploaded or sent to any third party.
 
 Notes:
-Piq is a classic desktop color picker that needs full desktop interop.
-Specific APIs/features used: Global hotkey registration, screen capture across apps/desktop, popup message window.
-No elevated/admin requirement and no background service/driver installation.
+PiQ is a classic desktop color picker that requires desktop interop.
+Specific APIs/features used: Global hotkey registration, screen capture across apps and the desktop, popup message window.
 
 Keywords:
 color picker
@@ -54,6 +53,8 @@ graphic design tool
 windows desktop utility
 eyedropper tool
 css html website
+
+Images: = upscaled version
 
 
 
@@ -65,12 +66,10 @@ css html website
 > Rm bin + obj x2
 > Rm old AppPkg + Bundle
 > Clean + Build solution
-> Packaging project Publish 
-> Create app package
-> msStore under new app name > Select app OR choose Piq
+> Packaging project Publish > Create app package
+> msStore under new app name > Select app OR choose PiQ 
 > check version num 
-> select x86 and x64 archiectures
-> Config == Release
+> select x86 and x64 archiectures - Release
 > Dont include public symbols
 > Generate artifacts for Windows App Cert Kit
 > Go!
