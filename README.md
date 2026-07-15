@@ -1,6 +1,6 @@
 
 # PiQ - Color Picker&nbsp;<img src="Images/Logo/logo-1000x1000.png" alt="logo" width="34"/>  
-
+ 
 Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
 
 <a href="https://apps.microsoft.com/detail/9NRQNX8H7NQ1?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
@@ -11,7 +11,8 @@ Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tun
 &nbsp;
 
 
-![App1](/Images/Screenshots/v1.0.2/github/1.png)  
+![App1](/Images/Screenshots/v1.0.3/1.png)  
+
  
 
 ## Features
@@ -25,9 +26,11 @@ Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tun
 
 ## Screenshots
   
-![App2](/Images/Screenshots/v1.0.2/github/2.png)  
+![App2](/Images/Screenshots/v1.0.3/2.png)  
 
-![App3](/Images/Screenshots/v1.0.2/github/3.png)  
+![App2](/Images/Screenshots/v1.0.3/3.png)  
+
+![App2](/Images/Screenshots/v1.0.3/4.png)  
 
 
 ## Installation

@@ -1,8 +1,14 @@
 
 
 TODO:
-better screenshots?
 readme
+v1.0.3 release on github
+
+Certifaction:
+system reqs dubbelkolla mot store
+
+
+
 
 
 
@@ -48,6 +54,8 @@ graphic design tool
 windows desktop utility
 eyedropper tool
 css html website
+
+Screeshots = 1366x768
 
 Extra store logos with #202020 background .png:
 300x300
