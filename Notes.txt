@@ -1,17 +1,5 @@
 
 
-TODO:
-readme
-v1.0.3 release on github
-
-Certifaction:
-system reqs dubbelkolla mot store
-
-
-
-
-
-
 ----- Publish local EXE -----
 dotnet publish ColorPicker/ColorPicker.csproj -c Release -p:PublishProfile=SelfContainedExe -o "$HOME/Desktop"
 
@@ -31,10 +19,10 @@ Lightweight color picker for Windows. Capture any pixel on your screen, fine-tun
 Features:
 Capture colors from any pixel on your screen.
 Select the exact pixel with mouse or keyboard post-capture.
-Copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
+Copy colors to clipboard in various formats.
 Global hotkey to start and stop capture.
 Always-on-top window option.
-Multi-monitor support.
+GPU-accelerated capture with GDI fallback.
 
 Privacy policy:
 PiQ does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device. No images, colors, or other data are uploaded or shared with any third party.
@@ -79,6 +67,7 @@ Extra store logos with #202020 background .png:
 > Launch Win App Cert Kit
 > All the tests!
 > Upload AppPackages/.appxupload
+> Update github/Releases
 
 
 
