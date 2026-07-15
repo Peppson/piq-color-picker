@@ -1,10 +1,7 @@
 
-MsStore link:
-https://apps.microsoft.com/detail/9NRQNX8H7NQ1?mode=full
-
-
-github desc:
-Lightweight desktop color picker that grabs any pixel color from your screen. Available on Microsoft Store.
+TODO:
+Better logo 
+better screenshots?
 
 
 
@@ -87,3 +84,10 @@ https://learn.microsoft.com/en-us/windows/apps/publish/get-started?tabs=individu
 Packaging visual studio youtube;
 https://www.youtube.com/watch?v=4t2TI8ImwMY&t - Tim
 https://www.youtube.com/watch?v=N6jPl3tBNfg
+
+MsStore link:
+https://apps.microsoft.com/detail/9NRQNX8H7NQ1?mode=full
+
+
+github desc:
+Lightweight desktop color picker that grabs any pixel color from your screen. Available on Microsoft Store.
