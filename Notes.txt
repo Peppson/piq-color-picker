@@ -25,11 +25,8 @@ PiQ - Color Picker
 Current published version:
 1.0.3
 
-Desc long:
-Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
-
-Desc Short:
-Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
+Desc long/short:
+Lightweight color picker for Windows. Capture any pixel on your screen, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
 
 Features:
 Capture colors from any pixel on your screen.
@@ -103,4 +100,4 @@ https://apps.microsoft.com/detail/9NRQNX8H7NQ1?mode=full
 
 
 Github desc:
-Lightweight desktop color picker that grabs any pixel color from your screen. Available on Microsoft Store.
+Lightweight color picker for Windows. Capture any pixel color from your screen. Available on the Microsoft Store.
