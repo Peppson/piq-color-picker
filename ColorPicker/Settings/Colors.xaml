@@ -1,25 +1,25 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="WindowBorder" Color="#242424" />
-    <SolidColorBrush x:Key="WindowBackground" Color="#242424" />
+    <SolidColorBrush x:Key="WindowBorder" Color="#202020" />
+    <SolidColorBrush x:Key="WindowBackground" Color="#202020" />
     <SolidColorBrush x:Key="PrimaryText" Color="#f7fbfe" />
     <SolidColorBrush x:Key="Border" Color="#434343" />
-    <SolidColorBrush x:Key="TitleBarBackground" Color="#242424" />
+    <SolidColorBrush x:Key="TitleBarBackground" Color="#202020" />
     <SolidColorBrush x:Key="TitleBarButtonHover" Color="#434343" />
     <SolidColorBrush x:Key="TitleBarButtonCloseHover" Color="#e81123" />
     <SolidColorBrush x:Key="OnTopDisabled" Color="#787878" />
 
     <!--  Settings Window  -->
-    <SolidColorBrush x:Key="SettingsWindowBackground" Color="#242424" />
-    <SolidColorBrush x:Key="SettingsBackground" Color="#2e2e2e" />
+    <SolidColorBrush x:Key="SettingsWindowBackground" Color="#202020" />
+    <SolidColorBrush x:Key="SettingsBackground" Color="#2C2C2C" />
     <SolidColorBrush x:Key="HotkeyBorder" Color="#434343" />
     <SolidColorBrush x:Key="DisableBackground" Color="#A1A3A4" />
 
     <!--  Logo Colors  -->
     <SolidColorBrush x:Key="LogoRed" Color="#F16E5D" />
     <SolidColorBrush x:Key="LogoYellow" Color="#E1BC3D" />
-    <SolidColorBrush x:Key="LogoBlue" Color="#79B0DE" />
+    <SolidColorBrush x:Key="LogoBlue" Color="#7EB4EA" />
     <SolidColorBrush x:Key="LogoGreen" Color="#79DD8F" />
 
 </ResourceDictionary>

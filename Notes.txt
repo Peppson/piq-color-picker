@@ -1,6 +1,6 @@
 
+
 TODO:
-Better logo 
 better screenshots?
 
 
@@ -48,7 +48,11 @@ windows desktop utility
 eyedropper tool
 css html website
 
-Images: = upscaled version
+Extra store logos with #202020 background .png:
+300x300
+150x150
+71x71
+
 
 
 
@@ -89,5 +93,5 @@ MsStore link:
 https://apps.microsoft.com/detail/9NRQNX8H7NQ1?mode=full
 
 
-github desc:
+Github desc:
 Lightweight desktop color picker that grabs any pixel color from your screen. Available on Microsoft Store.
