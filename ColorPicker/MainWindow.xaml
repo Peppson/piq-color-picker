@@ -15,7 +15,7 @@
     AllowsTransparency="False"
     Background="{StaticResource WindowBorder}"
     FontFamily="Consolas"
-    Icon="pack://application:,,,/Assets/logo_32x32.ico"
+    Icon="pack://application:,,,/Assets/logo-in-app-titlebar-32x32.ico"
     ResizeMode="CanResize"
     WindowState="Normal"
     WindowStyle="None"

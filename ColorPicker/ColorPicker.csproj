@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>ColorPicker</AssemblyName>
-    <AppVersion>1.0.2</AppVersion>
+    <AppVersion>1.0.3</AppVersion>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\logo-desktop-exe-64x64.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
@@ -26,10 +26,10 @@
 
   <!-- Assets -->
   <ItemGroup>
-    <None Remove="Assets\logo_32x32.ico" />
+    <None Remove="Assets\logo-in-app-titlebar-32x32.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\logo_32x32.ico">
+    <Resource Include="Assets\logo-in-app-titlebar-32x32.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
