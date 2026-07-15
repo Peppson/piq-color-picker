@@ -1,11 +1,10 @@
 
-Todo:
-README correct msstore link x2
+MsStore link:
+https://apps.microsoft.com/detail/9NRQNX8H7NQ1?mode=full
+
 
 github desc:
 Lightweight desktop color picker that grabs any pixel color from your screen. Available on Microsoft Store.
-
-
 
 
 

@@ -3,9 +3,9 @@
  
 Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
 
-<a href="https://apps.microsoft.com/detail?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
+<a href="https://apps.microsoft.com/detail/9NRQNX8H7NQ1?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
-</a>  
+</a>
 
 <br>   
 &nbsp;
@@ -37,9 +37,9 @@ Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tun
 - [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet) *(to build or run from source)*
   
 #### Microsoft Store
-<a href="https://apps.microsoft.com/detail?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
+<a href="https://apps.microsoft.com/detail/9NRQNX8H7NQ1?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
-</a> 
+</a>
 
 #### Download portable .exe _(unsigned)_
 - Download the latest release from [Releases](https://github.com/Peppson/piq-color-picker/releases) page  
