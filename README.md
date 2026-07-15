@@ -1,22 +1,28 @@
 
+<p align="center">
+	<img src="Images/Logo/logo-1000x1000.png" alt="PiQ logo" width="70" />
+</p>
 
+<h1 align="center">PiQ - Color Picker</h1>
 
-# PiQ - Color Picker&nbsp;<img src="Images/Logo/logo-1000x1000.png" alt="logo" width="34"/>  
+<!-- <p align="center">
+	<img src="https://img.shields.io/badge/version-1.0.3-5495FB?style=flat-square" alt="Version 1.0.3" />
+	<a href="https://github.com/Peppson/piq-color-picker/releases/latest">
+		<img src="https://img.shields.io/github/v/release/Peppson/piq-color-picker?style=flat-square&label=release&color=3D8BFF" alt="Latest release" />
+	</a>
+</p> -->
 
-<!-- [![Release](https://img.shields.io/github/v/release/Peppson/piq-color-picker?style=flat-square&label=Release&color=5495FB)](https://github.com/Peppson/piq-color-picker/releases/latest) 
-![Dumb hobby? Yes](https://img.shields.io/badge/Dumb_hobby_project%3F-yes-A3DF61?style=flat-square) -->
 
 
 Lightweight color picker for Windows. Capture any pixel on your screen, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
 
 
-<a href="https://apps.microsoft.com/detail/9NRQNX8H7NQ1?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
-	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+<a href="https://apps.microsoft.com/detail/9NRQNX8H7NQ1?referrer=appbadge&mode=full" target="_blank" rel="noopener noreferrer">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Download from Microsoft Store" />
 </a>
 
 
-
-<br>   
+<br>
 &nbsp;
 
 
