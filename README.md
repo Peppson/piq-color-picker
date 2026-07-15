@@ -1,6 +1,6 @@
 
-# PiQ - Color Picker&nbsp;<img src="Images/Logo/logo.png" alt="logo" width="34"/>  
- 
+# PiQ - Color Picker&nbsp;<img src="Images/Logo/logo-1000x1000.png" alt="logo" width="34"/>  
+
 Lightweight desktop color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
 
 <a href="https://apps.microsoft.com/detail/9NRQNX8H7NQ1?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
