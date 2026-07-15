@@ -11,7 +11,7 @@
   <Identity
     Name="JWDevWorks.PiQ-ColorPicker"
     Publisher="CN=D6DD39EE-3B89-4335-AF2D-24CDFBC6FA79"
-    Version="1.0.2.0" />
+    Version="1.0.3.0" />
 
   <Properties>
     <DisplayName>PiQ - Color Picker</DisplayName>
