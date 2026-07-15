@@ -1,19 +1,18 @@
 
 <p align="center">
-	<img src="Images/Logo/logo-1000x1000.png" alt="PiQ logo" width="70" />
+	<img src="Images/Logo/logo-1000x1000.png" alt="PiQ logo" width="80" />
 </p>
 
-<h1 align="center" style="margin-top: -30px;">PiQ - Color Picker</h1>
+<h1 align="center">PiQ - Color Picker</h1>
 
 
 
-<h1 align="center">
-  <img src="Images/Logo/logo-1000x1000.png" width="70" valign="middle">
+<!-- <h1 align="center">
+  <img src="Images/Logo/logo-1000x1000.png" width="80" valign="middle">  
 
   PiQ - Color Picker  
-  
 </h1>
-
+ -->
 <!-- <p align="center">
 	<img src="https://img.shields.io/badge/version-1.0.3-5495FB?style=flat-square" alt="Version 1.0.3" />
 	<a href="https://github.com/Peppson/piq-color-picker/releases/latest">
