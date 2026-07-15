@@ -2,6 +2,7 @@
 
 TODO:
 better screenshots?
+readme
 
 
 
