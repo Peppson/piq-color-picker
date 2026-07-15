@@ -16,8 +16,8 @@ dotnet publish ColorPicker/ColorPicker.csproj -c Release -p:PublishProfile=SelfC
 Name: 
 PiQ - Color Picker 
 
-Current published version: "<AppVersion>1.0.2</AppVersion>"
-1.0.2
+Current published version:
+1.0.3
 
 Desc long:
 Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
@@ -59,17 +59,17 @@ Extra store logos with #202020 background .png:
 
 ----- Publish AppPkg (same account as storeDeveloper) -----
 
-> New build? <AppVersion>1.0.2</AppVersion> .csproj
+> New build? <AppVersion>1.0.3</AppVersion> .csproj
  
 > Rm bin + obj x2
 > Rm old AppPkg + Bundle
 > Clean + Build solution
-> Packaging project Publish > Create app package
+> Packaging project Publish (visual studio add msix packaging) > Create app package
 > msStore under new app name > Select app OR choose PiQ 
 > check version num 
 > select x86 and x64 archiectures - Release
 > Dont include public symbols
-> Generate artifacts for Windows App Cert Kit
+> Generate artifacts for Windows App Cert Kit (https://learn.microsoft.com/sv-se/windows/apps/windows-sdk/)
 > Go!
 > Launch Win App Cert Kit
 > All the tests!
