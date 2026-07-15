@@ -14,6 +14,7 @@ public class EnumToBoolConverter : IValueConverter
     {
         if ((bool)value)
             return Enum.Parse(targetType, parameter.ToString()!);
+            
         return Binding.DoNothing;
     }
 }

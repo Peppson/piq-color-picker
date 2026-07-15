@@ -6,42 +6,59 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ColorPicker"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="ColorGrab"
+    xmlns:config="clr-namespace:ColorPicker.Settings"
+    Title="{x:Static config:Config.AppName}"
     Width="450"
     Height="250"
-    MinWidth="400"
-    MinHeight="210"
-    AllowsTransparency="True"
+    MinWidth="440"
+    MinHeight="240"
+    AllowsTransparency="False"
     Background="{StaticResource WindowBorder}"
     FontFamily="Consolas"
-    Icon="pack://application:,,,/Assets/FullSizeIcon_32.ico"
-    ResizeMode="CanResizeWithGrip"
+    Icon="pack://application:,,,/Assets/logo_32x32.ico"
+    ResizeMode="CanResize"
     WindowState="Normal"
     WindowStyle="None"
     mc:Ignorable="d">
 
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="32" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+        <WindowChrome
+            CaptionHeight="32"
+            ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
     </WindowChrome.WindowChrome>
 
-    <Border Style="{StaticResource WindowBorderStyle}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions> 
 
-            <!--  Title Bar  -->
-            <components:WindowTitleBar x:Name="TopTitleBar" Grid.Row="0" />
+        <!--  Title Bar  -->
+        <components:WindowTitleBar x:Name="TopTitleBar" Grid.Row="0" />
 
-            <!--  App  -->
-            <components:ColorPicker
-                x:Name="ColorPicker"
-                Grid.Row="1"
-                Visibility="Visible" />
+        <Border
+            Grid.Row="1"
+            Margin="2,0,2,2">
+            <Grid>
+                <!-- Overflow hidden wpf hack -->
+                <Border
+                    x:Name="ContentMask"
+                    Background="{StaticResource WindowBorder}"
+                    CornerRadius="{x:Static config:Config.WindowBottomCornerRadius}" />
+                <Grid>
+                    <Grid.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=ContentMask}" />
+                    </Grid.OpacityMask>
 
-            <!--  Settings  -->
-            <ContentPresenter x:Name="Settings" Grid.Row="1" />
-        </Grid>
-    </Border>
+                    <!--  App  -->
+                    <components:ColorPicker      
+                        x:Name="ColorPicker"
+                        Visibility="Visible" />
+
+                    <!--  Settings  -->
+                    <ContentPresenter x:Name="Settings" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </Window>

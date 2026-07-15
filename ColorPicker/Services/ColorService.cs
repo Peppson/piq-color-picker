@@ -17,21 +17,6 @@ public static class ColorService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static (byte, byte, byte) GetColorAtPos(POINT p)
-    {
-        IntPtr hdc = Win32Api.GetDC(IntPtr.Zero);
-        uint color = Win32Api.GetPixel(hdc, p.X, p.Y);
-
-        _ = Win32Api.ReleaseDC(IntPtr.Zero, hdc);
-
-        byte r = (byte)(color & 0x000000FF);
-        byte g = (byte)((color & 0x0000FF00) >> 8);
-        byte b = (byte)((color & 0x00FF0000) >> 16);
-
-        return (r, g, b);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Color GetInvertedColor(byte r, byte g, byte b)
     {
         byte invR = (byte)(255 - r);
@@ -56,22 +41,31 @@ public static class ColorService
                 brush.Color.G == g &&
                 brush.Color.B == b;
     }
-    
-    public static async Task CopyColorToClipboard()
-    {
-        if (string.IsNullOrEmpty(CurrentColorCode)) return;
 
-        string success = "Copied";
+    public static async Task CopyColorToClipboard(bool showMessage)
+    {
+        if (string.IsNullOrEmpty(CurrentColorCode))
+        {
+            if (showMessage)
+                await MessageService.ShowAsync(_picker, "Copy failed!", Config.StatusMessageDuration_ms);
+            return;
+        }
+
+        string message = "Copied";
         try
         {
             Clipboard.SetText(CurrentColorCode);
         }
         catch
         {
-            success = "Copy failed!";
+            message = "Copy failed!";
         }
 
-        await MessageService.ShowAsync(_picker, success, Config.MessageDuration);
+        Log.Debug($"Copied to clipboard: {CurrentColorCode}");
+
+        if (showMessage)
+            await MessageService.ShowAsync(_picker, message, Config.StatusMessageDuration_ms);
+
     }
 
     public static ColorTypes StringToColorType(string colorType)
@@ -90,6 +84,7 @@ public static class ColorService
     public static void UpdateTextContent(byte r, byte g, byte b, ColorTypes currentColorType)
     {
         string content, type;
+
         switch (currentColorType)
         {
             case ColorTypes.RGB:
@@ -122,6 +117,7 @@ public static class ColorService
         // Icons
         _picker.DropdownButtonIcon.Foreground = brush;
         _picker.CopyButtonIcon.Foreground = brush;
+        _picker.AutoCopyIcon.Foreground = brush;
         _picker.IsEnabledIcon.Foreground = brush;
         _picker.InfoButtonIcon.Foreground = brush;
 
@@ -134,9 +130,9 @@ public static class ColorService
         _picker.CrosshairVertical.Stroke = brush;
 
         // Slider
-        if (_picker.Slider_1 != null) _picker.Slider_1.Background = brush;
-        if (_picker.Slider_2 != null) _picker.Slider_2.Background = brush;
-        if (_picker.Slider_3 != null) _picker.Slider_3.Background = brush;
+        _picker.Slider_1?.Background = brush;
+        _picker.Slider_2?.Background = brush;
+        _picker.Slider_3?.Background = brush;
 
         // Slider text %
         _picker.ZoomLevelText.Foreground = brush;

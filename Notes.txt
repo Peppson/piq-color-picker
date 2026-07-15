@@ -1,0 +1,89 @@
+
+MsStore link:
+https://apps.microsoft.com/detail/9NRQNX8H7NQ1?mode=full
+
+
+github desc:
+Lightweight desktop color picker that grabs any pixel color from your screen. Available on Microsoft Store.
+
+
+
+----- Publish local EXE -----
+dotnet publish ColorPicker/ColorPicker.csproj -c Release -p:PublishProfile=SelfContainedExe -o "$HOME/Desktop"
+
+
+
+----- MsStore -----
+
+Name: 
+PiQ - Color Picker 
+
+Current published version: "<AppVersion>1.0.2</AppVersion>"
+1.0.2
+
+Desc long:
+Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
+
+Desc Short:
+Lightweight and intuitive color picker for Windows. Capture any screen pixel, fine-tune the selection with mouse or keyboard after capture, and copy colors in various formats.
+
+Features:
+Capture colors from any pixel on your screen.
+Select the exact pixel with mouse or keyboard post-capture.
+Copy colors in HEX, RGB, HSV, HSL, and CMYK formats.
+Global hotkey to start and stop capture.
+Always-on-top window option.
+Multi-monitor support.
+
+Privacy policy:
+PiQ does not collect, store, transmit, or share any personal data. All screen capture and color processing is performed locally on your device. No images, colors, or other data are uploaded or shared with any third party.
+
+Notes:
+PiQ is a classic desktop color picker that requires desktop interop.
+Specific APIs/features used: Global hotkey registration, screen capture across apps and the desktop, popup message window.
+
+Keywords:
+color picker
+hex rgb hsl hsv cmyk
+pixel color picker
+graphic design tool
+windows desktop utility
+eyedropper tool
+css html website
+
+Images: = upscaled version
+
+
+
+----- Publish AppPkg (same account as storeDeveloper) -----
+
+> New build? <AppVersion>1.0.2</AppVersion> .csproj
+ 
+> Rm bin + obj x2
+> Rm old AppPkg + Bundle
+> Clean + Build solution
+> Packaging project Publish > Create app package
+> msStore under new app name > Select app OR choose PiQ 
+> check version num 
+> select x86 and x64 archiectures - Release
+> Dont include public symbols
+> Generate artifacts for Windows App Cert Kit
+> Go!
+> Launch Win App Cert Kit
+> All the tests!
+> Upload AppPackages/.appxupload
+
+
+
+----- Links -----
+
+Ms portal:
+https://storedeveloper.microsoft.com/en-US/home
+
+Msix docs:
+https://github.com/microsoftdocs/msix-docs/blob/main/msix-src/package/packaging-uwp-apps.md
+https://learn.microsoft.com/en-us/windows/apps/publish/get-started?tabs=individual%2Cmsix-pwa-getting-started
+
+Packaging visual studio youtube;
+https://www.youtube.com/watch?v=4t2TI8ImwMY&t - Tim
+https://www.youtube.com/watch?v=N6jPl3tBNfg

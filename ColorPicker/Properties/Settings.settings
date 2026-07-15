@@ -1,5 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ColorPicker.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings"
+  CurrentProfile="(Default)" GeneratedClassNamespace="ColorPicker.Properties"
+  GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="WindowTop" Type="System.Double" Scope="User">
@@ -10,9 +12,6 @@
     </Setting>
     <Setting Name="ColorType" Type="System.String" Scope="User">
       <Value Profile="(Default)">HEX</Value>
-    </Setting>
-    <Setting Name="BootWithCaptureEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="CaptureColorOnSelf" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -27,13 +26,16 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="GlobalHotkeyEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="SetZoomLevelOnStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ZoomLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">19</Value>
+    </Setting>
+    <Setting Name="AutoCopyToClipboard" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

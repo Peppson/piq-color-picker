@@ -1,28 +1,18 @@
-﻿ <Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>ColorGrab</AssemblyName>
-    <AppVersion>1.0.1</AppVersion>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <AssemblyName>ColorPicker</AssemblyName>
+    <AppVersion>1.0.2</AppVersion>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWPF>true</UseWPF>
-    <Platforms>AnyCPU;x64</Platforms>
-    <ApplicationIcon>Assets\FullSizeIcon_32.ico</ApplicationIcon>
-	  <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
 
-
-  <!-- Version numbers -->
-  <PropertyGroup>
-    <Version>$(AppVersion)</Version>                            <!-- Global version -->
-    <FileVersion>$(AppVersion).0</FileVersion>                  <!-- File properties -->
-    <AssemblyVersion>$(AppVersion).0</AssemblyVersion>          <!-- Needed? -->
-  </PropertyGroup>
-
-
-  <!-- Build Config -->
+  <!-- Build Configs -->
   <PropertyGroup Condition="'$(Configuration)' != 'Release'">
     <OutputType>Exe</OutputType>
   </PropertyGroup>
@@ -34,46 +24,50 @@
     <DefineConstants>TRACE;RELEASE</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release' AND '$(PublishDir)' != ''">
-    <PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>true</SelfContained>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-  </PropertyGroup>
-
-
   <!-- Assets -->
   <ItemGroup>
-    <None Remove="Assets\FullSizeIcon_32.ico" />
+    <None Remove="Assets\logo_32x32.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\FullSizeIcon_32.ico">
+    <Resource Include="Assets\logo_32x32.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
-  <!-- Misc -->
+  <!-- Version -->
+  <PropertyGroup>
+    <Version>$(AppVersion)</Version>                            <!-- Global version -->
+    <FileVersion>$(AppVersion).0</FileVersion>                  <!-- File properties -->
+    <AssemblyVersion>$(AppVersion).0</AssemblyVersion>          <!-- Needed? -->
+  </PropertyGroup>
+
+  <!-- Packages -->
   <ItemGroup>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.8" />
+    <PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
+    <PackageReference Include="Vortice.DXGI" Version="3.8.3" />
   </ItemGroup>
 
+  <!-- Fontawesome.WPF warning disabled - altho it works -->
   <PropertyGroup>
     <NoWarn>$(NoWarn);NU1701</NoWarn>
   </PropertyGroup>
 
+  <!-- Misc -->
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+
     <Compile Update="Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
+
   <ItemGroup>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
